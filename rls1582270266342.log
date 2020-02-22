@@ -1,2 +1,0 @@
-[2020-02-21T07:31:28Z ERROR rls::actions::hover] failed to extract docs: row: Row(0, PhantomData), file: "/Users/yuta/競技プログラミング/cargo_atcoder/lib/src/io.rs" (BadLocation)
-[2020-02-21T07:31:56Z ERROR rls::actions::hover] failed to extract docs: row: Row(0, PhantomData), file: "/Users/yuta/競技プログラミング/cargo_atcoder/lib/src/io.rs" (BadLocation)
