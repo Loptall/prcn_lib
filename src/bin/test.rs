@@ -3,8 +3,7 @@ use prcn_lib::{prelude::*, math, io};
 
 fn main() {
     input! {
-        
+        a: usize,
     }
 }
 
-// docker crosss ダウンロード
