@@ -1,0 +1,129 @@
+
+
+/// 比較可能な2つの引数のうち大きい方を返す
+pub fn max<T: PartialOrd>(n: T, m: T) -> T {
+    if n >= m {
+        n
+    } else {
+        m
+    }
+}
+
+/// 比較可能な2つの引数のうち小さい方を返す
+pub fn min<T: PartialOrd>(n: T, m: T) -> T {
+    if n <= m {
+        n
+    } else {
+        m
+    }
+}
+
+/// floor + as i64
+pub fn into_floor(a: f64) -> i64 {
+    (a - a % 1.0) as i64
+}
+
+/// ceil + as i64
+pub fn into_ceil(a: f64) -> i64 {
+    (a - a % 1.0) as i64 + 1i64
+}
+
+/// `u64`の十進法での桁数
+pub fn dight_size(n: u64) -> u64 {
+    if n == 0 { return 1; }
+    let mut count = 0;
+    let mut n = n;
+    while n >= 1 {
+        n /= 10;
+        count += 1;
+    }
+    count
+}
+
+/// `u64`を桁ごとに`Vec<u64>`に分解
+pub fn dight_vec(n: u64) -> Vec<u64> {
+    let mut idx: u64 = dight_size(n) - 1;
+    let mut ret = Vec::new();
+    loop {
+        ret.push((n / pow(10, idx)) % 10u64);
+        if idx == 0u64 { break; }
+        idx -= 1;
+    }
+    ret
+}
+
+/// `u64`の十進法での各桁の和
+pub fn dight_sum(n: u64) -> u64 {
+    dight_vec(n).iter().sum()
+}
+
+/// 累乗
+pub fn pow(n: u64, p: u64) -> u64 {
+    let mut ret = 1;
+    for _i in 0..p {
+        ret *= n;
+    }
+    ret
+}
+
+/// 互除法を用いて最大公約数を求める
+pub fn gcd(n: u64, m: u64) -> u64 {
+    let (mut n, mut m) = (max(n, m), min(n, m));
+    if m == 0 {
+        return n;
+    }
+    let mut _r = 0;
+    while n % m != 0 {
+        _r = n % m;
+        n = m;
+        m = _r;
+    }
+    m
+}
+
+/// 最小公倍数を求める
+pub fn lcm(n: u64, m: u64) -> u64 {
+    n * m / gcd(n, m)
+}
+
+/// 配列全体の最大公約数
+pub fn gcd_vec(v: &[u64]) -> u64 {
+    let mut r = v[0];
+    for i in v.iter().skip(1) {
+        r = gcd(r, *i);
+    }
+    r
+}
+
+/// 配列全体の最小公倍数
+pub fn lcm_vec(v: &[u64]) -> u64 {
+    let mut r = v[0];
+    for i in v.iter().skip(1) {
+        r = lcm(r, *i);
+    }
+    r
+}
+
+/// Find the first factor (other than 1) of a number
+fn firstfac(x: u64) -> u64 {
+    if x % 2 == 0 {
+        return 2;
+    };
+    // TODO: return to step_by
+    // for n in (3..).step_by(2).take_while(|m| m*m <= x) {
+    for n in (1..).map(|m| 2 * m + 1).take_while(|m| m * m <= x) {
+        if x % n == 0 {
+            return n;
+        };
+    }
+    // No factor found. It must be prime.
+    x
+}
+
+/// Test whether a number is prime. Checks every odd number up to `sqrt(n)`.
+pub fn is_prime(n: u64) -> bool {
+    if n <= 1 {
+        return false;
+    }
+    firstfac(n) == n
+}
