@@ -1,4 +1,4 @@
-
+//!　数字、計算に関するメソッドを取り扱う
 
 /// 比較可能な2つの引数のうち大きい方を返す
 pub fn max<T: PartialOrd>(n: T, m: T) -> T {
@@ -126,4 +126,8 @@ pub fn is_prime(n: u64) -> bool {
         return false;
     }
     firstfac(n) == n
+}
+
+pub fn power_bin(n: u64, p: u64) -> u64 {
+    todo!{}
 }

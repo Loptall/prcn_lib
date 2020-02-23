@@ -1,0 +1,196 @@
+thread 'request-worker-4' panicked at 'byte index 5 is not a char boundary; it is inside 'ｃ' (bytes 4..7) of `use ｃ
+
+fn main() {
+}`', src/libcore/str/mod.rs:2069:5
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
+thread 'request-worker-4' panicked at 'byte index 5 is not a char boundary; it is inside 'ｃ' (bytes 4..7) of `use ｃｒ
+
+fn main() {
+}`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-6' panicked at 'byte index 6 is not a char boundary; it is inside 'ｃ' (bytes 4..7) of `use ｃらｔ
+
+fn main() {
+}`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-0' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-7' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-6' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-7' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-1' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread '<unnamed>' panicked at 'assertion failed: c.num == crate_map.len() as u32', /Users/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rls-analysis-0.18.0/src/lowering.rs:138:13
+thread 'request-worker-4' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-2' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-0' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-0' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-1' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-0' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-1' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-0' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-4' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+[2020-02-23T01:15:51Z ERROR rls::actions::hover] extract_decl: error: BadLocation
+thread 'request-worker-6' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-4' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-5' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-2' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+[2020-02-23T01:19:47Z ERROR rls::actions::hover] racer_def: racer panicked
+thread 'request-worker-2' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-5' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-0' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-5' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-6' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-0' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-3' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-5' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-3' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-2' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-4' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-6' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-1' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+error: expected one of `->`, `where`, or `{`, found `pub`
+ --> <stdin>:3:1
+  |
+1 | impl Dummy { pub fn init()
+  |                           - expected one of `->`, `where`, or `{` here
+2 | 
+3 | pub fn new(n: i64) -> ModInt { unimplemented!() } }
+  | ^^^ unexpected token
+
+[2020-02-23T01:48:18Z ERROR rls::actions::hover] format_method: error: Failed, input: "impl Dummy { pub fn init()\n\npub fn new(n: i64) -> ModInt { unimplemented!() } }"
+thread 'request-worker-2' panicked at 'explicit panic', /Users/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rustc-ap-rustc_errors-610.0.0/diagnostic_builder.rs:409:13
+thread 'request-worker-4' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-4' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-2' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-7' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-0' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-5' panicked at 'byte index 1299 is not a char boundary; it is inside '・' (bytes 1298..1301) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-7' panicked at 'byte index 1299 is not a char boundary; it is inside '・' (bytes 1298..1301) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-6' panicked at 'byte index 1315 is not a char boundary; it is inside '・' (bytes 1314..1317) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-6' panicked at 'byte index 1315 is not a char boundary; it is inside '・' (bytes 1314..1317) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-0' panicked at 'byte index 2239 is not a char boundary; it is inside 'い' (bytes 2238..2241) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-4' panicked at 'byte index 2239 is not a char boundary; it is inside 'い' (bytes 2238..2241) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-5' panicked at 'byte index 2240 is not a char boundary; it is inside 'い' (bytes 2238..2241) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-1' panicked at 'byte index 2240 is not a char boundary; it is inside 'い' (bytes 2238..2241) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-7' panicked at 'byte index 2239 is not a char boundary; it is inside 'い' (bytes 2238..2241) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-7' panicked at 'byte index 2574 is not a char boundary; it is inside 'ｂ' (bytes 2573..2576) of `                                                             
+                                                               pub fn max<T: PartialOrd>(n: T, m: T) -> T {
+    if n >= m {
+        n
+    } else {
+        m
+    }
+}
+
+                            `[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-3' panicked at 'byte index 2574 is not a char boundary; it is inside 'ぼ' (bytes 2573..2576) of `                                                             
+                                                               pub fn max<T: PartialOrd>(n: T, m: T) -> T {
+    if n >= m {
+        n
+    } else {
+        m
+    }
+}
+
+                            `[...]', src/libcore/str/mod.rs:2069:5
+[2020-02-23T02:35:21Z ERROR rls::actions::hover] extract_decl: error: BadLocation
+[2020-02-23T02:35:37Z ERROR rls::actions::hover] extract_decl: error: BadLocation
+[2020-02-23T02:36:00Z ERROR rls::actions::hover] extract_decl: error: BadLocation
+thread 'request-worker-5' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-7' panicked at 'byte index 4 is not a char boundary; it is inside '\u{3000}' (bytes 3..6) of `//!　数字、計算に関するメソッドを取り扱う`', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-7' panicked at 'byte index 974 is not a char boundary; it is inside '・' (bytes 973..976) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-1' panicked at 'byte index 974 is not a char boundary; it is inside '・' (bytes 973..976) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
+thread 'request-worker-7' panicked at 'byte index 975 is not a char boundary; it is inside '・' (bytes 973..976) of `
+use std::fmt;
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
+pub struct ModInt(i64);
+
+impl fmt::Display for ModInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f`[...]', src/libcore/str/mod.rs:2069:5
