@@ -3,6 +3,7 @@
 ## In your `Cargo.toml`
 
 ```toml
+[dependencies]
 prcn_lib = "0.2.0"
 ```
 
