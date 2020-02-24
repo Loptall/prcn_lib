@@ -3,14 +3,13 @@
 //! - combination
 //! - other
 
-use super::ops::ModInt;
+use super::def::ModInt;
 
 impl ModInt {
-    
     /// 二分累乗法,
     /// - `O(log n)`で累乗を求める
     pub fn pow_bin(self, n: u64) -> Self {
-        let mut res = 1i64;
+        let mut res = 1u64;
         let mut a = self;
         let mut n = n;
         while n > 0 {
@@ -21,7 +20,11 @@ impl ModInt {
         Self::new(res)
     }
 
-    pub fn combination(self, r: Self) -> Self {
+    /// ModInt上での二項係数を
+    /// O(1)で返す
+    /// 
+    /// rは通常の整数型で渡す
+    pub fn combination(self, r: u64) -> Self {
         todo!{}
     }
 }

@@ -5,5 +5,5 @@ pub use proconio::{input, marker::*};
 pub use crate::{
     io::{exit, yes_no},
     math::{max, min},
-    modint::{ops, aplicate},
+    modint,
 };

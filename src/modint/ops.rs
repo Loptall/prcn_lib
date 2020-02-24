@@ -1,56 +1,10 @@
-use std::fmt;
+
+#![allow(clippy::suspicious_arithmetic_impl)]
+
+use super::def::ModInt;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
 
-#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
-pub struct ModInt(i64);
-
-impl fmt::Display for ModInt {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.0)
-    }
-}
-
-// ModInt.0 が常に非負であることを保証したい。
-// update()にその役目を持たせて定期的に更新するのを忘れないようにする。
-// 少なくともインターフェイスから見える部分では
-
-impl ModInt {
-    pub const MOD: i64 = 1_000_000_007;
-
-    /// コンストラクタ
-    pub fn new(n: i64) -> ModInt {
-        // ここではインターフェイスに密着した場所なのでupdate
-        // ではなく手動でハンドル
-        ModInt(if n >= 0 {
-            n % ModInt::MOD
-        } else {
-            (n % ModInt::MOD + ModInt::MOD)
-        })
-    }
-
-    /// 内部の値を一意に矯正する
-    fn update(&mut self) {
-        self.0 = if self.0 >= 0 {
-            self.0 % ModInt::MOD
-        } else {
-            (self.0 % ModInt::MOD + ModInt::MOD)
-        }
-    }
-
-    pub fn to_int(self) -> i64 {
-        self.0 as i64
-    }
-}
-
-// diriveでけたやん...
-
-// impl PartialEq for ModInt {
-//     fn eq(&self, other: &Self) -> bool {
-//         self.0 == other.0
-//     }
-// }
-// impl Eq for ModInt {}
 
 // 以下演算
 // selfとotherは常に非負と思って良い
@@ -69,11 +23,14 @@ impl AddAssign for ModInt {
 }
 
 // subだけは負の数が現れることもある
-
+use std::cmp::Ordering;
 impl Sub for ModInt {
     type Output = Self;
     fn sub(self, other: Self) -> Self {
-        let mut ret = Self((self.0 - other.0) % ModInt::MOD);
+        let mut ret = match (self.0).cmp(&other.0) {
+            Ordering::Less => { Self(self.0 + Self::MOD - other.0) },
+            _ => { Self(self.0 - other.0) }
+        };
         ret.update();
         ret
     }
@@ -100,7 +57,7 @@ impl MulAssign for ModInt {
     }
 }
 
-// Fermatの小定理
+// 要履修: "Fermatの小定理"
 
 impl Div for ModInt {
     type Output = Self;
