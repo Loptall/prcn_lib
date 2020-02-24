@@ -18,13 +18,6 @@ pub fn min<T: PartialOrd>(n: T, m: T) -> T {
     }
 }
 
-// pub fn swap((a, b): (u64, u64)) -> (u64, u64) {
-//     let c = b;
-//     let b = a;
-//     let a = c;
-//     (a, b)
-// }
-
 /// floor + as i64
 pub fn into_floor(a: f64) -> i64 {
     (a - a % 1.0) as i64

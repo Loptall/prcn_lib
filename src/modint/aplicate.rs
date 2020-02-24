@@ -3,8 +3,7 @@
 //! - combination
 //! - other
 
-use super::def::{ModInt, ComTable};
-
+use super::def::{ComTable, ModInt};
 
 use std::mem::swap;
 
@@ -25,14 +24,12 @@ impl ModInt {
         Self::new(res)
     }
 
-
     #[allow(clippy::many_single_char_names)]
     pub fn inv(a: u64) -> Self {
         let mut a = a as i64;
         let mut b = Self::MOD as i64;
         let mut u = 1i64;
         let mut v = 0i64;
-
         while b != 0 {
             let t = a / b;
             a -= t * b;
@@ -44,7 +41,6 @@ impl ModInt {
         if u < 0 {
             u += Self::MOD as i64;
         }
-
         Self(u as u64)
     }
 }

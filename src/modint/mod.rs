@@ -4,3 +4,4 @@ pub mod aplicate;
 pub mod def;
 pub mod ops;
 
+mod tests;

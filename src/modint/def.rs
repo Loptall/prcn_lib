@@ -8,6 +8,8 @@ impl fmt::Display for ModInt {
     }
 }
 
+// 教訓: コンストラクタはなるだけ使うな
+// -> 内部の値がMOD未満であることが保証されない
 impl ModInt {
     /// ここの値、任意にするべきか
     pub const MOD: u64 = 1_000_000_007;
@@ -57,10 +59,8 @@ impl ComTable {
         ret.finv[1] = ModInt::new(1);
         ret.inv[1] = ModInt::new(1);
 
-        for i in 2..Self::MAX {
+        for i in 2..Self::MAX {}
 
-        }
-        
         ret
     }
 }

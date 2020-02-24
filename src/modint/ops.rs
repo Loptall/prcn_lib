@@ -67,8 +67,3 @@ impl DivAssign for ModInt {
         *self = *self / other;
     }
 }
-
-#[test]
-fn div_test() {
-    assert_eq!(ModInt(12_345_678_900_000 / 100_000).0, 123_456_789)
-}
