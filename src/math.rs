@@ -42,7 +42,7 @@ pub fn dight_scale(n: u64) -> u64 {
     count
 }
 
-/// `u64`のr進法での桁数
+/// `u64`の2進法での桁数
 pub fn bin_scale(n: u64) -> u64 {
     if n == 0 {
         return 1;
@@ -61,7 +61,7 @@ pub fn dight_vec(n: u64) -> Vec<u64> {
     let mut idx: u64 = dight_scale(n) - 1;
     let mut ret = Vec::new();
     loop {
-        ret.push((n / pow(10, idx)) % 10u64);
+        ret.push(n / pow_bin(10, idx) % 10u64);
         if idx == 0u64 {
             break;
         }
@@ -75,13 +75,29 @@ pub fn dight_sum(n: u64) -> u64 {
     dight_vec(n).iter().sum()
 }
 
-/// 累乗
-pub fn pow(n: u64, p: u64) -> u64 {
-    let mut ret = 1;
-    for _i in 0..p {
-        ret *= n;
+/// 二分累乗法,
+/// - `O(log n)`で累乗を求める
+pub fn pow_bin(n: u64, r: u64) -> u64 {
+    let mut res = 1u64;
+    let mut a = n;
+    let mut n = r;
+    while n > 0 {
+        if n & 1 != 0 {
+            res *= a
+        }
+        a *= a;
+        n >>= 1;
     }
-    ret
+    res
+}
+
+#[test]
+fn pow_test() {
+    let mut r = 1;
+    for _i in 0..10 {
+        r *= 3;
+    }
+    assert!(pow_bin(3, 10) == r)
 }
 
 /// 互除法を用いて最大公約数を求める

@@ -1,10 +1,7 @@
-
 #![allow(clippy::suspicious_arithmetic_impl)]
 
 use super::def::ModInt;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
-
-
 
 // 以下演算
 // selfとotherは常に非負と思って良い
@@ -28,8 +25,8 @@ impl Sub for ModInt {
     type Output = Self;
     fn sub(self, other: Self) -> Self {
         let mut ret = match (self.0).cmp(&other.0) {
-            Ordering::Less => { Self(self.0 + Self::MOD - other.0) },
-            _ => { Self(self.0 - other.0) }
+            Ordering::Less => Self(self.0 + Self::MOD - other.0),
+            _ => Self(self.0 - other.0),
         };
         ret.update();
         ret

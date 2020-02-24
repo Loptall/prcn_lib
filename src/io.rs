@@ -1,3 +1,5 @@
+//! 入出力周りを効率化したい
+
 pub fn yes_no(b: bool) {
     if b {
         println!("Yes");

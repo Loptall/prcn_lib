@@ -1,4 +1,3 @@
-
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
 pub struct ModInt(pub u64);
 
@@ -8,7 +7,6 @@ impl fmt::Display for ModInt {
         write!(f, "{}", self.0)
     }
 }
-
 
 impl ModInt {
     /// ここの値、任意にするべきか
