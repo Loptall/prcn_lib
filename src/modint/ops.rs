@@ -1,6 +1,6 @@
-
 use std::fmt;
-use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
+
 
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
 pub struct ModInt(i64);
@@ -22,28 +22,24 @@ impl ModInt {
     pub fn new(n: i64) -> ModInt {
         // ここではインターフェイスに密着した場所なのでupdate
         // ではなく手動でハンドル
-        ModInt(
-            if n >=  0 {
-                n % ModInt::MOD
-            } else {
-                (n % ModInt::MOD + ModInt::MOD)
-            }
-        )
+        ModInt(if n >= 0 {
+            n % ModInt::MOD
+        } else {
+            (n % ModInt::MOD + ModInt::MOD)
+        })
     }
 
     /// 内部の値を一意に矯正する
     fn update(&mut self) {
-        self.0 = if self.0 >=  0 {
+        self.0 = if self.0 >= 0 {
             self.0 % ModInt::MOD
         } else {
             (self.0 % ModInt::MOD + ModInt::MOD)
         }
     }
 
-    /// 二分累乗法,
-    /// `O(log n)`で累乗を求める
-    pub fn pow_bin(self, p: u64) -> Self {
-        todo! {}
+    pub fn to_int(self) -> i64 {
+        self.0 as i64
     }
 }
 
@@ -54,9 +50,7 @@ impl ModInt {
 //         self.0 == other.0
 //     }
 // }
-
 // impl Eq for ModInt {}
-
 
 // 以下演算
 // selfとotherは常に非負と思って良い
@@ -101,7 +95,8 @@ impl Mul for ModInt {
 
 impl MulAssign for ModInt {
     fn mul_assign(&mut self, other: Self) {
-        self.0 *= other.0
+        self.0 *= other.0;
+        self.update();
     }
 }
 
@@ -110,7 +105,7 @@ impl MulAssign for ModInt {
 impl Div for ModInt {
     type Output = Self;
     fn div(self, other: Self) -> Self {
-        todo!{}
+        todo! {}
     }
 }
 
@@ -119,6 +114,3 @@ impl DivAssign for ModInt {
         todo! {}
     }
 }
-
-
-

@@ -1,4 +1,3 @@
-
 pub fn yes_no(b: bool) {
     if b {
         println!("Yes");
@@ -14,7 +13,6 @@ pub fn chars_to_string(v: &[char]) -> String {
     }
     ret
 }
-
 
 /// プログラムを終了
 pub fn exit() {

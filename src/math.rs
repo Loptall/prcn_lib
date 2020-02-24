@@ -29,8 +29,10 @@ pub fn into_ceil(a: f64) -> i64 {
 }
 
 /// `u64`の十進法での桁数
-pub fn dight_size(n: u64) -> u64 {
-    if n == 0 { return 1; }
+pub fn dight_scale(n: u64) -> u64 {
+    if n == 0 {
+        return 1;
+    }
     let mut count = 0;
     let mut n = n;
     while n >= 1 {
@@ -40,13 +42,29 @@ pub fn dight_size(n: u64) -> u64 {
     count
 }
 
+/// `u64`のr進法での桁数
+pub fn bin_scale(n: u64) -> u64 {
+    if n == 0 {
+        return 1;
+    }
+    let mut count = 0;
+    let mut n = n;
+    while n >= 1 {
+        n /= 2;
+        count += 1;
+    }
+    count
+}
+
 /// `u64`を桁ごとに`Vec<u64>`に分解
 pub fn dight_vec(n: u64) -> Vec<u64> {
-    let mut idx: u64 = dight_size(n) - 1;
+    let mut idx: u64 = dight_scale(n) - 1;
     let mut ret = Vec::new();
     loop {
         ret.push((n / pow(10, idx)) % 10u64);
-        if idx == 0u64 { break; }
+        if idx == 0u64 {
+            break;
+        }
         idx -= 1;
     }
     ret
@@ -126,8 +144,4 @@ pub fn is_prime(n: u64) -> bool {
         return false;
     }
     firstfac(n) == n
-}
-
-pub fn power_bin(n: u64, p: u64) -> u64 {
-    todo!{}
 }
