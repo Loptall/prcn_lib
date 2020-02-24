@@ -48,9 +48,9 @@ impl ComTable {
 
     pub fn new() -> Self {
         let mut ret = Self {
-            fac: Vec::with_capacity(Self::MAX),
-            finv: Vec::with_capacity(Self::MAX),
-            inv: Vec::with_capacity(Self::MAX),
+            fac: vec![ModInt::new(0); Self::MAX],
+            finv: vec![ModInt::new(0); Self::MAX],
+            inv: vec![ModInt::new(0); Self::MAX],
         };
 
         ret.fac[0] = ModInt::new(1);
@@ -59,8 +59,19 @@ impl ComTable {
         ret.finv[1] = ModInt::new(1);
         ret.inv[1] = ModInt::new(1);
 
-        for i in 2..Self::MAX {}
-
+        for i in 2..Self::MAX {
+            ret.fac[i] = ModInt::new(ret.fac[i-1].0 * i as u64);
+            ret.inv[i] = ModInt::new(ModInt::MOD - ret.inv[ModInt::MOD as usize % i].0 * (ModInt::new(ModInt::MOD).0 / ModInt::new(i as u64).0));
+            ret.finv[i] = ret.finv[i-1] * ret.inv[i];
+        }
         ret
     }
+
+    pub fn combination(&self, n: u64, r: u64) -> ModInt {
+        if n < r { ModInt(0) }
+        else {
+            self.fac[n as usize] * (self.finv[r as usize] * self.finv[(n - r) as usize])
+        }
+    }
 }
+

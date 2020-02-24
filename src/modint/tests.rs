@@ -1,6 +1,6 @@
 #![cfg(test)]
 
-use super::def::ModInt;
+use super::def::{ModInt, ComTable};
 use rand::random;
 
 #[test]
@@ -67,3 +67,25 @@ fn div() {
 //         assert_eq!(ModInt::new(a).pow_bin(b).0, ans)
 //     }
 // }
+
+
+#[test]
+fn com() {
+    let table = ComTable::new();
+    for _i in 0..10000 {
+        let a = random::<u16>() as u64;
+        let b = random::<u16>() as u64;
+        let ans = factorial(a) / (factorial(a - b) * factorial(b) % ModInt::MOD);
+
+        assert_eq!(table.combination(a, b), ModInt::new(ans))
+    }
+}
+
+fn factorial(n: u64) -> u64 {
+    let mut ret = 1;
+    for i in 2..=n {
+        ret *= i;
+        ret %= ModInt::MOD;
+    }
+    ret
+}
