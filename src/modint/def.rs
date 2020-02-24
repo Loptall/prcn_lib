@@ -33,3 +33,34 @@ impl ModInt {
         self.0 as u64
     }
 }
+
+#[derive(Default)]
+pub struct ComTable {
+    fac: Vec<ModInt>,
+    finv: Vec<ModInt>,
+    inv: Vec<ModInt>,
+}
+
+impl ComTable {
+    const MAX: usize = 510_000;
+
+    pub fn new() -> Self {
+        let mut ret = Self {
+            fac: Vec::with_capacity(Self::MAX),
+            finv: Vec::with_capacity(Self::MAX),
+            inv: Vec::with_capacity(Self::MAX),
+        };
+
+        ret.fac[0] = ModInt::new(1);
+        ret.fac[1] = ModInt::new(1);
+        ret.finv[0] = ModInt::new(1);
+        ret.finv[1] = ModInt::new(1);
+        ret.inv[1] = ModInt::new(1);
+
+        for i in 2..Self::MAX {
+
+        }
+        
+        ret
+    }
+}

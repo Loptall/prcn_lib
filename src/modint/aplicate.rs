@@ -3,7 +3,10 @@
 //! - combination
 //! - other
 
-use super::def::ModInt;
+use super::def::{ModInt, ComTable};
+
+
+use std::mem::swap;
 
 impl ModInt {
     /// 二分累乗法,
@@ -22,11 +25,26 @@ impl ModInt {
         Self::new(res)
     }
 
-    /// ModInt上での二項係数を
-    /// O(1)で返す
-    ///
-    /// rは通常の整数型で渡す
-    pub fn combination(self, r: u64) -> Self {
-        todo! {}
+
+    #[allow(clippy::many_single_char_names)]
+    pub fn inv(a: u64) -> Self {
+        let mut a = a as i64;
+        let mut b = Self::MOD as i64;
+        let mut u = 1i64;
+        let mut v = 0i64;
+
+        while b != 0 {
+            let t = a / b;
+            a -= t * b;
+            swap(&mut a, &mut b);
+            u -= t * v;
+            swap(&mut u, &mut v);
+        }
+        u %= Self::MOD as i64;
+        if u < 0 {
+            u += Self::MOD as i64;
+        }
+
+        Self(u as u64)
     }
 }

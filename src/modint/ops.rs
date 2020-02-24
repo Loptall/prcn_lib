@@ -57,12 +57,18 @@ impl MulAssign for ModInt {
 impl Div for ModInt {
     type Output = Self;
     fn div(self, other: Self) -> Self {
-        todo! {}
+        let inv = Self::inv(other.0);
+        self * inv
     }
 }
 
 impl DivAssign for ModInt {
     fn div_assign(&mut self, other: Self) {
-        todo! {}
+        *self = *self / other;
     }
+}
+
+#[test]
+fn div_test() {
+    assert_eq!(ModInt(12_345_678_900_000 / 100_000).0, 123_456_789)
 }
