@@ -11,6 +11,7 @@ impl fmt::Display for ModInt {
 
 
 impl ModInt {
+    /// ここの値、任意にするべきか
     pub const MOD: u64 = 1_000_000_007;
 
     /// コンストラクタ

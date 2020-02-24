@@ -18,11 +18,11 @@ impl Add for ModInt {
 
 impl AddAssign for ModInt {
     fn add_assign(&mut self, other: Self) {
-        self.0 += other.0;
+        *self = *self + other;
     }
 }
 
-// subだけは負の数が現れることもある
+// subだけは負の数が現れることもあるので調整
 use std::cmp::Ordering;
 impl Sub for ModInt {
     type Output = Self;
@@ -38,8 +38,7 @@ impl Sub for ModInt {
 
 impl SubAssign for ModInt {
     fn sub_assign(&mut self, other: Self) {
-        self.0 -= other.0;
-        self.update();
+        *self = *self - other;
     }
 }
 
@@ -52,8 +51,7 @@ impl Mul for ModInt {
 
 impl MulAssign for ModInt {
     fn mul_assign(&mut self, other: Self) {
-        self.0 *= other.0;
-        self.update();
+        *self = *self * other;
     }
 }
 
