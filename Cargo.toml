@@ -1,6 +1,6 @@
 [package]
 name = "prcn_lib"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Loptall <yutapypy0930@gmail.com>"]
 edition = "2018"
 license = "MIT"
@@ -9,5 +9,4 @@ description = "private library for atcoder"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-num = "0.2.1"
 proconio = { version = "0.3.6", features = ["derive"]  }
