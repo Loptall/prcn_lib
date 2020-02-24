@@ -91,15 +91,6 @@ pub fn pow_bin(n: u64, r: u64) -> u64 {
     res
 }
 
-#[test]
-fn pow_test() {
-    let mut r = 1;
-    for _i in 0..10 {
-        r *= 3;
-    }
-    assert!(pow_bin(3, 10) == r)
-}
-
 /// 互除法を用いて最大公約数を求める
 pub fn gcd(n: u64, m: u64) -> u64 {
     let (mut n, mut m) = (max(n, m), min(n, m));
