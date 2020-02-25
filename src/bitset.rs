@@ -11,7 +11,7 @@ impl BitSet {
 
     pub fn iter_all(n: u64) -> Vec<Self> {
         let mut begin = Self(vec![false; bin_scale(n)]);
-        let mut end = Self::from_int(n);
+        let end = Self::from_int(n);
         let mut ret = vec![begin.clone()];
         while begin.0 != end.0 {
             if begin.right() {
@@ -38,6 +38,7 @@ impl BitSet {
 
 use std::cmp::Ordering;
 
+#[allow(irrefutable_let_patterns)]
 impl PartialOrd for BitSet {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         for (s, o) in self.0.iter().rev().zip(other.0.iter().rev()) {
@@ -46,12 +47,10 @@ impl PartialOrd for BitSet {
                 odr => return Some(odr),
             }
         }
-        if self.0.len() > other.0.len() {
-            Some(Ordering::Greater)
-        } else if self.0.len() < other.0.len() {
-            Some(Ordering::Less)
+        if let odr =  self.0.len().cmp(&other.0.len()) {
+            Some(odr)
         } else {
-            Some(Ordering::Equal)
+            unreachable!()
         }
     }
 }
