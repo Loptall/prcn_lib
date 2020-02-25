@@ -9,6 +9,6 @@ fn main() {
     }
 
     let table = ComTable::new();
-    let ans = table.combination(n, k);
+    let ans = ModInt::combination(&table, 3, 1);
     println!("{}", ans);
 }

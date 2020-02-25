@@ -38,8 +38,8 @@ impl ModInt {
 
 #[derive(Default)]
 pub struct ComTable {
-    fac: Vec<ModInt>,
-    finv: Vec<ModInt>,
+    pub fac: Vec<ModInt>,
+    pub finv: Vec<ModInt>,
 }
 
 impl ComTable {
@@ -63,13 +63,6 @@ impl ComTable {
             ret.finv[i-1] = ret.finv[i] * ModInt::new(i as u64);
         }
         ret
-    }
-
-    pub fn combination(&self, n: u64, r: u64) -> ModInt {
-        if n < r { ModInt(0) }
-        else {
-            self.fac[n as usize] * self.finv[r as usize] * self.finv[(n - r) as usize]
-        }
     }
 }
 
