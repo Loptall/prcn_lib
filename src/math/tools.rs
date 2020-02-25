@@ -42,20 +42,6 @@ pub fn dight_scale(n: u64) -> u64 {
     count
 }
 
-/// `u64`の2進法での桁数
-pub fn bin_scale(n: u64) -> u64 {
-    if n == 0 {
-        return 1;
-    }
-    let mut count = 0;
-    let mut n = n;
-    while n >= 1 {
-        n /= 2;
-        count += 1;
-    }
-    count
-}
-
 /// `u64`を桁ごとに`Vec<u64>`に分解
 pub fn dight_vec(n: u64) -> Vec<u64> {
     let mut idx: u64 = dight_scale(n) - 1;
@@ -136,7 +122,7 @@ fn firstfac(x: u64) -> u64 {
     };
     // TODO: return to step_by
     // for n in (3..).step_by(2).take_while(|m| m*m <= x) {
-    for n in (1..).map(|m| 2 * m + 1).take_while(|m| m * m <= x) {
+    for n in (3..).step_by(2).take_while(|m| m * m <= x) {
         if x % n == 0 {
             return n;
         };
@@ -152,4 +138,3 @@ pub fn is_prime(n: u64) -> bool {
     }
     firstfac(n) == n
 }
-//

@@ -4,10 +4,10 @@
 
 ```toml
 [dependencies]
-prcn_lib = "0.2.0"
+prcn_lib = "0.2.2"
 ```
 
-## To use prelude…
+## To use(inclide) prelude…
 
 ```rs
 use prcn_lib::prelide::*;
