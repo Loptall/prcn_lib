@@ -3,7 +3,7 @@
 //! - combination
 //! - other
 
-use super::def::{ComTable, ModInt};
+use super::def::ModInt;
 
 use std::mem::swap;
 
