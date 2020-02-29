@@ -43,3 +43,7 @@ fn div() {
     }
 }
 
+#[test]
+fn fac_test() {
+    assert_eq!(6, ModInt::new(3).factorial().0)
+}

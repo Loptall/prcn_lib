@@ -43,4 +43,12 @@ impl ModInt {
         }
         Self(u as u64)
     }
+
+    pub fn factorial(self) -> Self {
+        let mut ret = ModInt::new(1);
+        for i in 2..=self.0 as usize {
+            ret *= ModInt::new(i as u64);
+        }
+        ret
+    }
 }
