@@ -20,12 +20,16 @@ pub fn min<T: PartialOrd>(n: T, m: T) -> T {
 
 /// floor + as i64
 pub fn into_floor(a: f64) -> i64 {
-    (a - a % 1.0) as i64
+    a as i64
 }
 
 /// ceil + as i64
 pub fn into_ceil(a: f64) -> i64 {
-    (a - a % 1.0) as i64 + 1i64
+    if a % 1.0 == 0.0 {
+        a as i64
+    } else {
+        a as i64 + 1
+    }
 }
 
 /// `u64`の十進法での桁数
@@ -137,4 +141,8 @@ pub fn is_prime(n: u64) -> bool {
         return false;
     }
     firstfac(n) == n
+}
+
+fn iet() {
+    let a = vec![1, 2, 3, 4, 5,];
 }

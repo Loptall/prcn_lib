@@ -79,29 +79,29 @@ impl BitAndAssign for BitSet {
     }
 }
 
-impl BitOr for BitSet {
-    type Output = Self;
-    fn bitor(self, other: Self) -> Self {
-        let sf = self.clone();
-        let ot = other.clone();
-        let mut ret = if self.0.len() > other.0.len() {
-            &sf.0[..sf.0.len() - ot.0.len()].to_vec()
-        } else {
-            &ot.0[..ot.0.len() - sf.0.len()].to_vec()
-        };
-        let mut sf = self.0;
-        let mut ot = other.0;
-        if sf.len() > ot.len() {
-            sf = sf[sf.len() - ot.len()..].to_vec();
-        } else {
-            ot = ot[ot.len() - sf.len()..].to_vec();
-        }
-        for (i, j) in sf.iter().zip(ot.iter()) {
-            ret.push(i | j);
-        }
-        Self(ret.to_vec())
-    }
-}
+// impl BitOr for BitSet {
+//     type Output = Self;
+//     fn bitor(self, other: Self) -> Self {
+//         let sf = self.clone();
+//         let ot = other.clone();
+//         let mut ret = if self.0.len() > other.0.len() {
+//             &sf.0[..sf.0.len() - ot.0.len()].to_vec()
+//         } else {
+//             &ot.0[..ot.0.len() - sf.0.len()].to_vec()
+//         };
+//         let mut sf = self.0;
+//         let mut ot = other.0;
+//         if sf.len() > ot.len() {
+//             sf = sf[sf.len() - ot.len()..].to_vec();
+//         } else {
+//             ot = ot[ot.len() - sf.len()..].to_vec();
+//         }
+//         for (i, j) in sf.iter().zip(ot.iter()) {
+//             ret.push(i | j);
+//         }
+//         Self(ret.to_vec())
+//     }
+// }
 
 #[test]
 fn test_idx() {

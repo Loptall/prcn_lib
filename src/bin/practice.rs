@@ -8,8 +8,7 @@ use prcn_lib::graph::def::*;
 
 fn main() {
     input! {
-        v: usize,
-        e: usize,
-        info: [(Usize1, Usize1); e]
+        a: f64
     }
+    println!("{}", a as i64);
 }
