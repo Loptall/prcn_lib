@@ -142,7 +142,3 @@ pub fn is_prime(n: u64) -> bool {
     }
     firstfac(n) == n
 }
-
-fn iet() {
-    let a = vec![1, 2, 3, 4, 5,];
-}
