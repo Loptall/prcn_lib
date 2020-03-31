@@ -82,9 +82,9 @@ impl Idx2D {
 }
 
 #[derive(Debug, Clone)]
-pub struct Board<T>(pub Vec<Vec<T>>);
+pub struct Grid<T>(pub Vec<Vec<T>>);
 
-impl<T> Board<T> {
+impl<T> Grid<T> {
     pub fn new(b: Vec<Vec<T>>) -> Self {
         Self(b)
     }
@@ -126,7 +126,7 @@ impl<T> Board<T> {
     }
 }
 
-impl<T: PartialEq> Board<T> {
+impl<T: PartialEq> Grid<T> {
     pub fn find(&self, v: T) -> Option<Idx2D> {
         for i in 0..self.height() {
             for j in 0..self.width() {
@@ -139,7 +139,7 @@ impl<T: PartialEq> Board<T> {
     }
 }
 
-impl<T> Index<Idx2D> for Board<T> {
+impl<T> Index<Idx2D> for Grid<T> {
     type Output = T;
 
     fn index(&self, ix: Idx2D) -> &Self::Output {
@@ -147,7 +147,7 @@ impl<T> Index<Idx2D> for Board<T> {
     }
 }
 
-impl<T> IndexMut<Idx2D> for Board<T> {
+impl<T> IndexMut<Idx2D> for Grid<T> {
     fn index_mut(&mut self, ix: Idx2D) -> &mut Self::Output {
         &mut self.0[ix.y][ix.x]
     }

@@ -1,6 +1,6 @@
 use std::ops::{Add, Div};
 
-// 
+//
 pub fn binary_search<T, F>(l: T, r: T, pred: F) -> T
 where
     T: Add<Output = T> + Div<Output = T> + PartialEq + From<u8> + Copy,
