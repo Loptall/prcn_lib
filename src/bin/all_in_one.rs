@@ -406,6 +406,4 @@ pub fn upper_bound<T: PartialOrd>(v: &[T], val: &T) -> usize {
     (binary_search(-1i64, v.len() as i64, |i| v[i as usize] <= *val) + 1) as usize
 }
 
-fn main() {
-    
-}
+fn main() {}
