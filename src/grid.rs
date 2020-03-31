@@ -20,8 +20,8 @@ impl Idx2D {
         Idx2D {
             x: x as usize,
             y: y as usize,
-            h,
             w,
+            h,
         }
     }
 
