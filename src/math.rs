@@ -1,36 +1,6 @@
-//!　数字、計算に関するメソッドを取り扱う
+//! 数字、計算に関するメソッドを取り扱う
 
-/// 比較可能な2つの引数のうち大きい方を返す
-pub fn max<T: PartialOrd>(n: T, m: T) -> T {
-    if n >= m {
-        n
-    } else {
-        m
-    }
-}
-
-/// 比較可能な2つの引数のうち小さい方を返す
-pub fn min<T: PartialOrd>(n: T, m: T) -> T {
-    if n <= m {
-        n
-    } else {
-        m
-    }
-}
-
-/// floor + as i64
-pub fn into_floor(a: f64) -> i64 {
-    a as i64
-}
-
-/// ceil + as i64
-pub fn into_ceil(a: f64) -> i64 {
-    if a % 1.0 == 0.0 {
-        a as i64
-    } else {
-        a as i64 + 1
-    }
-}
+use std::cmp::{max, min};
 
 /// `u64`の十進法での桁数
 pub fn dight_scale(n: u64) -> u64 {
@@ -81,57 +51,56 @@ pub fn pow_bin(n: u64, r: u64) -> u64 {
     res
 }
 
-/// 互除法を用いて最大公約数を求める
-pub fn gcd(n: u64, m: u64) -> u64 {
-    let (mut n, mut m) = (max(n, m), min(n, m));
-    if m == 0 {
-        return n;
-    }
-    let mut _r = 0;
-    while n % m != 0 {
-        _r = n % m;
-        n = m;
-        m = _r;
-    }
-    m
-}
+// /// 互除法を用いて最大公約数を求める
+// pub fn gcd(n: u64, m: u64) -> u64 {
+//     let (mut n, mut m) = (max(n, m), min(n, m));
+//     if m == 0 {
+//         return n;
+//     }
+//     let mut _r = 0;
+//     while n % m != 0 {
+//         _r = n % m;
+//         n = m;
+//         m = _r;
+//     }
+//     m
+// }
 
-/// 最小公倍数を求める
-pub fn lcm(n: u64, m: u64) -> u64 {
-    n * m / gcd(n, m)
-}
+// /// 最小公倍数を求める
+// pub fn lcm(n: u64, m: u64) -> u64 {
+//     n * m / gcd(n, m)
+// }
 
-/// 配列全体の最大公約数
-pub fn gcd_vec(v: &[u64]) -> u64 {
-    let mut r = v[0];
-    for i in v.iter().skip(1) {
-        r = gcd(r, *i);
-    }
-    r
-}
+// /// 配列全体の最大公約数
+// pub fn gcd_vec(v: &[u64]) -> u64 {
+//     let mut r = v[0];
+//     for i in v.iter().skip(1) {
+//         r = gcd(r, *i);
+//     }
+//     r
+// }
 
-/// 配列全体の最小公倍数
-pub fn lcm_vec(v: &[u64]) -> u64 {
-    let mut r = v[0];
-    for i in v.iter().skip(1) {
-        r = lcm(r, *i);
-    }
-    r
-}
+// /// 配列全体の最小公倍数
+// pub fn lcm_vec(v: &[u64]) -> u64 {
+//     let mut r = v[0];
+//     for i in v.iter().skip(1) {
+//         r = lcm(r, *i);
+//     }
+//     r
+// }
 
 /// Find the first factor (other than 1) of a number
 fn firstfac(x: u64) -> u64 {
     if x % 2 == 0 {
         return 2;
     };
-    // TODO: return to step_by
-    // for n in (3..).step_by(2).take_while(|m| m*m <= x) {
+
     for n in (3..).step_by(2).take_while(|m| m * m <= x) {
         if x % n == 0 {
             return n;
         };
     }
-    // No factor found. It must be prime.
+
     x
 }
 
