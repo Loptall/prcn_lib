@@ -12,5 +12,4 @@ rand = "0.7.3"
 
 [dependencies.proconio]
 features = ["derive"]
-rand = "0.7.3"
 version = "0.3.6"

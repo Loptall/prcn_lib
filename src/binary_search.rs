@@ -1,6 +1,9 @@
+//! # Varified
+
 use std::ops::{Add, Div};
 
-//
+/// `l`が`pred`に対し｀true`, `r`が`pred`に対し`false`を返す時
+/// `l`と`r`の中間の値のうちで最後に`pred`を満たすものを返す
 pub fn binary_search<T, F>(l: T, r: T, pred: F) -> T
 where
     T: Add<Output = T> + Div<Output = T> + PartialEq + From<u8> + Copy,

@@ -1,6 +1,9 @@
+// ライブラリの内容を1ファイルに詰め込んで単体で提出できるようにした。
+// ライブラリ置き場 -> https://crates.io/crates/prcn_lib
+
 // from std
 pub use std::cmp::{max, min};
-pub use std::collections::{HashMap, HashSet};
+pub use std::collections::{HashMap, HashSet, VecDeque};
 
 // from proconio
 pub use proconio::{fastout, input, marker::*};
