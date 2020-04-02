@@ -112,29 +112,3 @@ pub fn pow_bin<T: Integer + MulAssign + Copy>(n: T, r: u32) -> T {
     }
     res
 }
-
-// TODO
-// - move to prime module
-
-/// Find the first factor (other than 1) of a number
-fn firstfac(x: u64) -> u64 {
-    if x % 2 == 0 {
-        return 2;
-    };
-
-    for n in (3..).step_by(2).take_while(|m| m * m <= x) {
-        if x % n == 0 {
-            return n;
-        };
-    }
-
-    x
-}
-
-/// Test whether a number is prime. Checks every odd number up to `sqrt(n)`.
-pub fn is_prime(n: u64) -> bool {
-    if n <= 1 {
-        return false;
-    }
-    firstfac(n) == n
-}

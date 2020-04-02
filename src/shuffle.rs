@@ -4,7 +4,7 @@ use rand::random;
 
 pub fn shuffle_vec<T>(v: &mut Vec<T>) {
     let len = v.len();
-    for i in 0..1000 {
+    for i in 0..100 {
         let a: usize = random::<usize>() % len;
         let b: usize = random::<usize>() % len;
         if a == b {

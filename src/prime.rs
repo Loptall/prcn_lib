@@ -1,11 +1,15 @@
 //! Varifeid
 
+/// `i`が素数 <=> `self.0[i]`
 #[derive(Debug)]
 pub struct Prime(Vec<bool>);
 
 impl Prime {
     /// エラストテネスの篩を用いて`n`より小さい素数を調べます
     /// 大体`O(n log log n)`なはず
+    ///
+    /// AtCoder Language Test 202001 コードテスト上で
+    /// 10^8が限界 <- 十分
     pub fn init(n: usize) -> Self {
         let mut sieve = vec![true; n];
         sieve[0] = false;
@@ -69,6 +73,18 @@ impl Prime {
             .map(|x| x.0)
             .collect()
     }
+
+    /// `n`が素数かどうかをテーブルを用いて判定します
+    ///
+    /// `O(1)`
+    ///
+    /// # Panic
+    /// `n >= self.0.len()`のとき、panicします。
+    pub fn is_prime(&self, n: usize) -> bool {
+        assert!(n < self.0.len());
+
+        self.0[n]
+    }
 }
 
 #[test]
@@ -111,4 +127,29 @@ pub fn factorization(n: usize) -> Vec<(usize, usize)> {
         res.push((n, 1));
     }
     res
+}
+
+/// Find the first factor (other than 1) of a number
+fn firstfac(x: u64) -> u64 {
+    if x % 2 == 0 {
+        return 2;
+    };
+
+    for n in (3..).step_by(2).take_while(|m| m * m <= x) {
+        if x % n == 0 {
+            return n;
+        };
+    }
+
+    x
+}
+
+/// 試し割りによる素数判定です
+///
+/// `O(√n)`
+pub fn is_prime(n: u64) -> bool {
+    if n <= 1 {
+        return false;
+    }
+    firstfac(n) == n
 }

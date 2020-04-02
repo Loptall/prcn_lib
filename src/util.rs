@@ -1,3 +1,5 @@
+// Varified
+
 use std::collections::BTreeMap;
 
 /// 配列に含まれる要素(T: Ord + Copy)別にその個数を数えて
@@ -9,20 +11,6 @@ pub fn count_element_to_map<T: Ord + Copy>(v: &[T]) -> BTreeMap<T, usize> {
         *h += 1;
     }
 
-    map
-}
-
-pub fn from_iterater<T, E>(v: T) -> BTreeMap<E, usize>
-where
-    T: IntoIterator<Item = E>,
-    E: Ord,
-{
-    let mut map = BTreeMap::new();
-    let i = v.into_iter();
-    for e in i {
-        let h = map.entry(e).or_insert(0);
-        *h += 1;
-    }
     map
 }
 
