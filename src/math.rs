@@ -1,7 +1,5 @@
 //! 数字、計算に関するメソッドを取り扱う
 
-use std::cmp::{max, min};
-
 /// `u64`の十進法での桁数
 pub fn dight_scale(n: u64) -> u64 {
     if n == 0 {

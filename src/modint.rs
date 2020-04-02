@@ -35,15 +35,6 @@ impl ModInt {
     pub fn update(&mut self) {
         self.0 %= ModInt::MOD;
     }
-
-    /// これはフィールドを公開するかしないかの問題で、
-    /// 公開する場合はいらないんだけど内部の値が
-    /// 外部から不正に操作されるのを防ぐために
-    /// 非公開にするべきか迷ってる
-    /// Rust風にいくならprivateにするべきか？
-    pub fn to_int(self) -> u64 {
-        self.0 as u64
-    }
 }
 
 impl ModInt {
@@ -55,7 +46,7 @@ impl ModInt {
         let mut n = n;
         while n > 0 {
             if n & 1 != 0 {
-                res = res * a.to_int() % Self::MOD;
+                res = res * a.0 % Self::MOD;
             }
             a *= a;
             n >>= 1;
@@ -151,9 +142,6 @@ impl ComTable {
 
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
-// 以下演算
-// selfとotherは常に非負と思って良い
-
 impl Add for ModInt {
     type Output = Self;
     fn add(self, other: Self) -> Self {
@@ -167,7 +155,6 @@ impl AddAssign for ModInt {
     }
 }
 
-// subだけは負の数が現れることもあるので調整
 use std::cmp::Ordering;
 impl Sub for ModInt {
     type Output = Self;
@@ -199,8 +186,6 @@ impl MulAssign for ModInt {
         *self = *self * other;
     }
 }
-
-// 要履修: "Fermatの小定理"
 
 impl Div for ModInt {
     type Output = Self;

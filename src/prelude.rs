@@ -7,8 +7,8 @@ pub use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet, VecDeque};
 // n.gcd(&m)          => gcd(n, m)
 // n.lcm(&m)          => lcm(n, m)
 // a.extended_gcd(&b) => Extended(gcd(a, b), x, y, ()) // a * x + b * y = gcd(a, b) の唯一解
-pub use num::Integer;
 pub use num::integer::binomial;
+pub use num::Integer;
 
 // from num-bigint
 pub use num::{BigInt, BigUint};
