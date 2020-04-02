@@ -1,26 +1,65 @@
-//! 数字、計算に関するメソッドを取り扱う
+//! 
 
-/// `u64`の十進法での桁数
-pub fn dight_scale(n: u64) -> u64 {
-    if n == 0 {
+use num::{Integer, zero, one};
+use std::convert::{Into, From};
+use std::ops::{DivAssign, Mul, MulAssign, AddAssign};
+// use num::BigInt;
+
+/// `n`を十進法で表したときの桁数
+pub fn scale_dight<T: Integer + DivAssign + Mul + From<u8>>(n: T) -> usize {
+    if n == zero() {
         return 1;
     }
     let mut count = 0;
     let mut n = n;
-    while n >= 1 {
-        n /= 10;
+    while n >= one() {
+        n /= one::<T>() * 10u8.into();
         count += 1;
     }
     count
 }
 
-/// `u64`を桁ごとに`Vec<u64>`に分解
-pub fn dight_vec(n: u64) -> Vec<u64> {
-    let mut idx: u64 = dight_scale(n) - 1;
+#[test]
+fn test_scale() {
+    let a = 99i64;
+    assert!(2 == scale_dight(a));
+    let b = 0usize;
+    assert!(1 == scale_dight(b));
+    let c: num::BigInt = num::BigInt::from(21_746_284_928_973_i128);
+    assert!(14 == scale_dight(c));
+}
+
+/// `n`を`base`進法で表したときの桁数
+pub fn scale_n_base<T: Integer + DivAssign + Mul + From<u8>>(n: T, base: u8) -> usize {
+    if n == zero() {
+        return 1;
+    }
+    let mut count = 0;
+    let mut n = n;
+    while n >= one() {
+        n /= one::<T>() * base.into();
+        count += 1;
+    }
+    count
+}
+
+#[test]
+fn test_n_base_scale() {
+    let a = 99i64;
+    assert_eq!(7, scale_n_base(a, 2));
+    let b = 0usize;
+    assert_eq!(1, scale_n_base(b, 100));
+    let c: num::BigInt = num::BigInt::from(21_746_284_928_973_i128) * num::BigInt::from(11_111_111_111_111_111_i128);
+    assert_eq!(35, scale_n_base(c, 7));
+}
+
+/// 整数を桁ごとに`Vec<u64>`に分解
+pub fn dight_vec<T: std::ops::MulAssign + std::convert::From<u8> + std::ops::DivAssign + Integer + Copy>(n: T) -> Vec<T> {
+    let mut idx = scale_dight(n) - 1;
     let mut ret = Vec::new();
     loop {
-        ret.push(n / pow_bin(10, idx) % 10u64);
-        if idx == 0u64 {
+        ret.push(n / pow_bin(10.into(), idx as u32) % 10.into());
+        if idx == 0 {
             break;
         }
         idx -= 1;
@@ -28,15 +67,31 @@ pub fn dight_vec(n: u64) -> Vec<u64> {
     ret
 }
 
-/// `u64`の十進法での各桁の和
-pub fn dight_sum(n: u64) -> u64 {
-    dight_vec(n).iter().sum()
+#[test]
+fn vec_test() {
+    let a = dight_vec(12345usize);
+    assert_eq!(a, vec![1, 2, 3, 4, 5]);
+}
+
+/// 整数の十進法での各桁の和
+pub fn dight_sum<T: std::ops::MulAssign + std::convert::From<u8> + std::ops::DivAssign + Integer + Copy + AddAssign>(n: T) -> T {
+    let mut res = zero();
+    for i in dight_vec(n) {
+        res += i;
+    }
+    res
+}
+
+#[test]
+fn sum_test() {
+    let n = 1234;
+    assert_eq!(10, dight_sum(n));
 }
 
 /// 二分累乗法,
 /// - `O(log n)`で累乗を求める
-pub fn pow_bin(n: u64, r: u64) -> u64 {
-    let mut res = 1u64;
+pub fn pow_bin<T: Integer + MulAssign + Copy>(n: T, r: u32) -> T {
+    let mut res: T = one();
     let mut a = n;
     let mut n = r;
     while n > 0 {
@@ -49,43 +104,8 @@ pub fn pow_bin(n: u64, r: u64) -> u64 {
     res
 }
 
-// /// 互除法を用いて最大公約数を求める
-// pub fn gcd(n: u64, m: u64) -> u64 {
-//     let (mut n, mut m) = (max(n, m), min(n, m));
-//     if m == 0 {
-//         return n;
-//     }
-//     let mut _r = 0;
-//     while n % m != 0 {
-//         _r = n % m;
-//         n = m;
-//         m = _r;
-//     }
-//     m
-// }
-
-// /// 最小公倍数を求める
-// pub fn lcm(n: u64, m: u64) -> u64 {
-//     n * m / gcd(n, m)
-// }
-
-// /// 配列全体の最大公約数
-// pub fn gcd_vec(v: &[u64]) -> u64 {
-//     let mut r = v[0];
-//     for i in v.iter().skip(1) {
-//         r = gcd(r, *i);
-//     }
-//     r
-// }
-
-// /// 配列全体の最小公倍数
-// pub fn lcm_vec(v: &[u64]) -> u64 {
-//     let mut r = v[0];
-//     for i in v.iter().skip(1) {
-//         r = lcm(r, *i);
-//     }
-//     r
-// }
+// TODO
+// - move to prime module
 
 /// Find the first factor (other than 1) of a number
 fn firstfac(x: u64) -> u64 {

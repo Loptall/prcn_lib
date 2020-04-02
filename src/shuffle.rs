@@ -1,3 +1,5 @@
+//! Varified
+
 use rand::random;
 
 pub fn shuffle_vec<T>(v: &mut Vec<T>) {

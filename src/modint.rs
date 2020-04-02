@@ -1,7 +1,7 @@
-//! # More exceeded function for ModInt
-//! - power
-//! - combination
-//! - other
+//! Varified
+//!
+//! TODO
+//! - apply num-traits to Modint
 
 #![allow(clippy::suspicious_arithmetic_impl)]
 #![allow(unused_imports)]
