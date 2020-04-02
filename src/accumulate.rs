@@ -7,6 +7,7 @@ use std::ops::{AddAssign, Index, Sub};
 /// 累積和型
 #[derive(PartialEq, Clone, Debug)]
 pub struct Accumulate<T>(Vec<T>);
+
 impl<T: Zero + Copy + AddAssign + Sub<Output = T>> Accumulate<T> {
     /// 累積和をとります
     pub fn accumulate(v: &[T]) -> Self {

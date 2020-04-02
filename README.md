@@ -14,3 +14,5 @@ prcn_lib = "0.2"
 ```rs
 use prcn_lib::prelide::*;
 ```
+
+now Implementing = prime, graph

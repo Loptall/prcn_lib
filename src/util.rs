@@ -1,21 +1,8 @@
+
 use std::collections::BTreeMap;
 
 /// 配列に含まれる要素(T: Ord + Copy)別にその個数を数えて
 /// `BTreeMap<T, usize>`の形にして返す
-/// ```
-/// use std::collections::BTreeMap;
-/// use prcn_lib::util::count_element_to_map;
-///
-/// let v = vec![1, 2, 2, 3, 3, 3, 4, 5, 7];
-/// let map = count_element_to_map(&v);
-/// assert_eq!(
-///     map,
-///     [(1, 1), (2, 2), (3, 3), (4, 1), (5, 1), (7, 1)]
-///         .into_iter()
-///         .map(|t| (t.0, t.1))
-///         .collect::<BTreeMap<i32, usize>>()
-/// );
-/// ```
 pub fn count_element_to_map<T: Ord + Copy>(v: &[T]) -> BTreeMap<T, usize> {
     let mut map = BTreeMap::new();
     for e in v {
@@ -24,6 +11,28 @@ pub fn count_element_to_map<T: Ord + Copy>(v: &[T]) -> BTreeMap<T, usize> {
     }
 
     map
+}
+
+pub fn from_iterater<T, E>(v: T) -> BTreeMap<E, usize> 
+where T: IntoIterator<Item = E>, E: Ord
+{
+    let mut map = BTreeMap::new();
+    let i = v.into_iter();
+    for e in i {
+        let h = map.entry(e).or_insert(0);
+        *h += 1;
+    }
+    map
+}
+
+#[test]
+fn count_test() {
+    let v = vec![1, 2, 2, 3, 3, 3, 4, 5, 7];
+    let map = count_element_to_map(&v);
+    assert_eq!(
+        map,
+        maplit::btreemap![1 => 1, 2 =>  2, 3 => 3, 4 => 1, 5 => 1, 7 => 1]
+    );
 }
 
 /// プログラムを終了
