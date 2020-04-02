@@ -1,8 +1,8 @@
-//! 
+//! Varified
 
-use num::{Integer, zero, one};
-use std::convert::{Into, From};
-use std::ops::{DivAssign, Mul, MulAssign, AddAssign};
+use num::{one, zero, Integer};
+use std::convert::{From, Into};
+use std::ops::{AddAssign, DivAssign, Mul, MulAssign};
 // use num::BigInt;
 
 /// `n`を十進法で表したときの桁数
@@ -49,12 +49,17 @@ fn test_n_base_scale() {
     assert_eq!(7, scale_n_base(a, 2));
     let b = 0usize;
     assert_eq!(1, scale_n_base(b, 100));
-    let c: num::BigInt = num::BigInt::from(21_746_284_928_973_i128) * num::BigInt::from(11_111_111_111_111_111_i128);
+    let c: num::BigInt =
+        num::BigInt::from(21_746_284_928_973_i128) * num::BigInt::from(11_111_111_111_111_111_i128);
     assert_eq!(35, scale_n_base(c, 7));
 }
 
 /// 整数を桁ごとに`Vec<u64>`に分解
-pub fn dight_vec<T: std::ops::MulAssign + std::convert::From<u8> + std::ops::DivAssign + Integer + Copy>(n: T) -> Vec<T> {
+pub fn dight_vec<
+    T: std::ops::MulAssign + std::convert::From<u8> + std::ops::DivAssign + Integer + Copy,
+>(
+    n: T,
+) -> Vec<T> {
     let mut idx = scale_dight(n) - 1;
     let mut ret = Vec::new();
     loop {
@@ -74,7 +79,11 @@ fn vec_test() {
 }
 
 /// 整数の十進法での各桁の和
-pub fn dight_sum<T: std::ops::MulAssign + std::convert::From<u8> + std::ops::DivAssign + Integer + Copy + AddAssign>(n: T) -> T {
+pub fn dight_sum<
+    T: std::ops::MulAssign + std::convert::From<u8> + std::ops::DivAssign + Integer + Copy + AddAssign,
+>(
+    n: T,
+) -> T {
     let mut res = zero();
     for i in dight_vec(n) {
         res += i;
