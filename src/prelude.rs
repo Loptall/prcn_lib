@@ -17,7 +17,7 @@ pub use num::{BigInt, BigUint};
 pub use rand::random;
 
 // from proconio
-pub use proconio::{fastout, input, marker::*};
+pub use proconio::{derive_readable, fastout, input, is_stdin_empty, marker::*};
 
 // from itertools
 pub use itertools::*;
