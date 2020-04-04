@@ -20,7 +20,7 @@ fn count_test() {
     let map = count_element_to_map(&v);
     assert_eq!(
         map,
-        maplit::btreemap![1 => 1, 2 =>  2, 3 => 3, 4 => 1, 5 => 1, 7 => 1]
+        maplit::btreemap![1 => 1, 2 => 2, 3 => 3, 4 => 1, 5 => 1, 7 => 1]
     );
 }
 
