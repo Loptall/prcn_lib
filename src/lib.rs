@@ -2,6 +2,7 @@ pub mod prelude;
 
 pub mod accumulate;
 pub mod binary_search;
+pub mod graph;
 pub mod grid;
 pub mod idx;
 pub mod math;

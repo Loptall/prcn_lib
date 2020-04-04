@@ -29,6 +29,14 @@ impl Prime {
         Self(sieve)
     }
 
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.0.len() == 0
+    }
+
     /// 前計算によるテーブルを用いて素因数分解をします
     ///
     /// 返り値は`Vec<(素因数, 指数)>`の形式
@@ -44,7 +52,7 @@ impl Prime {
     /// // assert_eq!(table.factorization(10), vec![(2, 1), (5, 1)]); // panic! Because table.len() <= n
     /// ```
     pub fn factorization(&self, n: usize) -> Vec<(usize, usize)> {
-        assert!(self.0.len() > n);
+        assert!(self.len() > n);
 
         let mut res = Vec::new();
         let ps = self.primes();
@@ -81,7 +89,7 @@ impl Prime {
     /// # Panic
     /// `n >= self.0.len()`のとき、panicします。
     pub fn is_prime(&self, n: usize) -> bool {
-        assert!(n < self.0.len());
+        assert!(n < self.len());
 
         self.0[n]
     }
