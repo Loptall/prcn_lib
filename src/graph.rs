@@ -104,6 +104,44 @@ pub fn make_weighted_undirected_graph<W: Clone>(
     g
 }
 
+pub struct Dfs<'a, G: Graph<'a>> {
+    visited: Vec<bool>,
+    s: Vec<(G::NodeId, Option<G::NodeId>)>,
+    g: &'a G,
+}
+
+impl<'a, G: Graph<'a>> Iterator for Dfs<'a, G> {
+    type Item = (G::NodeId, G::NodeId);
+    fn next(&mut self) -> Option<Self::Item> {
+        if let Some((u, prev)) = self.s.pop() {
+            for v in self.g.neighbors(u) {
+                if !self.visited[self.g.index(v)] {
+                    self.visited[self.g.index(v)] = true;
+                    self.s.push((v, Some(u)));
+                }
+            }
+
+            if let Some(prev) = prev {
+                Some((prev, u))
+            } else {
+                self.next()
+            }
+        } else {
+            None
+        }
+    }
+}
+
+pub fn dfs<'a, G: Graph<'a, NodeId = usize>>(g: &'a G, start: G::NodeId) -> Dfs<'a, G> {
+    let n = g.len();
+    let mut visited = vec![false; n];
+    let mut s = Vec::new();
+    visited[start] = true;
+    s.push((start, None));
+
+    Dfs { visited, s, g }
+}
+
 pub struct Bfs<'a, G: Graph<'a>> {
     visited: Vec<bool>,
     q: VecDeque<(G::NodeId, Option<G::NodeId>)>,

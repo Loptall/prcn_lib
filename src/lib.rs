@@ -8,7 +8,6 @@ pub mod idx;
 pub mod math;
 pub mod modint;
 pub mod prime;
-pub mod regacy;
 pub mod shuffle;
 pub mod util;
 
