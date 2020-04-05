@@ -14,13 +14,13 @@ fn main() {
     let fg = make_undirected_graph(n, &friend);
     let bg = make_undirected_graph(n, &block);
 
-    for i in 0..n {
+    for (i, a) in ans.iter_mut().enumerate() {
         let distf = make_dist_table(&fg, i);
         let distb = make_dist_table(&bg, i);
         let ansi = (0..n)
             .filter(|x| distf[*x] >= 2 && distf[*x] != std::usize::MAX && distb[*x] != 1)
             .count();
-        ans[i] = ansi;
+        *a = ansi;
     }
 
     for i in ans {
