@@ -4,7 +4,7 @@ description = "private library for atcoder"
 edition = "2018"
 license = "MIT"
 name = "prcn_lib"
-version = "0.2.9"
+version = "0.3.0"
 
 [dependencies]
 itertools = "0.9.0"
@@ -13,6 +13,7 @@ maplit = "1.0.2"
 ascii = "1.0.0"
 num = "0.2.1"
 rand = "0.7.3"
+# permutohedron = "0.2.4"
 
 [dependencies.proconio]
 features = ["derive"]

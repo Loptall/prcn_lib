@@ -1,3 +1,4 @@
 /target
 /rls*
 /.vscode
+/src/bin

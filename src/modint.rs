@@ -40,7 +40,7 @@ impl ModInt {
 impl ModInt {
     /// 二分累乗法,
     /// - `O(log n)`で累乗を求める
-    pub fn pow_bin(self, n: u64) -> Self {
+    pub fn pow(self, n: u64) -> Self {
         let mut res = 1u64;
         let mut a = self;
         let mut n = n;
@@ -69,32 +69,6 @@ impl ModInt {
         }
         u %= Self::MOD as i64;
 
-        impl ModInt {
-            /// ComTableの初期化が必要
-            /// n < 510000
-            /// 基本的な実装
-            pub fn combination(t: &ComTable, n: u64, r: u64) -> ModInt {
-                if n < r {
-                    ModInt(0)
-                } else {
-                    t.fac[n as usize] * t.finv[r as usize] * t.finv[(n - r) as usize]
-                }
-            }
-
-            /// nが大きく
-            /// rは小さい時
-            pub fn comb_big(n: ModInt, r: ModInt) -> ModInt {
-                let mut ans = ModInt::new(1);
-                for i in n.0 - r.0 + 1..=n.0 {
-                    ans *= ModInt::new(i);
-                }
-                for i in 1..=r.0 {
-                    ans /= ModInt::new(i);
-                }
-                ans
-            }
-        }
-
         if u < 0 {
             u += Self::MOD as i64;
         }
@@ -102,11 +76,11 @@ impl ModInt {
     }
 
     pub fn factorial(self) -> Self {
-        let mut ret = ModInt::new(1);
-        for i in 2..=self.0 as usize {
-            ret *= ModInt::new(i as u64);
+        let mut res = ModInt(1);
+        for i in 2..=self.0 {
+            res *= ModInt::new(i);
         }
-        ret
+        res
     }
 }
 
@@ -132,11 +106,35 @@ impl ComTable {
             ret.fac[i] = ModInt::new(ret.fac[i - 1].0 * i as u64);
         }
 
-        ret.finv[ComTable::MAX - 1] = ret.fac[ComTable::MAX - 1].pow_bin(ModInt::MOD - 2);
+        ret.finv[ComTable::MAX - 1] = ret.fac[ComTable::MAX - 1].pow(ModInt::MOD - 2);
         for i in (1..Self::MAX).rev() {
             ret.finv[i - 1] = ret.finv[i] * ModInt::new(i as u64);
         }
         ret
+    }
+
+    /// ComTableの初期化が必要
+    /// n < 510000
+    /// 基本的な実装
+    pub fn combination(t: &ComTable, n: u64, r: u64) -> ModInt {
+        if n < r {
+            ModInt(0)
+        } else {
+            t.fac[n as usize] * t.finv[r as usize] * t.finv[(n - r) as usize]
+        }
+    }
+
+    /// nが大きく
+    /// rは小さい時
+    pub fn comb_big(n: ModInt, r: ModInt) -> ModInt {
+        let mut ans = ModInt::new(1);
+        for i in n.0 - r.0 + 1..=n.0 {
+            ans *= ModInt::new(i);
+        }
+        for i in 1..=r.0 {
+            ans /= ModInt::new(i);
+        }
+        ans
     }
 }
 
@@ -254,3 +252,43 @@ fn div() {
 fn fac_test() {
     assert_eq!(6, ModInt::new(3).factorial().0)
 }
+
+macro_rules! impl_ops {
+    ($ty:ty) => {
+        impl Add<$ty> for ModInt {
+            type Output = Self;
+            fn add(self, rhs: $ty) -> Self::Output {
+                Self::new(self.0 + rhs as u64)
+            }
+        }
+        impl Sub<$ty> for ModInt {
+            type Output = Self;
+            fn sub(self, rhs: $ty) -> Self::Output {
+                Self::new(self.0 - rhs as u64)
+            }
+        }
+        impl Mul<$ty> for ModInt {
+            type Output = Self;
+            fn mul(self, rhs: $ty) -> Self::Output {
+                Self::new(self.0 * rhs as u64)
+            }
+        }
+        impl Div<$ty> for ModInt {
+            type Output = Self;
+            fn div(self, rhs: $ty) -> Self::Output {
+                Self::new(self.0 / rhs as u64)
+            }
+        }
+    };
+}
+
+impl_ops!(usize);
+impl_ops!(u64);
+impl_ops!(u32);
+impl_ops!(u16);
+impl_ops!(u8);
+impl_ops!(isize);
+impl_ops!(i64);
+impl_ops!(i32);
+impl_ops!(i16);
+impl_ops!(i8);

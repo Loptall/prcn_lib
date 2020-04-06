@@ -25,6 +25,8 @@ pub use itertools::*;
 // from maplit
 pub use maplit::{btreemap, btreeset, hashmap, hashset};
 
+// pub use permutohedron;
+
 // from crate
 pub use crate::accumulate::Accumulate;
 pub use crate::binary_search::{binary_search, lower_bound, upper_bound};

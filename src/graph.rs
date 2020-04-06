@@ -1,3 +1,5 @@
+//! Varified
+
 use std::collections::VecDeque;
 
 pub trait Graph<'a> {

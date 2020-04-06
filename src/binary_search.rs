@@ -1,4 +1,4 @@
-//! # Varified
+//! Varified
 
 use std::ops::{Add, Div};
 

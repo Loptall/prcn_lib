@@ -1,4 +1,4 @@
-//! Varified!
+//! Varified
 
 use num::traits::identities::Zero;
 use num::zero;
