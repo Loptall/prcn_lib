@@ -1,3 +1,5 @@
 #![allow(unused_imports)]
 
-fn main() {}
+fn main() {
+    let a = Some(0);
+}
