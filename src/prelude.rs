@@ -34,5 +34,5 @@ pub use crate::grid::Grid;
 pub use crate::idx::Idx2D;
 pub use crate::math::*;
 pub use crate::modint::{ComTable, ModInt};
-pub use crate::shuffle::shuffle_vec;
-pub use crate::util::*;
+pub use crate::shuffle::shuffle;
+pub use crate::unique_count;

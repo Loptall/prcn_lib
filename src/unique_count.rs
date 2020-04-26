@@ -1,7 +1,10 @@
 //! Varified
 
+use cargo_snippet::snippet;
+
 use std::collections::BTreeMap;
 
+#[snippet]
 /// 配列に含まれる要素(T: Ord + Copy)別にその個数を数えて
 /// `BTreeMap<T, usize>`の形にして返す
 pub fn unique_count<T: Ord + Copy>(v: &[T]) -> BTreeMap<T, usize> {

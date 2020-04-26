@@ -9,7 +9,4 @@ pub mod math;
 pub mod modint;
 pub mod prime;
 pub mod shuffle;
-pub mod util;
-
-// const
-// modint_fixed
+pub mod unique_count;

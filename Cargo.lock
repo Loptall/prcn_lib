@@ -22,6 +22,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "cargo-snippet"
+version = "0.6.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a1c616cdae4dc9962262c49888c90b000291411fd8013af9b5f79e7897b63a3c"
+
+[[package]]
 name = "cfg-if"
 version = "0.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -159,6 +165,7 @@ name = "prcn_lib"
 version = "0.3.0"
 dependencies = [
  "ascii",
+ "cargo-snippet",
  "itertools",
  "lazy_static",
  "maplit",
