@@ -38,6 +38,7 @@ macro_rules! monoid_def {
     };
 }
 
+/// 区間和
 #[derive(Clone, Copy, Debug)]
 pub struct Sum<T: Clone + Copy>(T);
 
@@ -56,6 +57,7 @@ impl<T: Copy> From<T> for Sum<T> {
     }
 }
 
+/// 区間積
 #[derive(Clone, Copy, Debug)]
 pub struct Product<T>(T);
 

@@ -1,6 +1,31 @@
+//! Varified
+
+//! # Usage
+
+//! monoid_def!(Mm<i32>, std::i32::MAX, |x, y| { min(x, y) });
+//! monoid_def!(Max<usize>, std::usize::MIN, |x, y| { max(x, y) });
+
+//! #[test]
+//! fn debug() {
+//!     let mut s =
+//!         SegmentTree::<Max>::new(&[Max(1usize), Max(2), Max(3), Max(2), Max(1), Max(3), Max(1)]);
+//!     dbg!(&s);
+
+//!     s.update(7, Max(100));
+//!     dbg!(&s);
+//! }
+
+//! #[test]
+//! fn get() {
+//!     let s = SegmentTree::<Max>::new(&[Max(1usize), Max(2), Max(3), Max(2), Max(1), Max(3), Max(1)]);
+//!     dbg!(&s);
+
+//!     assert_eq!(s.range(0, 2).0, 2);
+//!     assert_eq!(s.range(3, 6).0, 3);
+//!     assert_eq!(s.range(0, 8).0, 3);
+//! }
+
 use crate::monoid::Monoid;
-use crate::monoid_def;
-use std::cmp::{max, min};
 
 #[derive(Debug, Clone)]
 pub struct SegmentTree<T: Monoid> {
@@ -79,27 +104,4 @@ impl<T: Monoid + Clone + Copy> SegmentTree<T> {
             )
         }
     }
-}
-
-monoid_def!(Mm<i32>, std::i32::MAX, |x, y| { min(x, y) });
-monoid_def!(Max<usize>, std::usize::MIN, |x, y| { max(x, y) });
-
-#[test]
-fn debug() {
-    let mut s =
-        SegmentTree::<Max>::new(&[Max(1usize), Max(2), Max(3), Max(2), Max(1), Max(3), Max(1)]);
-    dbg!(&s);
-
-    s.update(7, Max(100));
-    dbg!(&s);
-}
-
-#[test]
-fn get() {
-    let s = SegmentTree::<Max>::new(&[Max(1usize), Max(2), Max(3), Max(2), Max(1), Max(3), Max(1)]);
-    dbg!(&s);
-
-    assert_eq!(s.range(0, 2).0, 2);
-    assert_eq!(s.range(3, 6).0, 3);
-    assert_eq!(s.range(0, 8).0, 3);
 }

@@ -11,7 +11,7 @@ impl BitSet {
 
     pub fn as_bools(&self) -> Vec<bool> {
         let mut res = Vec::with_capacity(self.len);
-        for p in 0..self.len {
+        for p in (0..self.len).rev() {
             res.push(1 << p & self.set != 0)
         }
         res
@@ -23,14 +23,14 @@ impl BitSet {
 }
 
 impl Iterator for BitSet {
-    type Item = Self;
+    type Item = Vec<bool>;
     fn next(&mut self) -> Option<Self::Item> {
         if self.set == 2usize.pow(self.len() as u32) - 1 {
             None
         } else {
-            let res = Some(*self);
+            let res = *self;
             self.set += 1;
-            res
+            Some(res.as_bools())
         }
     }
 }
@@ -39,14 +39,11 @@ impl Iterator for BitSet {
 fn bs_iter() {
     let mut bs = BitSet::new(3);
 
-    assert!(bs.next().unwrap().set == 0);
-    assert!(bs.next().unwrap().set == 1);
-    assert!(bs.next().unwrap().set == 2);
-    assert!(bs.next().unwrap().set == 3);
-    assert!(bs.next().unwrap().set == 4);
-    assert!(bs.next().unwrap().set == 5);
-    assert!(bs.next().unwrap().set == 6);
-    assert!(bs.next().unwrap().set == 7);
+    assert!(bs.next().unwrap() == vec![false, false, false]);
+    assert!(bs.next().unwrap() == vec![false, false, true]);
+    assert!(bs.next().unwrap() == vec![false, true, false]);
+    assert!(bs.next().unwrap() == vec![false, true, true]);
+    assert!(bs.next().unwrap() == vec![true, false, false]);
 
     // panic!()
 }
