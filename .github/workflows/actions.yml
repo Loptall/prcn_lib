@@ -1,5 +1,0 @@
-- name: Discord Message Notify
-  uses: appleboy/discord-action@0.0.3
-  with:
-    webhook_id: ${{ secrets.709655524311826443 }}
-    webhook_token: ${{ secrets.IoVY5QD6b1lYsOad9SIlS_pkvoiBIsJMoCslFebsRfGRB-EwVtCp15wAGXUhQE-AGj4L }}
