@@ -74,6 +74,13 @@ impl<T: Monoid + Clone + Copy> SegmentTree<T> {
         (self.value[left], self.value[right])
     }
 
+    pub fn get_raw(&self, i: usize) -> Option<T> {
+        if self.leaves <= i {
+            panic!("too big index")
+        }
+        Some(self.value[self.size - i - 1])
+    }
+
     pub fn update(&mut self, i: usize, v: T) {
         let mut cur = self.leaves - 1 + i;
         self.value[cur] = v;
