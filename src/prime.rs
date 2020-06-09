@@ -1,5 +1,7 @@
 //! Varifeid
 
+use std::collections::HashMap;
+
 /// `i`が素数 <=> `self.0[i]`
 #[derive(Debug)]
 pub struct Prime(Vec<bool>);
@@ -45,12 +47,6 @@ impl Prime {
     ///
     /// # Panic
     /// `self`の最大値が`n`より大きいときパニックする
-    ///
-    /// ```
-    /// let table = Prime::init(10);
-    /// assert_eq!(table.factorization(9), vec![(3, 2)]); // ok!
-    /// // assert_eq!(table.factorization(10), vec![(2, 1), (5, 1)]); // panic! Because table.len() <= n
-    /// ```
     pub fn factorization(&self, n: usize) -> Vec<(usize, usize)> {
         assert!(self.len() > n);
 
@@ -111,32 +107,6 @@ fn fact_test() {
                                                       // assert_eq!(table.factorization(10), vec![(2, 1), (5, 1)]); // panic! Because table.len() <= n
 }
 
-/// 素因数分解をします。
-///
-/// 呼び出すごとに新しく篩を作るので
-/// 複数回を呼び出すときは計算量が増大します
-/// 初期化したPrime構造体に対してメゾットを呼んでください。
-/// (その代わりにパニックしません)
-pub fn factorization(n: usize) -> Vec<(usize, usize)> {
-    let mut res = Vec::new();
-    let ps = Prime::init(n).primes();
-    let mut n = n;
-    for p in ps {
-        let mut count = 0;
-        while n % p == 0 {
-            n /= p;
-            count += 1;
-        }
-        if count > 0 {
-            res.push((p, count));
-        }
-    }
-    if n > 1 {
-        res.push((n, 1));
-    }
-    res
-}
-
 /// Find the first factor (other than 1) of a number
 fn firstfac(x: u64) -> u64 {
     if x % 2 == 0 {
@@ -160,4 +130,49 @@ pub fn is_prime(n: u64) -> bool {
         return false;
     }
     firstfac(n) == n
+}
+
+fn exp(n: &mut usize, d: usize) -> (usize, usize) {
+    let mut c = 0usize;
+    (
+        d,
+        loop {
+            if *n % d != 0 {
+                break c;
+            }
+            *n /= d;
+            c += 1;
+        },
+    )
+}
+
+pub fn factorization(mut n: usize) -> HashMap<usize, usize> {
+    let mut primes = HashMap::new();
+    let (d, e) = exp(&mut n, 2);
+    if e > 0 {
+        primes.insert(d, e);
+    }
+    let m = n;
+    for i in (3..).take_while(|x| *x * *x <= m).step_by(2) {
+        let (d, e) = exp(&mut n, i);
+        if e > 0 {
+            primes.insert(d, e);
+        }
+    }
+    if n > 1 {
+        if primes.contains_key(&n) {
+            let x = primes.get_mut(&n).unwrap();
+            *x += 1;
+        } else {
+            primes.insert(n, 1);
+        }
+    }
+    primes
+}
+
+#[test]
+fn f_test() {
+    let n = 13;
+    let f = factorization(n).into_iter().collect::<Vec<(_, _)>>();
+    assert_eq!(f, vec![(13, 1)]);
 }

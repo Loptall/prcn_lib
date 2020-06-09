@@ -1,49 +1,88 @@
+/// bitの数を持つ
 #[derive(Debug, Copy, Clone)]
 pub struct BitSet {
-    len: usize,
-    set: usize,
+    size: usize,
 }
 
 impl BitSet {
+    /// サイズを指定してコンストラクト
     pub fn new(n: usize) -> Self {
-        Self { len: n, set: 0 }
+        Self { size: n }
     }
 
-    pub fn as_bools(&self) -> Vec<bool> {
-        let mut res = Vec::with_capacity(self.len);
-        for p in (0..self.len).rev() {
-            res.push(1 << p & self.set != 0)
-        }
-        res
-    }
-
+    /// サイズを返す
     pub fn len(&self) -> usize {
-        self.len
+        self.size
+    }
+
+    /// 合計で生成される組み合わせの数、`(2 ^ size)`
+    pub fn combinations(&self) -> usize {
+        1 << self.size
     }
 }
 
-impl Iterator for BitSet {
+impl IntoIterator for BitSet {
+    type Item = Vec<bool>;
+    type IntoIter = IntoIterBitSet;
+    fn into_iter(self) -> Self::IntoIter {
+        IntoIterBitSet {
+            size: self.len(),
+            current: 0,
+        }
+    }
+}
+
+/// BitSetの所有権を奪ったIterator
+///
+///(実際にはコピートレイトにより`into_iter()`後もBitSetは有効である)
+///
+/// 保持するのはサイズと次に生成する数字だけ
+///
+/// Iteratorは長さ`2 ^ size`で、
+/// はじめは`[false, false, ..., false, false]`から始まり、
+///
+/// `[false, false, ..., false, true]`
+///
+/// `[false, false, ..., true, false]`
+///
+/// `[false, false, ..., true, true]`のように右詰で続く。
+///
+/// 最後は`[true, true, ..., true, true]`である。
+#[derive(Copy, Clone, Debug)]
+pub struct IntoIterBitSet {
+    size: usize,
+    current: usize,
+}
+
+impl Iterator for IntoIterBitSet {
     type Item = Vec<bool>;
     fn next(&mut self) -> Option<Self::Item> {
-        if self.set == 2usize.pow(self.len() as u32) - 1 {
+        if self.current == (1 << self.size) {
             None
         } else {
-            let res = *self;
-            self.set += 1;
-            Some(res.as_bools())
+            let res = Some(
+                (0..self.size)
+                    .rev()
+                    .map(|x| self.current & (1 << x) != 0)
+                    .collect::<Vec<_>>(),
+            );
+            self.current += 1;
+            res
         }
     }
 }
 
 #[test]
 fn bs_iter() {
-    let mut bs = BitSet::new(3);
+    let mut bs = BitSet::new(3).into_iter();
 
-    assert!(bs.next().unwrap() == vec![false, false, false]);
-    assert!(bs.next().unwrap() == vec![false, false, true]);
-    assert!(bs.next().unwrap() == vec![false, true, false]);
-    assert!(bs.next().unwrap() == vec![false, true, true]);
-    assert!(bs.next().unwrap() == vec![true, false, false]);
-
-    // panic!()
+    assert_eq!(Some(vec![false, false, false]), bs.next());
+    assert_eq!(Some(vec![false, false, true]), bs.next());
+    assert_eq!(Some(vec![false, true, false]), bs.next());
+    assert_eq!(Some(vec![false, true, true]), bs.next());
+    assert_eq!(Some(vec![true, false, false]), bs.next());
+    assert_eq!(Some(vec![true, false, true]), bs.next());
+    assert_eq!(Some(vec![true, true, false]), bs.next());
+    assert_eq!(Some(vec![true, true, true]), bs.next());
+    assert_eq!(None, bs.next());
 }
