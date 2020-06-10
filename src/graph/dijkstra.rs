@@ -7,7 +7,7 @@ pub struct Dijkstra {
     // グラフの骨格部分
     g: Vec<Vec<usize>>,
     // 辺を(頂点, 頂点)の形で特定してその重みを持つ
-    e: HashMap<(usize, usize), usize>,
+    e: HashMap<(usize, usize), u64>,
 }
 
 impl<'a> Graph<'a> for Dijkstra {
@@ -31,7 +31,7 @@ impl<'a> Graph<'a> for Dijkstra {
     }
 }
 
-pub fn make_graph_for_dijkstra(n: usize, edges: &[(usize, usize, usize)]) -> Dijkstra {
+pub fn make_graph_for_dijkstra(n: usize, edges: &[(usize, usize, u64)]) -> Dijkstra {
     let mut g = vec![Vec::new(); n];
     let mut e = HashMap::new();
     for (from, to, weight) in edges.iter() {
@@ -45,11 +45,11 @@ pub fn make_graph_for_dijkstra(n: usize, edges: &[(usize, usize, usize)]) -> Dij
 }
 
 impl<'a> Dijkstra {
-    pub fn weight(&self, from: usize, to: usize) -> usize {
+    pub fn weight(&self, from: usize, to: usize) -> u64 {
         self.e[&(from, to)]
     }
 
-    pub fn add_edge(&mut self, edge: (usize, usize, usize)) {
+    pub fn add_edge(&mut self, edge: (usize, usize, u64)) {
         self.g[edge.0].push(edge.1);
         self.g[edge.1].push(edge.0);
         self.e.insert((edge.0, edge.1), edge.2);
@@ -57,13 +57,16 @@ impl<'a> Dijkstra {
     }
 }
 
-pub fn dijkstra<'a>(g: &'a Dijkstra, start: usize, goal: usize) -> usize {
+/// 任意の頂点から全ての頂点までの最短経路を求める
+///
+/// `O((V + E) log V)`
+pub fn dijkstra<'a>(g: &'a Dijkstra, start: usize) -> Vec<u64> {
     // 初期化
     let mut d = Vec::with_capacity(g.len()); // `start`からの最短距離
                                              // 左にコスト、右にインデックス
-    let mut q: BinaryHeap<Reverse<(usize, usize)>> = BinaryHeap::with_capacity(g.len()); // まだ確定していない頂点の集合
+    let mut q: BinaryHeap<Reverse<(u64, usize)>> = BinaryHeap::with_capacity(g.len()); // まだ確定していない頂点の集合
     for i in 0..g.len() {
-        let j = if i == start { 0 } else { std::usize::MAX };
+        let j = if i == start { 0 } else { std::u64::MAX };
         d.push(j);
         q.push(Reverse((j, i)));
     }
@@ -81,16 +84,17 @@ pub fn dijkstra<'a>(g: &'a Dijkstra, start: usize, goal: usize) -> usize {
         }
     }
 
-    d[goal]
+    d
 }
 
-pub fn dijkstra_with_path<'a>(g: &'a Dijkstra, start: usize, goal: usize) -> (Vec<usize>, usize) {
+/// 二点間の最短距離とその経路を求める
+pub fn dijkstra_with_path<'a>(g: &'a Dijkstra, start: usize, goal: usize) -> (Vec<usize>, u64) {
     // 初期化
     let mut d = Vec::with_capacity(g.len()); // `start`からの最短距離
                                              // 左にコスト、右にインデックス
-    let mut q: BinaryHeap<Reverse<(usize, usize)>> = BinaryHeap::with_capacity(g.len()); // まだ確定していない頂点の集合
+    let mut q: BinaryHeap<Reverse<(u64, usize)>> = BinaryHeap::with_capacity(g.len()); // まだ確定していない頂点の集合
     for i in 0..g.len() {
-        let j = if i == start { 0 } else { std::usize::MAX };
+        let j = if i == start { 0 } else { std::u64::MAX };
         d.push(j);
         q.push(Reverse((j, i)));
     }
@@ -131,11 +135,11 @@ pub fn dijkstra_with_path<'a>(g: &'a Dijkstra, start: usize, goal: usize) -> (Ve
 fn dijkstra_test() {
     let mut d = make_graph_for_dijkstra(4, &[(0, 1, 2), (0, 2, 100), (1, 3, 10), (2, 3, 100)]);
 
-    assert_eq!(dijkstra(&d, 0, 3), 12);
+    assert_eq!(dijkstra(&d, 0)[3], 12);
 
     d.add_edge((0, 3, 1));
 
-    assert_eq!(dijkstra(&d, 0, 3), 1);
+    assert_eq!(dijkstra(&d, 0)[2], 100);
 
     let p = dijkstra_with_path(&d, 0, 3).0;
     assert_eq!(p, vec![0, 3]);

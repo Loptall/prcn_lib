@@ -56,7 +56,10 @@ impl<'a, G: Graph<'a>> Iterator for Bfs<'a, G> {
 /// `3 -> 4`
 ///
 /// を表示する
-pub fn bfs<'a, G: Graph<'a, NodeId = usize>>(g: &'a G, start: G::NodeId) -> Bfs<'a, G> {
+pub fn bfs<'a, G>(g: &'a G, start: G::NodeId) -> Bfs<'a, G>
+where
+    G: Graph<'a, NodeId = usize>,
+{
     let n = g.len();
     let mut visited = vec![false; n];
     let mut q = VecDeque::new();
