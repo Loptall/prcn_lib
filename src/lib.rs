@@ -1,6 +1,7 @@
 pub mod prelude;
 
 pub mod accumulate;
+pub mod binary_powering;
 pub mod binary_search;
 pub mod bitset;
 pub mod graph;

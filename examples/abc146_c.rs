@@ -1,6 +1,51 @@
-//! Varified
-
+use std::io::stdin;
 use std::ops::{Add, Div};
+use std::str::FromStr;
+
+pub fn input<T: FromStr>() -> Result<T, T::Err> {
+    let mut buf = String::new();
+    stdin().read_line(&mut buf).unwrap();
+    Ok(buf.trim().parse().ok().unwrap())
+}
+pub fn input_vec<T: FromStr>() -> Result<Vec<T>, T::Err> {
+    let mut buf = String::new();
+    stdin().read_line(&mut buf).unwrap();
+    Ok(buf
+        .trim()
+        .split_whitespace()
+        .map(|x| x.parse().ok().unwrap())
+        .collect::<Vec<_>>())
+}
+pub fn input_two<T: FromStr, U: FromStr>() -> (T, U) {
+    let mut buf = String::new();
+    stdin().read_line(&mut buf).unwrap();
+    let s: Vec<&str> = buf.split_whitespace().collect();
+    (
+        s[0].parse::<T>().ok().unwrap(),
+        s[1].parse::<U>().ok().unwrap(),
+    )
+}
+pub fn input_three<T: FromStr, U: FromStr, V: FromStr>() -> (T, U, V) {
+    let mut buf = String::new();
+    stdin().read_line(&mut buf).unwrap();
+    let s: Vec<&str> = buf.split_whitespace().collect();
+    (
+        s[0].parse::<T>().ok().unwrap(),
+        s[1].parse::<U>().ok().unwrap(),
+        s[2].parse::<V>().ok().unwrap(),
+    )
+}
+pub fn input_four<T: FromStr, U: FromStr, V: FromStr, W: FromStr>() -> (T, U, V, W) {
+    let mut buf = String::new();
+    stdin().read_line(&mut buf).unwrap();
+    let s: Vec<&str> = buf.split_whitespace().collect();
+    (
+        s[0].parse().ok().unwrap(),
+        s[1].parse().ok().unwrap(),
+        s[2].parse().ok().unwrap(),
+        s[3].parse().ok().unwrap(),
+    )
+}
 
 /// # Usage
 ///
@@ -19,14 +64,6 @@ use std::ops::{Add, Div};
 /// Some(inner) (l <= inner <= r) | None
 ///
 /// になる
-///
-/// ```rust
-/// use prcn_lib::binary_search::binary_search;
-///
-/// let v = vec![1, 3, 3, 3, 4, 6, 7, 7, 8, 10];
-/// assert_eq!(3, binary_search(|i| v[i] < 4, 0, v.len() - 1).unwrap());
-/// assert_eq!(9, binary_search(|i| v[i] <= 10, 0, v.len() - 1).unwrap());
-/// ```
 pub fn binary_search<T, F>(pred: F, l: T, r: T) -> Option<T>
 where
     T: Add<Output = T> + Div<Output = T> + PartialEq + Copy + From<u8>,
@@ -46,7 +83,7 @@ where
     loop {
         let m = (l + r) / two;
         if l == m {
-            break Some(l);
+            return Some(l);
         }
 
         if pred(m) {
@@ -65,21 +102,6 @@ fn binary_search_test() {
     assert_eq!(9, binary_search(|i| v[i] <= 10, 0, v.len() - 1).unwrap());
 }
 
-
-/// `v`以上の要素が最初に現れるindex
-///
-/// ```rust
-/// use prcn_lib::binary_search::lower_bound;
-///
-/// let v: &[i32] = &[1, 3, 3, 4, 5];
-/// assert_eq!(lower_bound(v, &0), 0);
-/// assert_eq!(lower_bound(v, &1), 0);
-/// assert_eq!(lower_bound(v, &2), 1);
-/// assert_eq!(lower_bound(v, &3), 1);
-/// assert_eq!(lower_bound(v, &4), 3);
-/// assert_eq!(lower_bound(v, &5), 4);
-/// assert_eq!(lower_bound(v, &999), 5);
-/// ```
 pub fn lower_bound<T: PartialOrd>(v: &[T], val: &T) -> usize {
     let t = binary_search(|x| v[x] < *val, 0, v.len() - 1);
     match t {
@@ -100,20 +122,6 @@ fn lower_bound_test() {
     assert_eq!(lower_bound(v, &999), 5);
 }
 
-/// `v`より大きい要素が最初に現れるindex
-///
-/// ```rust
-/// use prcn_lib::binary_search::upper_bound;
-///
-/// let v: &[i32] = &[1, 3, 3, 4, 5];
-/// assert_eq!(upper_bound(v, &0), 0);
-/// assert_eq!(upper_bound(v, &1), 1);
-/// assert_eq!(upper_bound(v, &2), 1);
-/// assert_eq!(upper_bound(v, &3), 3);
-/// assert_eq!(upper_bound(v, &4), 4);
-/// assert_eq!(upper_bound(v, &5), 5);
-/// assert_eq!(upper_bound(v, &999), 5);
-/// ```
 pub fn upper_bound<T: PartialOrd>(v: &[T], val: &T) -> usize {
     let t = binary_search(|x| v[x] <= *val, 0, v.len() - 1);
     match t {
@@ -132,4 +140,11 @@ fn upper_bound_test() {
     assert_eq!(upper_bound(v, &4), 4);
     assert_eq!(upper_bound(v, &5), 5);
     assert_eq!(upper_bound(v, &999), 5);
+}
+
+fn main() {
+    let (a, b, x): (usize, usize, usize) = input_three();
+
+    let ans = binary_search(|z| a * z + z.to_string().len() * b <= x, 1, 10usize.pow(9));
+    println!("{}", ans.unwrap_or(0));
 }

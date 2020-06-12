@@ -33,7 +33,7 @@ impl<'a, G: Graph<'a>> Iterator for Bfs<'a, G> {
 /// `start`の頂点からの幅優先探索時の、
 /// 頂点から頂点の接続をイテレートするIteratorを作る
 ///
-/// ```
+/// ```ignore
 /// let e = &[(0, 2), (0, 1), (1, 2), (2, 3), (3, 4), (3, 5), (1, 5)];
 ///
 /// let g = make_undirected_graph(6, e);

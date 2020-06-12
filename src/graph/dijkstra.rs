@@ -1,5 +1,5 @@
 use crate::graph::graph::Graph;
-use std::cmp::{min, Reverse};
+use std::cmp::Reverse;
 use std::collections::{BinaryHeap, HashMap};
 
 /// 単純グラフじゃないと死ぬ
@@ -91,8 +91,7 @@ pub fn dijkstra<'a>(g: &'a Dijkstra, start: usize) -> Vec<u64> {
 pub fn dijkstra_with_path<'a>(g: &'a Dijkstra, start: usize, goal: usize) -> (Vec<usize>, u64) {
     // 初期化
     let mut d = Vec::with_capacity(g.len()); // `start`からの最短距離
-                                             // 左にコスト、右にインデックス
-    let mut q: BinaryHeap<Reverse<(u64, usize)>> = BinaryHeap::with_capacity(g.len()); // まだ確定していない頂点の集合
+    let mut q: BinaryHeap<Reverse<(u64, usize)>> = BinaryHeap::with_capacity(g.len()); // まだ確定していない頂点の集合、左にコスト、右にインデックス
     for i in 0..g.len() {
         let j = if i == start { 0 } else { std::u64::MAX };
         d.push(j);
