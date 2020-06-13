@@ -1,4 +1,3 @@
-
 use cargo_snippet::snippet;
 
 /// 単位元が定義される `T -> T -> T`型の演算

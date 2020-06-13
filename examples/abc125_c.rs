@@ -88,7 +88,6 @@ pub fn input_matrix<T: FromStr + Clone>(h: usize) -> Vec<Vec<T>> {
     res
 }
 
-
 #[derive(Debug, Clone)]
 pub struct SegmentTree<T: Monoid> {
     leaves: usize,
@@ -185,12 +184,14 @@ fn main() {
 
     let mut ans = 0usize;
     for rem in 0..n {
-        ans = max(ans, Gcd::op(&s.range(0, rem), &s.range(rem + 1, s.leaves)).0)
+        ans = max(
+            ans,
+            Gcd::op(&s.range(0, rem), &s.range(rem + 1, s.leaves)).0,
+        )
     }
 
     println!("{}", ans);
 }
-
 
 /// 単位元が定義される `T -> T -> T`型の演算
 pub trait Monoid: Sized {
@@ -228,7 +229,6 @@ macro_rules! monoid_def {
         }
     };
 }
-
 
 #[derive(Debug, Clone, Copy)]
 pub struct Gcd<T: Integer>(T);

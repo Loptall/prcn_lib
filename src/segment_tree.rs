@@ -49,7 +49,6 @@ fn parent_idx(n: usize) -> usize {
 
 #[snippet("segment_tree")]
 impl<T: Monoid + Clone + Copy> SegmentTree<T> {
-
     pub fn new<I: Into<T> + Copy>(v: &[I]) -> Self {
         let n = v.len();
         let leaves = n.next_power_of_two();
@@ -153,13 +152,11 @@ impl<T: Monoid + Clone + Copy> SegmentTree<T> {
 //     };
 // }
 
-
 // monoid_def! {
 //     Max<usize>,
 //     std::usize::MIN,
 //     |a: usize, b: usize| a.max(b)
 // }
-
 
 // #[test]
 // fn ux_test() {

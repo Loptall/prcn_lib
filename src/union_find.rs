@@ -1,6 +1,10 @@
 //! Varified
 //! borrow from petgraph
 
+#![snippet("union_find")]
+
+use cargo_snippet::snippet;
+
 use std::fmt;
 use std::hash::Hash;
 
