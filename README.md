@@ -4,11 +4,11 @@
 
 ```toml
 [dependencies]
-prcn_lib = "0.2"
+prcn_lib = "*"
 ```
 
 ## To use(include) prelude…
 
-```rs
+```rust
 use prcn_lib::prelude::*;
 ```
