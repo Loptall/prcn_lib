@@ -64,9 +64,9 @@ checksum = "a8cc868e96ba5c32ffae4d42bf2940ca7fca317dcef3f19b6d7de66b6885abff"
 
 [[package]]
 name = "cargo-snippet"
-version = "0.6.3"
+version = "0.6.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a1c616cdae4dc9962262c49888c90b000291411fd8013af9b5f79e7897b63a3c"
+checksum = "c98dba5ed8b0e3bb00e17a2a40d99ce216dcf590e3db9e4cc29202b7552d3d5d"
 
 [[package]]
 name = "cfg-if"

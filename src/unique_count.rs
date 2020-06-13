@@ -1,9 +1,12 @@
 //! Varified
 
+use cargo_snippet::snippet;
+
 use std::collections::BTreeMap;
 
 /// 配列に含まれる要素(T: Ord + Copy)別にその個数を数えて
 /// `BTreeMap<T, usize>`の形にして返す
+#[snippet]
 pub fn unique_count<T: Ord + Copy>(v: &[T]) -> BTreeMap<T, usize> {
     let mut map = BTreeMap::new();
     for e in v {
@@ -22,11 +25,4 @@ fn count_test() {
         map,
         maplit::btreemap![1 => 1, 2 => 2, 3 => 3, 4 => 1, 5 => 1, 7 => 1]
     );
-}
-
-/// プログラムを終了
-/// 単純に`std::process::exit(0)`の省略型
-pub fn exit() {
-    use std::process;
-    process::exit(0)
 }

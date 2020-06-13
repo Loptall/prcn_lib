@@ -7,7 +7,6 @@ pub mod bitset;
 pub mod graph;
 pub mod grid;
 pub mod idx;
-pub mod math;
 pub mod modint;
 pub mod prime;
 pub mod segment_tree;

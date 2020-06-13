@@ -1,7 +1,10 @@
+use cargo_snippet::snippet;
+
 /// 二分累乗法
 /// `O(log n)`で累乗を求める
 ///
 /// modがいらないときはstd::usize::MAXで適当に
+#[snippet]
 pub fn binary_powering(n: usize, r: usize, m: usize) -> usize {
     let mut a = n;
     let mut n = r;

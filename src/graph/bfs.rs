@@ -2,12 +2,16 @@ use crate::graph::graph::Graph;
 
 use std::collections::VecDeque;
 
+use cargo_snippet::snippet;
+
+#[snippet("bfs")]
 pub struct Bfs<'a, G: Graph<'a>> {
     visited: Vec<bool>,
     q: VecDeque<(G::NodeId, Option<G::NodeId>)>,
     g: &'a G,
 }
 
+#[snippet("bfs")]
 impl<'a, G: Graph<'a>> Iterator for Bfs<'a, G> {
     type Item = (G::NodeId, G::NodeId);
     fn next(&mut self) -> Option<Self::Item> {
@@ -56,6 +60,7 @@ impl<'a, G: Graph<'a>> Iterator for Bfs<'a, G> {
 /// `3 -> 4`
 ///
 /// を表示する
+#[snippet("bfs")]
 pub fn bfs<'a, G>(g: &'a G, start: G::NodeId) -> Bfs<'a, G>
 where
     G: Graph<'a, NodeId = usize>,

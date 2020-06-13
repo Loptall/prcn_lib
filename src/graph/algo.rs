@@ -1,8 +1,11 @@
 use crate::graph::{bfs::bfs, dfs::dfs, graph::Graph};
 
+use cargo_snippet::snippet;
+
 /// 重みなしグラフにおいて、幅優先探索を用いて任意の頂点から、各頂点への最短距離を求める
 ///
 /// dist[i] = (startからiまでの最短距離)
+#[snippet("bfs")]
 pub fn dist_table<'a, G>(g: &'a G, start: G::NodeId) -> Vec<usize>
 where
     G: Graph<'a, NodeId = usize>,
@@ -19,6 +22,7 @@ where
 ///
 /// goalまでの経路が見つかった時点で探索を打ち切るので、
 /// グラフのサイズの大きさに直接の影響を受けないことが期待される
+#[snippet("bfs")]
 pub fn shortest_path<'a, G: Graph<'a, NodeId = usize>>(
     g: &'a G,
     start: usize,
@@ -47,12 +51,9 @@ pub fn classify_into_connected_group<'a, G: Graph<'a, NodeId = usize>>(
         match classified[u] {
             Some(_) => {}
             None => {
-                for (i, _) in dist_table(g, u)
-                    .iter()
-                    .enumerate()
-                    .filter(|x| *x.1 != std::usize::MAX)
-                {
-                    classified[i] = Some(cur);
+                classified[u] = Some(cur);
+                for (_, t) in dfs(g, u) {
+                    classified[t] = Some(cur);
                 }
                 cur += 1;
             }

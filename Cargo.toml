@@ -103,5 +103,5 @@ rustc-hash = "=1.1.0"
 # ある長さまでは要素を「直に」持つ可変長配列
 smallvec = "=1.2.0"
 
-[dev-dependencies]
+# [dev-dependencies]
 cargo-snippet = "0.6.4"

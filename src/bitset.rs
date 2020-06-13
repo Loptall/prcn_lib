@@ -1,9 +1,13 @@
+use cargo_snippet::snippet;
+
 /// bitの数を持つ
+#[snippet("bitset")]
 #[derive(Debug, Copy, Clone)]
 pub struct BitSet {
     size: usize,
 }
 
+#[snippet("bitset")]
 impl BitSet {
     /// サイズを指定してコンストラクト
     pub fn new(n: usize) -> Self {
@@ -21,6 +25,7 @@ impl BitSet {
     }
 }
 
+#[snippet("bitset")]
 impl IntoIterator for BitSet {
     type Item = Vec<bool>;
     type IntoIter = IntoIterBitSet;
@@ -48,12 +53,14 @@ impl IntoIterator for BitSet {
 /// `[false, false, ..., true, true]`のように右詰で続く。
 ///
 /// 最後は`[true, true, ..., true, true]`である。
+#[snippet("bitset")]
 #[derive(Copy, Clone, Debug)]
 pub struct IntoIterBitSet {
     size: usize,
     current: usize,
 }
 
+#[snippet("bitset")]
 impl Iterator for IntoIterBitSet {
     type Item = Vec<bool>;
     fn next(&mut self) -> Option<Self::Item> {

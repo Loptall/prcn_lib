@@ -1,5 +1,6 @@
 //! Varified
 
+use cargo_snippet::snippet;
 use std::ops::{Add, Div};
 
 /// # Usage
@@ -27,6 +28,7 @@ use std::ops::{Add, Div};
 /// assert_eq!(3, binary_search(|i| v[i] < 4, 0, v.len() - 1).unwrap());
 /// assert_eq!(9, binary_search(|i| v[i] <= 10, 0, v.len() - 1).unwrap());
 /// ```
+#[snippet("binary_search")]
 pub fn binary_search<T, F>(pred: F, l: T, r: T) -> Option<T>
 where
     T: Add<Output = T> + Div<Output = T> + PartialEq + Copy + From<u8>,
@@ -65,7 +67,6 @@ fn binary_search_test() {
     assert_eq!(9, binary_search(|i| v[i] <= 10, 0, v.len() - 1).unwrap());
 }
 
-
 /// `v`以上の要素が最初に現れるindex
 ///
 /// ```rust
@@ -80,6 +81,7 @@ fn binary_search_test() {
 /// assert_eq!(lower_bound(v, &5), 4);
 /// assert_eq!(lower_bound(v, &999), 5);
 /// ```
+#[snippet(include = "binary_search")]
 pub fn lower_bound<T: PartialOrd>(v: &[T], val: &T) -> usize {
     let t = binary_search(|x| v[x] < *val, 0, v.len() - 1);
     match t {
@@ -114,6 +116,7 @@ fn lower_bound_test() {
 /// assert_eq!(upper_bound(v, &5), 5);
 /// assert_eq!(upper_bound(v, &999), 5);
 /// ```
+#[snippet(include = "binary_search")]
 pub fn upper_bound<T: PartialOrd>(v: &[T], val: &T) -> usize {
     let t = binary_search(|x| v[x] <= *val, 0, v.len() - 1);
     match t {

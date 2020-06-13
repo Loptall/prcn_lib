@@ -1,6 +1,8 @@
 use crate::graph::graph::{UnweightedGraph, WeightedVertexGraph};
+use cargo_snippet::snippet;
 
 /// 重みなし有向グラフ
+#[snippet("graph")]
 pub fn make_directed_graph(n: usize, edges: &[(usize, usize)]) -> UnweightedGraph {
     let mut g = vec![vec![]; n];
     for &(u, v) in edges.iter() {
@@ -10,6 +12,7 @@ pub fn make_directed_graph(n: usize, edges: &[(usize, usize)]) -> UnweightedGrap
 }
 
 /// 重みなし無向グラフ
+#[snippet("graph")]
 pub fn make_undirected_graph(n: usize, edges: &[(usize, usize)]) -> UnweightedGraph {
     let mut g = vec![vec![]; n];
     for &(u, v) in edges.iter() {
@@ -20,6 +23,7 @@ pub fn make_undirected_graph(n: usize, edges: &[(usize, usize)]) -> UnweightedGr
 }
 
 /// 重み付き有向グラフ
+#[snippet("graph")]
 pub fn make_weighted_directed_graph<W: Clone>(
     n: usize,
     edges: &[(usize, usize, W)],
@@ -32,6 +36,7 @@ pub fn make_weighted_directed_graph<W: Clone>(
 }
 
 /// 重み付き無向グラフ
+#[snippet("graph")]
 pub fn make_weighted_undirected_graph<W: Clone>(
     n: usize,
     edges: &[(usize, usize, W)],

@@ -1,7 +1,8 @@
 //! Varified
-
+use cargo_snippet::snippet;
 use rand::{thread_rng, Rng};
 
+#[snippet]
 pub fn shuffle<T>(v: &mut Vec<T>) {
     for i in (1..v.len()).rev() {
         v.swap(thread_rng().gen_range(0, i), i);

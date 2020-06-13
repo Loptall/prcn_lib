@@ -2,7 +2,10 @@ use crate::graph::graph::Graph;
 use std::cmp::Reverse;
 use std::collections::{BinaryHeap, HashMap};
 
+use cargo_snippet::snippet;
+
 /// 単純グラフじゃないと死ぬ
+#[snippet("dijkstra")]
 pub struct Dijkstra {
     // グラフの骨格部分
     g: Vec<Vec<usize>>,
@@ -10,6 +13,7 @@ pub struct Dijkstra {
     e: HashMap<(usize, usize), u64>,
 }
 
+#[snippet("dijkstra")]
 impl<'a> Graph<'a> for Dijkstra {
     type NodeId = usize;
     type Iter = std::iter::Cloned<std::slice::Iter<'a, Self::NodeId>>;
@@ -31,6 +35,7 @@ impl<'a> Graph<'a> for Dijkstra {
     }
 }
 
+#[snippet("dijkstra")]
 pub fn make_graph_for_dijkstra(n: usize, edges: &[(usize, usize, u64)]) -> Dijkstra {
     let mut g = vec![Vec::new(); n];
     let mut e = HashMap::new();
@@ -44,6 +49,7 @@ pub fn make_graph_for_dijkstra(n: usize, edges: &[(usize, usize, u64)]) -> Dijks
     Dijkstra { g, e }
 }
 
+#[snippet("dijkstra")]
 impl<'a> Dijkstra {
     pub fn weight(&self, from: usize, to: usize) -> u64 {
         self.e[&(from, to)]
@@ -60,6 +66,7 @@ impl<'a> Dijkstra {
 /// 任意の頂点から全ての頂点までの最短経路を求める
 ///
 /// `O((V + E) log V)`
+#[snippet("dijkstra")]
 pub fn dijkstra<'a>(g: &'a Dijkstra, start: usize) -> Vec<u64> {
     // 初期化
     let mut d = Vec::with_capacity(g.len()); // `start`からの最短距離
@@ -88,6 +95,7 @@ pub fn dijkstra<'a>(g: &'a Dijkstra, start: usize) -> Vec<u64> {
 }
 
 /// 二点間の最短距離とその経路を求める
+#[snippet("dijkstra")]
 pub fn dijkstra_with_path<'a>(g: &'a Dijkstra, start: usize, goal: usize) -> (Vec<usize>, u64) {
     // 初期化
     let mut d = Vec::with_capacity(g.len()); // `start`からの最短距離

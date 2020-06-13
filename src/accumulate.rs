@@ -1,13 +1,16 @@
 //! Varified
 
-use num::traits::identities::Zero;
-use num::zero;
+use cargo_snippet::snippet;
+
+use num::traits::identities::{zero, Zero};
 use std::ops::{AddAssign, Index, Sub};
 
 /// 累積和型
+#[snippet("accumurate")]
 #[derive(PartialEq, Clone, Debug)]
 pub struct Accumulate<T>(Vec<T>);
 
+#[snippet("accumurate")]
 impl<T: Zero + Copy + AddAssign + Sub<Output = T>> Accumulate<T> {
     /// 累積和をとります
     pub fn accumulate(v: &[T]) -> Self {
@@ -27,6 +30,7 @@ impl<T: Zero + Copy + AddAssign + Sub<Output = T>> Accumulate<T> {
     }
 }
 
+#[snippet("accumurate")]
 impl<T: Zero + AddAssign + Copy> Index<usize> for Accumulate<T> {
     type Output = T;
     fn index(&self, index: usize) -> &Self::Output {
