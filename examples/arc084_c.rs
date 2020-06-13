@@ -1,5 +1,6 @@
-use std::io::stdin;
 use std::ops::{Add, Div};
+
+use std::io::stdin;
 use std::str::FromStr;
 
 pub fn input<T: FromStr>() -> T {
