@@ -1,7 +1,6 @@
 //! Varified
 //! borrow from petgraph
 
-
 use cargo_snippet::snippet;
 
 use std::fmt;

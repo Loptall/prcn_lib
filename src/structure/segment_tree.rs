@@ -32,9 +32,9 @@ use cargo_snippet::snippet;
 #[snippet(name = "segment_tree", include = "monoid")]
 #[derive(Debug, Clone)]
 pub struct SegmentTree<T: Monoid> {
-    leaves: usize,
+    len: usize,
     size: usize,
-    value: Vec<T>,
+    segment: Vec<T>,
 }
 
 #[snippet("segment_tree")]
@@ -69,47 +69,59 @@ impl<T: Monoid + Clone + Copy> SegmentTree<T> {
         }
 
         Self {
-            leaves,
+            len: leaves,
             size,
-            value,
+            segment: value,
         }
+    }
+
+    pub fn len(&self) -> usize {
+        self.len
     }
 
     fn childrens(&self, n: usize) -> (T, T) {
         let (left, right) = childrens_idx(n);
-        (self.value[left], self.value[right])
+        (self.segment[left], self.segment[right])
     }
 
-    /// `i`番目の葉をとる
-    pub fn get_raw(&self, i: usize) -> Option<T> {
-        if self.leaves <= i {
-            panic!("too big index")
-        }
-        Some(self.value[self.size - i - 1])
+    /// `i`番目の葉の参照をとる
+    pub fn get(&self, i: usize) -> Option<&T> {
+        self.segment.get(self.size - self.len + i)
+    }
+
+    /// `i`番目の葉の可変参照をとる
+    ///
+    /// # Unsafe
+    ///
+    /// 葉の部分は変更されうるけれど、その親要素へ変更が伝達されない
+    ///
+    /// update()を使うこと
+    pub unsafe fn get_mut(&mut self, i: usize) -> Option<&mut T> {
+        self.segment.get_mut(self.size - i - 1)
     }
 
     /// `i`番目の葉を`v`で更新
     pub fn update(&mut self, i: usize, v: T) {
-        let mut cur = self.leaves - 1 + i;
-        self.value[cur] = v;
+        let mut cur = self.len - self.len + i;
+        self.segment[cur] = v;
         loop {
-            cur = parent_idx(cur);
-            let (left, right) = self.childrens(cur);
-            self.value[cur] = T::op(&left, &right);
             if cur == 0 {
                 break;
             }
+            cur = parent_idx(cur);
+            let (left, right) = self.childrens(cur);
+            self.segment[cur] = T::op(&left, &right);
         }
     }
 
     /// 区間、`[from..to)`を指定の`Monoid`でfoldした演算結果
     pub fn range(&self, from: usize, to: usize) -> T {
-        self.range_inner(from, to, 0, self.leaves, 0)
+        self.range_inner(from, to, 0, self.len, 0)
     }
 
     fn range_inner(&self, from: usize, to: usize, l_bound: usize, r_bound: usize, k: usize) -> T {
         if from <= l_bound && to >= r_bound {
-            self.value[k]
+            self.segment[k]
         } else if from >= r_bound || to <= l_bound {
             T::identity()
         } else {
@@ -122,8 +134,6 @@ impl<T: Monoid + Clone + Copy> SegmentTree<T> {
     }
 }
 
-// #[snippet("monoid")]
-// // #[macro_export]
 // macro_rules! monoid_def {
 //     {
 //         $M:ident<$t:ty>,
@@ -165,4 +175,11 @@ impl<T: Monoid + Clone + Copy> SegmentTree<T> {
 //     assert_eq!(s.range(0, 3).0, 3);
 //     assert_eq!(s.range(2, 2).0, 0);
 //     assert_eq!(s.range(0, 8).0, 8);
+// }
+
+// #[test]
+// fn get_test() {
+//     let s = SegmentTree::<Max>::new(&vec![1, 2, 3, 4]);
+//     assert_eq!(s.get(1).unwrap().0, 2);
+//     assert_eq!(s.get(3).unwrap().0, 4);
 // }
