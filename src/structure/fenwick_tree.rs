@@ -68,7 +68,6 @@ impl<T: Add + Sub<Output = T> + Zero + Clone + Ord + Into<usize>> FenwickTree<T>
     }
 }
 
-
 #[test]
 fn fenwick_test() {
     let v = vec![1usize, 2, 3, 4];

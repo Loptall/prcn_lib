@@ -1,4 +1,3 @@
-
 use crate::structure::fenwick_tree::FenwickTree;
 
 use cargo_snippet::snippet;

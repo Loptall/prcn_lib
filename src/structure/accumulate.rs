@@ -19,6 +19,7 @@ pub struct Accumulate<T>(Vec<T>);
 #[snippet("accumurate")]
 impl<T: Zero + Copy + Add<Output = T> + Sub<Output = T>> Accumulate<T> {
     /// 累積和をとります
+    /// 初期化: O(n)
     pub fn from(v: &[T]) -> Self {
         let mut res = Vec::with_capacity(v.len() + 1);
         let mut i: T = zero();
