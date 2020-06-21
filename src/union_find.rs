@@ -1,13 +1,13 @@
 //! Varified
 //! borrow from petgraph
 
-#![snippet("union_find")]
 
 use cargo_snippet::snippet;
 
 use std::fmt;
 use std::hash::Hash;
 
+#[snippet("union_find")]
 /// The default integer type for graph indices.
 /// `u32` is the default to reduce the size of the graph's data and improve
 /// performance in the common case.
@@ -16,6 +16,7 @@ use std::hash::Hash;
 /// for node indices in `Csr`.
 pub type DefaultIx = u32;
 
+#[snippet("union_find")]
 /// Trait for the unsigned integer type used for node and edge indices.
 ///
 /// Marked `unsafe` because: the trait must faithfully preserve
@@ -26,6 +27,7 @@ pub unsafe trait IndexType: Copy + Default + Hash + Ord + fmt::Debug + 'static {
     fn max() -> Self;
 }
 
+#[snippet("union_find")]
 unsafe impl IndexType for usize {
     #[inline(always)]
     fn new(x: usize) -> Self {
@@ -41,6 +43,7 @@ unsafe impl IndexType for usize {
     }
 }
 
+#[snippet("union_find")]
 unsafe impl IndexType for u32 {
     #[inline(always)]
     fn new(x: usize) -> Self {
@@ -56,6 +59,7 @@ unsafe impl IndexType for u32 {
     }
 }
 
+#[snippet("union_find")]
 unsafe impl IndexType for u16 {
     #[inline(always)]
     fn new(x: usize) -> Self {
@@ -71,6 +75,7 @@ unsafe impl IndexType for u16 {
     }
 }
 
+#[snippet("union_find")]
 unsafe impl IndexType for u8 {
     #[inline(always)]
     fn new(x: usize) -> Self {
@@ -99,6 +104,7 @@ use std::cmp::Ordering;
 ///
 /// “The amortized time per operation is **O(α(n))** where **α(n)** is the
 /// inverse of **f(x) = A(x, x)** with **A** being the extremely fast-growing Ackermann function.”
+#[snippet("union_find")]
 #[derive(Debug, Clone)]
 pub struct UnionFind<K> {
     // For element at index *i*, store the index of its parent; the representative itself
@@ -113,18 +119,21 @@ pub struct UnionFind<K> {
     rank: Vec<u8>,
 }
 
+#[snippet("union_find")]
 #[inline]
 unsafe fn get_unchecked<K>(xs: &[K], index: usize) -> &K {
     debug_assert!(index < xs.len());
     xs.get_unchecked(index)
 }
 
+#[snippet("union_find")]
 #[inline]
 unsafe fn get_unchecked_mut<K>(xs: &mut [K], index: usize) -> &mut K {
     debug_assert!(index < xs.len());
     xs.get_unchecked_mut(index)
 }
 
+#[snippet("union_find")]
 impl<K> UnionFind<K>
 where
     K: IndexType,

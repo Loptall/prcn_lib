@@ -86,8 +86,6 @@ pub fn factorizations_with_sieve(sieve: &Sieve, mut n: usize) -> Vec<(usize, usi
     let mut res = Vec::new();
     let ps = sieve.primes((n as f64).sqrt().ceil() as usize);
 
-    dbg!(&ps);
-
     for p in ps {
         let mut c = 0usize;
         while n % p == 0 {

@@ -3,22 +3,28 @@
 use cargo_snippet::snippet;
 
 use num::traits::identities::{zero, Zero};
-use std::ops::{AddAssign, Index, Sub};
+use std::ops::{Add, Index, Sub};
 
 /// 累積和型
+/// Vec<T: Add> ->
+///
+/// 初期化 O(n)
+/// 区間sum O(1)
+///
+/// 逆操作はimos法、
 #[snippet("accumurate")]
 #[derive(PartialEq, Clone, Debug)]
 pub struct Accumulate<T>(Vec<T>);
 
 #[snippet("accumurate")]
-impl<T: Zero + Copy + AddAssign + Sub<Output = T>> Accumulate<T> {
+impl<T: Zero + Copy + Add<Output = T> + Sub<Output = T>> Accumulate<T> {
     /// 累積和をとります
     pub fn accumulate(v: &[T]) -> Self {
         let mut res = Vec::with_capacity(v.len() + 1);
         let mut i: T = zero();
         res.push(i);
         for e in v {
-            i += *e;
+            i = i + *e;
             res.push(i);
         }
         Accumulate(res)
@@ -31,7 +37,7 @@ impl<T: Zero + Copy + AddAssign + Sub<Output = T>> Accumulate<T> {
 }
 
 #[snippet("accumurate")]
-impl<T: Zero + AddAssign + Copy> Index<usize> for Accumulate<T> {
+impl<T: Zero + Add<Output = T> + Copy> Index<usize> for Accumulate<T> {
     type Output = T;
     fn index(&self, index: usize) -> &Self::Output {
         &self.0[index]
