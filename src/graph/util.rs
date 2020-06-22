@@ -1,4 +1,4 @@
-use crate::graph::graph::{UnweightedGraph, WeightedVertexGraph};
+use crate::graph::def::{UnweightedGraph, WeightedVertexGraph};
 use cargo_snippet::snippet;
 
 /// 重みなし有向グラフ

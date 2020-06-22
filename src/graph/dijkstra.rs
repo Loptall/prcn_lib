@@ -1,4 +1,4 @@
-use crate::graph::graph::Graph;
+use crate::graph::def::Graph;
 use std::cmp::Reverse;
 use std::collections::{BinaryHeap, HashMap};
 

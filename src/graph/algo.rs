@@ -1,4 +1,4 @@
-use crate::graph::{bfs::bfs, dfs::dfs, graph::Graph};
+use crate::graph::{bfs::bfs, dfs::dfs, def::Graph};
 
 use cargo_snippet::snippet;
 
