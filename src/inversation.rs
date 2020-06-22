@@ -3,7 +3,7 @@ use crate::structure::fenwick_tree::FenwickTree;
 use cargo_snippet::snippet;
 
 #[snippet("inversation", include = "fenwick_tree")]
-/// 配列の転倒数をSegmentTree<Sum>を利用してカウント
+/// 配列の転倒数をFenwickTree<Sum>を利用してカウント
 ///
 /// `O(n log n)`
 ///
