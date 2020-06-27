@@ -197,7 +197,7 @@ impl Add<Self> for ModInt {
     }
 }
 
-impl AddAssign for ModInt {
+impl AddAssign<Self> for ModInt {
     fn add_assign(&mut self, rhs: Self) {
         *self = *self + rhs;
     }
@@ -228,7 +228,7 @@ impl Sub<Self> for ModInt {
     }
 }
 
-impl SubAssign for ModInt {
+impl SubAssign<Self> for ModInt {
     fn sub_assign(&mut self, rhs: Self) {
         *self = *self - rhs;
     }
@@ -258,7 +258,7 @@ impl Mul<Self> for ModInt {
     }
 }
 
-impl MulAssign for ModInt {
+impl MulAssign<Self> for ModInt {
     fn mul_assign(&mut self, rhs: Self) {
         *self = *self * rhs
     }
@@ -278,7 +278,7 @@ impl Div<Self> for ModInt {
     }
 }
 
-impl DivAssign for ModInt {
+impl DivAssign<Self> for ModInt {
     fn div_assign(&mut self, rhs: Self) {
         *self = *self / rhs;
     }
@@ -490,3 +490,67 @@ fn pow_test() {
 //         )
 //     }
 // }
+
+macro_rules! impl_ops_between_mint_and_primitive {
+    ($($t:ty),*) => {
+        $(
+            impl Add<$t> for ModInt {
+                type Output = Self;
+                fn add(self, rhs: $t) -> Self::Output {
+                    self + Self::new(rhs as i64, self.get_mod())
+                }
+            }
+            impl AddAssign<$t> for ModInt {
+                fn add_assign(&mut self, rhs: $t) {
+                    *self = *self + rhs;
+                }
+            }
+            impl Sub<$t> for ModInt {
+                type Output = Self;
+                fn sub(self, rhs: $t) -> Self::Output {
+                    self - Self::new(rhs as i64, self.get_mod())
+                }
+            }
+            impl SubAssign<$t> for ModInt {
+                fn sub_assign(&mut self, rhs: $t) {
+                    *self = *self - rhs;
+                }
+            }
+            impl Mul<$t> for ModInt {
+                type Output = Self;
+                fn mul(self, rhs: $t) -> Self::Output {
+                    self * Self::new(rhs as i64, self.get_mod())
+                }
+            }
+            impl MulAssign<$t> for ModInt {
+                fn mul_assign(&mut self, rhs: $t) {
+                    *self = *self * rhs;
+                }
+            }
+            impl Div<$t> for ModInt {
+                type Output = Self;
+                fn div(self, rhs: $t) -> Self::Output {
+                    self / Self::new(rhs as i64, self.get_mod())
+                }
+            }
+            impl DivAssign<$t> for ModInt {
+                fn div_assign(&mut self, rhs: $t) {
+                    *self = *self / rhs;
+                }
+            }
+        )*
+    };
+}
+
+impl_ops_between_mint_and_primitive!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64);
+
+#[test]
+fn op_between_different_type() {
+    let mut mint = ModInt::new(1, 10);
+    mint += 1;
+    assert_eq!(mint.get(), 2);
+    mint *= 2;
+    assert_eq!(mint.get(), 4);
+    mint += 10001;
+    assert_eq!(mint.get(), 5);
+}
