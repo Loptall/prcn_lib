@@ -7,6 +7,7 @@ pub mod idx;
 // pub mod math;
 pub mod inversation;
 pub mod modint;
+pub mod run_length_encoding;
 pub mod prime;
 pub mod shuffle;
 pub mod structure;

@@ -4,7 +4,6 @@ use num_traits::{Num, Pow};
 
 use std::cmp::Ordering;
 use std::convert::TryInto;
-// use std::mem::swap;
 use std::num::NonZeroU32;
 use std::num::ParseIntError;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Rem, RemAssign, Sub, SubAssign};
@@ -110,11 +109,35 @@ impl ModInt {
         self.num
     }
 
+    /// mod of modint
+    ///
+    /// # Panic
+    /// if variant is Modulo::Dynamic
     pub fn get_mod(&self) -> usize {
         self._modulo.get().unwrap() as usize
     }
 
-    fn inv(&self) -> i64 {
+    /// return the power of self with mod, using binary powering method
+    /// cannot use of Dynamic type mod Self
+    pub fn pow_mod(&self, mut exp: usize) -> Self {
+        let mut res = 1;
+        let mut base = self.get() as usize;
+        let m = self.get_mod();
+        while exp > 0 {
+            if exp & 1 != 0 {
+                res *= base;
+                res %= m;
+            }
+            base *= base;
+            base %= m;
+            exp >>= 1;
+        }
+
+        Self::new(res, self.get_mod())
+    }
+
+    /// `a / b == a * b^(-1)` となる `b^(-1)` を求める
+    pub fn inv(&self) -> i64 {
         // let mut a = self.get();
         // let m = self.get_mod() as i64;
         // let mut b = self.get_mod() as i64;
@@ -289,7 +312,6 @@ impl RemAssign for ModInt {
 }
 
 impl Zero for ModInt {
-    // numは0i64でいいんだけど, modをどうしようか
     fn zero() -> Self {
         ModInt {
             num: 0,
