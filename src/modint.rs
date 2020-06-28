@@ -47,6 +47,30 @@ pub struct ModInt {
     _modulo: Modulo,
 }
 
+impl Into<usize> for ModInt {
+    fn into(self) -> usize {
+        self.get() as usize
+    }
+}
+
+pub trait IntoModInt: Copy {
+    fn to_mint<M: TryInto<u32> + Copy>(self, modulo: M) -> ModInt;
+}
+
+macro_rules! impl_into_mint {
+    ($($t:ty),*) => {
+        $(
+            impl IntoModInt for $t {
+                fn to_mint<M: TryInto<u32> + Copy>(self, modulo: M) -> ModInt {
+                    ModInt::new(self, modulo)
+                }
+            }
+        )*
+    };
+}
+
+impl_into_mint!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64);
+
 impl PartialEq for ModInt {
     fn eq(&self, other: &Self) -> bool {
         if !check_mod_eq(self, other).1 {
@@ -169,6 +193,10 @@ fn mint_new() {
 
     let m = ModInt::new(-10, 3);
     assert_eq!(m.get(), 2);
+
+    let x = 4.to_mint(10); // this is also valid
+    let y = ModInt::new(4, 10);
+    assert_eq!(x, y);
 }
 
 #[test]
@@ -289,6 +317,42 @@ fn div_test() {
     let a = ModInt::new(2, 5);
     let b = ModInt::new(3, 5);
     assert_eq!(a / b, ModInt::new(4, 5));
+
+    let x = ModInt::new(1, 13);
+    assert_eq!((x / 4i64).get(), 10);
+
+    let x = ModInt::new(2, 13);
+    assert_eq!((x / 4i64).get(), 7);
+
+    let x = ModInt::new(3, 13);
+    assert_eq!((x / 4i64).get(), 4);
+
+    let x = ModInt::new(4, 13);
+    assert_eq!((x / 4i64).get(), 1);
+
+    let x = ModInt::new(5, 13);
+    assert_eq!((x / 4i64).get(), 11);
+
+    let x = ModInt::new(6, 13);
+    assert_eq!((x / 4i64).get(), 8);
+
+    let x = ModInt::new(7, 13);
+    assert_eq!((x / 4i64).get(), 5);
+
+    let x = ModInt::new(8, 13);
+    assert_eq!((x / 4i64).get(), 2);
+
+    let x = ModInt::new(9, 13);
+    assert_eq!((x / 4i64).get(), 12);
+
+    let x = ModInt::new(10, 13);
+    assert_eq!((x / 4i64).get(), 9);
+
+    let x = ModInt::new(11, 13);
+    assert_eq!((x / 4i64).get(), 6);
+
+    let x = ModInt::new(12, 13);
+    assert_eq!((x / 4i64).get(), 3);
 }
 
 impl Rem for ModInt {

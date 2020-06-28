@@ -2,6 +2,8 @@ use cargo_snippet::snippet;
 use num::Zero;
 use std::ops::{Add, Sub};
 
+// 逆操作が定まる(体?)であればgenericな定義が出来そう?
+
 /// 更新、区間和の取得がともに`O(log n)`で
 /// 可能なデータ構造
 #[snippet("fenwick_tree")]

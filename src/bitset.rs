@@ -93,3 +93,50 @@ fn bs_iter() {
     assert_eq!(Some(vec![true, true, true]), bs.next());
     assert_eq!(None, bs.next());
 }
+
+#[snippet("bitset")]
+pub trait BitsOps {
+    fn count_zeros(&self) -> usize;
+    fn count_ones(&self) -> usize;
+    fn grow(&mut self, bits: usize);
+    fn put(&mut self, bits: usize) -> bool;
+    fn toggle(&mut self, bit: usize);
+    fn set(&mut self, bit: usize, into: bool);
+    fn shl(&mut self, rhs: usize);
+    fn shr(&mut self, rhs: usize);
+}
+
+#[snippet("bitset")]
+impl BitsOps for Vec<bool> {
+    fn count_zeros(&self) -> usize {
+        self.iter().filter(|x| **x).count()
+    }
+    fn count_ones(&self) -> usize {
+        self.iter().filter(|x| !**x).count()
+    }
+    fn grow(&mut self, bits: usize) {
+        self.reverse();
+        self.append(&mut vec![false; bits]);
+        self.reverse();
+    }
+    fn put(&mut self, bits: usize) -> bool {
+        let prev = self[bits];
+        self[bits] = true;
+        prev
+    }
+    fn toggle(&mut self, bit: usize) {
+        self[bit] = !self[bit];
+    }
+    fn set(&mut self, bit: usize, into: bool) {
+        self[bit] = into;
+    }
+    fn shl(&mut self, rhs: usize) {
+        self.append(&mut vec![false; rhs]);
+    }
+    fn shr(&mut self, rhs: usize) {
+        let len = self.len();
+        let mut res = vec![false; rhs];
+        res.append(&mut self[..len - rhs].to_vec());
+        *self = res;
+    }
+}

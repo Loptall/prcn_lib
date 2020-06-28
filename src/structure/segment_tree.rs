@@ -8,16 +8,16 @@
 //! #[test]
 //! fn debug() {
 //!     let mut s =
-//!         SegmentTree::<Max>::new(&[Max(1usize), Max(2), Max(3), Max(2), Max(1), Max(3), Max(1)]);
+//!         SegmentTree::<Max>::new(&[1usize, 2, 3, 2, 1, 3, 1]);
 //!     dbg!(&s);
 
-//!     s.update(7, Max(100));
+//!     s.update(7, 100);
 //!     dbg!(&s);
 //! }
 
 //! #[test]
 //! fn get() {
-//!     let s = SegmentTree::<Max>::new(&[Max(1usize), Max(2), Max(3), Max(2), Max(1), Max(3), Max(1)]);
+//!     let s = SegmentTree::<Max>::new(&[1usize, 2, 3, 2, 1, 3, 1]);
 //!     dbg!(&s);
 
 //!     assert_eq!(s.range(0, 2).0, 2);
