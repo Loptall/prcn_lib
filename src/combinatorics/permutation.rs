@@ -1,2 +1,1 @@
-use num_traits::{NumOps, NumAssignOps};
-
+use num_traits::{NumAssignOps, NumOps};
