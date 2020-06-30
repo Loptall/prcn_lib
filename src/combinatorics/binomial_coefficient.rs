@@ -6,12 +6,12 @@ use std::num::NonZeroU32;
 
 use cargo_snippet::snippet;
 
-#[snippet("binomial")]
+#[snippet("binomial_coefficient", include = "modint")]
 pub trait PartialBinomialCoefficient {
     fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt>;
 }
 
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 pub trait BinomialCoefficient: PartialBinomialCoefficient {
     /// `n C k`
     fn binomial(&self, n: usize, k: usize) -> ModInt {
@@ -25,7 +25,7 @@ pub trait BinomialCoefficient: PartialBinomialCoefficient {
 /// factrial = [1, 1, 2, 6, 24, 120, ...],
 ///
 /// `1 <= k <= n <= 10^7` 程度
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 pub struct BCTDP {
     _modulo: NonZeroU32,
     // `factorial[i]` = iの階乗
@@ -36,7 +36,7 @@ pub struct BCTDP {
     factorial_inverse: Vec<ModInt>,
 }
 
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 impl BCTDP {
     /// 初期化
     ///
@@ -84,7 +84,7 @@ impl BCTDP {
     }
 }
 
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 impl PartialBinomialCoefficient for BCTDP {
     fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt> {
         Some(if n < k {
@@ -95,7 +95,7 @@ impl PartialBinomialCoefficient for BCTDP {
     }
 }
 
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 impl BinomialCoefficient for BCTDP {}
 
 #[test]
@@ -119,10 +119,10 @@ fn bct_api_test() {
 /// 初期化: `O(n)`
 ///
 /// `1 <= n <= 10^9 && 1 <= k <= 10^7` 程度
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 pub struct BCTholdN(usize, NonZeroU32, Vec<ModInt>);
 
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 impl BCTholdN {
     pub fn new(mut n: usize, m: usize) -> Self {
         let size = n;
@@ -138,7 +138,7 @@ impl BCTholdN {
     }
 }
 
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 impl PartialBinomialCoefficient for BCTholdN {
     /// #Panic
     ///
@@ -164,14 +164,14 @@ fn hold_n_test() {
 /// `n, k` の2変数についての `n C k` の表を作る
 ///
 /// `1 <= k <= n <= 2000` 程度
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 pub struct BCTSmallNK {
     n: usize,
     _modulo: NonZeroU32,
     dp: Vec<Vec<ModInt>>,
 }
 
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 impl BCTSmallNK {
     pub fn new(n: usize, modulo: usize) -> Self {
         let mut dp = vec![vec![ModInt::new(0, modulo); n + 1]; n + 1];
@@ -198,7 +198,7 @@ impl BCTSmallNK {
     }
 }
 
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 impl PartialBinomialCoefficient for BCTSmallNK {
     fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt> {
         if n > self.size() || k > self.size() {
@@ -208,7 +208,7 @@ impl PartialBinomialCoefficient for BCTSmallNK {
     }
 }
 
-#[snippet("binomial")]
+#[snippet("binomial_coefficient")]
 impl BinomialCoefficient for BCTSmallNK {}
 
 #[test]

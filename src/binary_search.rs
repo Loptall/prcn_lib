@@ -81,7 +81,7 @@ fn binary_search_test() {
 /// assert_eq!(lower_bound(v, &5), 4);
 /// assert_eq!(lower_bound(v, &999), 5);
 /// ```
-#[snippet(include = "binary_search")]
+#[snippet("binary_search")]
 pub fn lower_bound<T: PartialOrd>(v: &[T], val: &T) -> usize {
     let t = binary_search(|x| v[x] < *val, 0, v.len() - 1);
     match t {
@@ -116,7 +116,7 @@ fn lower_bound_test() {
 /// assert_eq!(upper_bound(v, &5), 5);
 /// assert_eq!(upper_bound(v, &999), 5);
 /// ```
-#[snippet(include = "binary_search")]
+#[snippet("binary_search")]
 pub fn upper_bound<T: PartialOrd>(v: &[T], val: &T) -> usize {
     let t = binary_search(|x| v[x] <= *val, 0, v.len() - 1);
     match t {

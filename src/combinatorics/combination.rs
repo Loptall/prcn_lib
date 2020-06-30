@@ -4,6 +4,9 @@ use crate::factorial::Factoriable;
 
 use crate::modint::ModInt;
 
+use cargo_snippet::snippet;
+
+#[snippet(name = "combination", include = "binomial_coefficient")]
 pub fn combination(n: ModInt, k: usize) -> ModInt {
     if k > n.get() as usize {
         panic!("n < k, where n in ModInt, k in usize, so cannot calculate n C k")
@@ -27,18 +30,22 @@ fn comb_test() {
     // assert_eq!(combination(n, k).get(), 0); // panic!
 }
 
+#[snippet(name = "combination", include = "binomial_coefficient")]
 pub fn combination_with_table<T: BinomialCoefficient>(table: &T, n: usize, k: usize) -> ModInt {
     table.binomial(n, k)
 }
 
 #[test]
 fn comb_tbl_test() {
-    use super::binomial_coefficient::{BCTDP, BCTholdN, BCTSmallNK};
+    use super::binomial_coefficient::{BCTSmallNK, BCTholdN, BCTDP};
     use num_integer::binomial;
 
     let tbl = BCTDP::new(10000, 1000000007);
     assert_eq!(combination_with_table(&tbl, 10, 3).get(), binomial(10, 3));
-    assert_eq!(combination_with_table(&tbl, 100, 100).get(), binomial(100, 100));
+    assert_eq!(
+        combination_with_table(&tbl, 100, 100).get(),
+        binomial(100, 100)
+    );
     assert_eq!(combination_with_table(&tbl, 2, 0).get(), binomial(2, 0));
 
     let tbl = BCTholdN::new(100, 1000000007);
@@ -48,6 +55,9 @@ fn comb_tbl_test() {
 
     let tbl = BCTSmallNK::new(1000, 1000000007);
     assert_eq!(combination_with_table(&tbl, 10, 3).get(), binomial(10, 3));
-    assert_eq!(combination_with_table(&tbl, 100, 100).get(), binomial(100, 100));
+    assert_eq!(
+        combination_with_table(&tbl, 100, 100).get(),
+        binomial(100, 100)
+    );
     assert_eq!(combination_with_table(&tbl, 2, 0).get(), binomial(2, 0));
 }
