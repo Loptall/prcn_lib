@@ -342,52 +342,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "74490b50b9fbe561ac330df47c08f3f33073d2d00c150f719147d7c54522fa1b"
 
 [[package]]
-name = "prcn_lib"
-version = "0.3.1"
-dependencies = [
- "alga",
- "ascii",
- "bitset-fixed",
- "cargo-snippet",
- "either",
- "fixedbitset",
- "getrandom",
- "im-rc",
- "indexmap",
- "itertools 0.9.0",
- "itertools-num",
- "lazy_static",
- "libm",
- "maplit",
- "nalgebra",
- "ndarray",
- "num",
- "num-bigint",
- "num-complex",
- "num-derive",
- "num-integer",
- "num-iter",
- "num-rational",
- "num-traits",
- "ordered-float",
- "permutohedron",
- "petgraph",
- "proconio",
- "rand",
- "rand_chacha",
- "rand_core",
- "rand_distr",
- "rand_hc",
- "rand_pcg",
- "regex",
- "rustc-hash",
- "smallvec",
- "superslice",
- "text_io",
- "whiteread",
-]
-
-[[package]]
 name = "proc-macro2"
 version = "0.4.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -542,6 +496,52 @@ name = "rustc-hash"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "08d43f7aa6b08d49f382cde6a7982047c3426db949b1424bc4b7ec9ae12c6ce2"
+
+[[package]]
+name = "sfcpl"
+version = "0.1.0"
+dependencies = [
+ "alga",
+ "ascii",
+ "bitset-fixed",
+ "cargo-snippet",
+ "either",
+ "fixedbitset",
+ "getrandom",
+ "im-rc",
+ "indexmap",
+ "itertools 0.9.0",
+ "itertools-num",
+ "lazy_static",
+ "libm",
+ "maplit",
+ "nalgebra",
+ "ndarray",
+ "num",
+ "num-bigint",
+ "num-complex",
+ "num-derive",
+ "num-integer",
+ "num-iter",
+ "num-rational",
+ "num-traits",
+ "ordered-float",
+ "permutohedron",
+ "petgraph",
+ "proconio",
+ "rand",
+ "rand_chacha",
+ "rand_core",
+ "rand_distr",
+ "rand_hc",
+ "rand_pcg",
+ "regex",
+ "rustc-hash",
+ "smallvec",
+ "superslice",
+ "text_io",
+ "whiteread",
+]
 
 [[package]]
 name = "sized-chunks"
