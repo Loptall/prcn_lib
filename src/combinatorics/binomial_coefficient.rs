@@ -4,10 +4,14 @@ use crate::modint::{IntoModInt, ModInt};
 
 use std::num::NonZeroU32;
 
+use cargo_snippet::snippet;
+
+#[snippet("binomial")]
 pub trait PartialBinomialCoefficient {
     fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt>;
 }
 
+#[snippet("binomial")]
 pub trait BinomialCoefficient: PartialBinomialCoefficient {
     /// `n C k`
     fn binomial(&self, n: usize, k: usize) -> ModInt {
@@ -18,7 +22,10 @@ pub trait BinomialCoefficient: PartialBinomialCoefficient {
 /// Binomial Coefficient Table with DP
 /// 二項係数を`O(1)`で計算するためのテーブル
 ///
+/// factrial = [1, 1, 2, 6, 24, 120, ...],
+///
 /// `1 <= k <= n <= 10^7` 程度
+#[snippet("binomial")]
 pub struct BCTDP {
     _modulo: NonZeroU32,
     // `factorial[i]` = iの階乗
@@ -29,6 +36,7 @@ pub struct BCTDP {
     factorial_inverse: Vec<ModInt>,
 }
 
+#[snippet("binomial")]
 impl BCTDP {
     /// 初期化
     ///
@@ -66,12 +74,17 @@ impl BCTDP {
         self.factorial[n]
     }
 
+    pub fn factorial_inverse(&self, n: usize) -> ModInt {
+        self.factorial_inverse[n]
+    }
+
     /// `n` の mod self._modulo における逆元
     pub fn inv(&self, n: usize) -> ModInt {
         self.inverse[n]
     }
 }
 
+#[snippet("binomial")]
 impl PartialBinomialCoefficient for BCTDP {
     fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt> {
         Some(if n < k {
@@ -82,6 +95,7 @@ impl PartialBinomialCoefficient for BCTDP {
     }
 }
 
+#[snippet("binomial")]
 impl BinomialCoefficient for BCTDP {}
 
 #[test]
@@ -105,13 +119,15 @@ fn bct_api_test() {
 /// 初期化: `O(n)`
 ///
 /// `1 <= n <= 10^9 && 1 <= k <= 10^7` 程度
+#[snippet("binomial")]
 pub struct BCTholdN(usize, NonZeroU32, Vec<ModInt>);
 
+#[snippet("binomial")]
 impl BCTholdN {
     pub fn new(mut n: usize, m: usize) -> Self {
         let size = n;
-        let mut c = vec![ModInt::new(n, m)];
-        c.reserve_exact(n);
+        let mut c = vec![ModInt::new(1, m), ModInt::new(n, m)];
+        c.reserve_exact(n + 1);
         for i in 2..=n {
             n -= 1;
             let prev = *c.last().unwrap();
@@ -122,6 +138,7 @@ impl BCTholdN {
     }
 }
 
+#[snippet("binomial")]
 impl PartialBinomialCoefficient for BCTholdN {
     /// #Panic
     ///
@@ -130,10 +147,12 @@ impl PartialBinomialCoefficient for BCTholdN {
         if _n != self.0 {
             None
         } else {
-            Some(self.2[k - 1])
+            Some(self.2[k])
         }
     }
 }
+
+impl BinomialCoefficient for BCTholdN {}
 
 #[test]
 fn hold_n_test() {
@@ -145,12 +164,14 @@ fn hold_n_test() {
 /// `n, k` の2変数についての `n C k` の表を作る
 ///
 /// `1 <= k <= n <= 2000` 程度
+#[snippet("binomial")]
 pub struct BCTSmallNK {
     n: usize,
     _modulo: NonZeroU32,
     dp: Vec<Vec<ModInt>>,
 }
 
+#[snippet("binomial")]
 impl BCTSmallNK {
     pub fn new(n: usize, modulo: usize) -> Self {
         let mut dp = vec![vec![ModInt::new(0, modulo); n + 1]; n + 1];
@@ -177,6 +198,7 @@ impl BCTSmallNK {
     }
 }
 
+#[snippet("binomial")]
 impl PartialBinomialCoefficient for BCTSmallNK {
     fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt> {
         if n > self.size() || k > self.size() {
@@ -186,6 +208,7 @@ impl PartialBinomialCoefficient for BCTSmallNK {
     }
 }
 
+#[snippet("binomial")]
 impl BinomialCoefficient for BCTSmallNK {}
 
 #[test]

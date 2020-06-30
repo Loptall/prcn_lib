@@ -181,8 +181,8 @@ impl ModInt {
         // let mut a = self.get();
         // let m = self.get_mod() as i64;
         // let mut b = self.get_mod() as i64;
-        // let mut u = 1usize as i64;
-        // let mut v = 0usize as i64;
+        // let mut u = 1i64;
+        // let mut v = 0i64;
 
         // while b != 0 {
         //     let t = a / b;
@@ -194,7 +194,7 @@ impl ModInt {
 
         // u %= m;
         // if u < 0 { u += m; }
-        // u as usize
+        // u
 
         // impl with num_integar::Integar::extended_gcd ...
         let x = self.get().extended_gcd(&(self.get_mod() as i64)).x;
