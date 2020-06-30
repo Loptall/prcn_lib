@@ -8,11 +8,14 @@ use std::num::NonZeroU32;
 use std::num::ParseIntError;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Rem, RemAssign, Sub, SubAssign};
 
+use cargo_snippet::snippet;
+
 /// n % m
 /// ただし答えが負になる場合は余分にmを足すことで一意な値を保証
 ///
 /// # Panic
 /// 異なるmod間での演算をattemptした時
+#[snippet("modint")]
 fn compensated_rem(n: i64, m: usize) -> i64 {
     match n % m as i64 {
         // あまりが非負ならそのまま
@@ -22,12 +25,14 @@ fn compensated_rem(n: i64, m: usize) -> i64 {
     }
 }
 
+#[snippet("modint")]
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum Modulo {
     Static(NonZeroU32),
     Dynamic,
 }
 
+#[snippet("modint")]
 impl Modulo {
     pub fn get(&self) -> Option<u32> {
         match self {
@@ -41,22 +46,26 @@ impl Modulo {
 /// (get関数を提供するのでそれ使ってどうぞ)
 ///
 /// `PrimitiveInt -> ModInt` は許可する
+#[snippet("modint")]
 #[derive(Debug, Clone, Copy)]
 pub struct ModInt {
     num: i64,
     _modulo: Modulo,
 }
 
+#[snippet("modint")]
 impl Into<usize> for ModInt {
     fn into(self) -> usize {
         self.get() as usize
     }
 }
 
+#[snippet("modint")]
 pub trait IntoModInt: Copy {
     fn to_mint<M: TryInto<u32> + Copy>(self, modulo: M) -> ModInt;
 }
 
+#[snippet("modint")]
 macro_rules! impl_into_mint {
     ($($t:ty),*) => {
         $(
@@ -69,8 +78,10 @@ macro_rules! impl_into_mint {
     };
 }
 
+#[snippet("modint")]
 impl_into_mint!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64);
 
+#[snippet("modint")]
 impl PartialEq for ModInt {
     fn eq(&self, other: &Self) -> bool {
         if !check_mod_eq(self, other).1 {
@@ -80,8 +91,10 @@ impl PartialEq for ModInt {
     }
 }
 
+// #[snippet("modint")]
 // impl Eq for ModInt {}
 
+#[snippet("modint")]
 impl PartialOrd for ModInt {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         if !check_mod_eq(self, other).1 {
@@ -92,12 +105,14 @@ impl PartialOrd for ModInt {
     }
 }
 
+// #[snippet("modint")]
 // impl Ord for ModInt {
 //     fn cmp(&self, other: &Self) -> Ordering {
 //         self.partial_cmp(other).unwrap()
 //     }
 // }
 
+#[snippet("modint")]
 fn check_mod_eq(a: &ModInt, b: &ModInt) -> (NonZeroU32, bool) {
     match (a._modulo, b._modulo) {
         (Modulo::Static(a), Modulo::Static(b)) => {
@@ -113,6 +128,7 @@ fn check_mod_eq(a: &ModInt, b: &ModInt) -> (NonZeroU32, bool) {
     }
 }
 
+#[snippet("modint")]
 impl ModInt {
     /// always `_modulo > num >= 0 && _modulo >= 1`
     pub fn new<N: TryInto<i64>, M: TryInto<u32> + Copy>(n: N, m: M) -> Self {
@@ -205,6 +221,7 @@ fn inv_test() {
     assert_eq!(a.inv(), 11);
 }
 
+#[snippet("modint")]
 impl Add<Self> for ModInt {
     type Output = Self;
     fn add(self, rhs: Self) -> Self::Output {
@@ -225,6 +242,7 @@ impl Add<Self> for ModInt {
     }
 }
 
+#[snippet("modint")]
 impl AddAssign<Self> for ModInt {
     fn add_assign(&mut self, rhs: Self) {
         *self = *self + rhs;
@@ -241,6 +259,7 @@ fn mint_add() {
     assert_eq!((a + c).get(), 4); // (5 + 7) % 8 == 4
 }
 
+#[snippet("modint")]
 impl Sub<Self> for ModInt {
     type Output = Self;
     fn sub(self, rhs: Self) -> Self::Output {
@@ -256,6 +275,7 @@ impl Sub<Self> for ModInt {
     }
 }
 
+#[snippet("modint")]
 impl SubAssign<Self> for ModInt {
     fn sub_assign(&mut self, rhs: Self) {
         *self = *self - rhs;
@@ -271,6 +291,7 @@ fn mint_sub() {
     assert_eq!((a - b).get(), 9);
 }
 
+#[snippet("modint")]
 impl Mul<Self> for ModInt {
     type Output = Self;
     fn mul(self, rhs: Self) -> Self::Output {
@@ -286,12 +307,14 @@ impl Mul<Self> for ModInt {
     }
 }
 
+#[snippet("modint")]
 impl MulAssign<Self> for ModInt {
     fn mul_assign(&mut self, rhs: Self) {
         *self = *self * rhs
     }
 }
 
+#[snippet("modint")]
 impl Div<Self> for ModInt {
     type Output = Self;
     fn div(self, rhs: Self) -> Self::Output {
@@ -306,6 +329,7 @@ impl Div<Self> for ModInt {
     }
 }
 
+#[snippet("modint")]
 impl DivAssign<Self> for ModInt {
     fn div_assign(&mut self, rhs: Self) {
         *self = *self / rhs;
@@ -355,6 +379,7 @@ fn div_test() {
     assert_eq!((x / 4i64).get(), 3);
 }
 
+#[snippet("modint")]
 impl Rem for ModInt {
     type Output = Self;
     fn rem(self, rhs: Self) -> Self::Output {
@@ -369,12 +394,14 @@ impl Rem for ModInt {
     }
 }
 
+#[snippet("modint")]
 impl RemAssign for ModInt {
     fn rem_assign(&mut self, rhs: Self) {
         *self = *self % rhs
     }
 }
 
+#[snippet("modint")]
 impl Zero for ModInt {
     fn zero() -> Self {
         ModInt {
@@ -387,6 +414,7 @@ impl Zero for ModInt {
     }
 }
 
+#[snippet("modint")]
 impl One for ModInt {
     fn one() -> Self {
         ModInt {
@@ -399,6 +427,7 @@ impl One for ModInt {
     }
 }
 
+#[snippet("modint")]
 impl Num for ModInt {
     type FromStrRadixErr = ParseIntError;
     fn from_str_radix(str: &str, radix: u32) -> Result<Self, Self::FromStrRadixErr> {
@@ -415,6 +444,7 @@ impl Num for ModInt {
     }
 }
 
+#[snippet("modint")]
 impl Pow<usize> for ModInt {
     type Output = Self;
     // fn pow(self, exp: u32) -> Self::Output {
@@ -475,6 +505,7 @@ fn pow_test() {
     assert_eq!(b.pow(2).get(), 1);
 }
 
+// #[snippet("modint")]
 // impl Integer for ModInt {
 //     fn div_floor(&self, other: &Self) -> Self {
 //         let c = check_mod_eq(self, other);
@@ -555,6 +586,7 @@ fn pow_test() {
 //     }
 // }
 
+#[snippet("modint")]
 macro_rules! impl_ops_between_mint_and_primitive {
     ($($t:ty),*) => {
         $(
@@ -606,6 +638,7 @@ macro_rules! impl_ops_between_mint_and_primitive {
     };
 }
 
+#[snippet("modint")]
 impl_ops_between_mint_and_primitive!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64);
 
 #[test]

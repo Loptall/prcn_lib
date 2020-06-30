@@ -4,9 +4,15 @@ use crate::modint::{IntoModInt, ModInt};
 
 use std::num::NonZeroU32;
 
-pub trait BinomialCoefficient {
+pub trait PartialBinomialCoefficient {
+    fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt>;
+}
+
+pub trait BinomialCoefficient: PartialBinomialCoefficient {
     /// `n C k`
-    fn binomial(&self, n: usize, k: usize) -> ModInt;
+    fn binomial(&self, n: usize, k: usize) -> ModInt {
+        self.partial_binomial(n, k).unwrap()
+    }
 }
 
 /// Binomial Coefficient Table with DP
@@ -66,15 +72,17 @@ impl BCTDP {
     }
 }
 
-impl BinomialCoefficient for BCTDP {
-    fn binomial(&self, n: usize, k: usize) -> ModInt {
-        if n < k {
+impl PartialBinomialCoefficient for BCTDP {
+    fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt> {
+        Some(if n < k {
             ModInt::zero()
         } else {
             self.factorial[n] * self.factorial_inverse[k] * self.factorial_inverse[n - k]
-        }
+        })
     }
 }
+
+impl BinomialCoefficient for BCTDP {}
 
 #[test]
 fn binomial_dp() {
@@ -114,13 +122,15 @@ impl BCTholdN {
     }
 }
 
-impl BinomialCoefficient for BCTholdN {
-    /// ごめんやけど `n` は省略出来ないから一応書いといてくれ
-    fn binomial(&self, _n: usize, k: usize) -> ModInt {
+impl PartialBinomialCoefficient for BCTholdN {
+    /// #Panic
+    ///
+    /// self.0 == _n でないとき
+    fn partial_binomial(&self, _n: usize, k: usize) -> Option<ModInt> {
         if _n != self.0 {
-            panic!("N might be not constant");
+            None
         } else {
-            self.2[k - 1]
+            Some(self.2[k - 1])
         }
     }
 }
@@ -128,8 +138,8 @@ impl BinomialCoefficient for BCTholdN {
 #[test]
 fn hold_n_test() {
     let tbl = BCTholdN::new(10, 1000000007);
-    assert_eq!(tbl.binomial(10, 2).get(), 45);
-    assert_eq!(tbl.binomial(10, 10).get(), 1);
+    assert_eq!(tbl.partial_binomial(10, 2).unwrap().get(), 45);
+    assert_eq!(tbl.partial_binomial(10, 10).unwrap().get(), 1);
 }
 
 /// `n, k` の2変数についての `n C k` の表を作る
@@ -143,7 +153,7 @@ pub struct BCTSmallNK {
 
 impl BCTSmallNK {
     pub fn new(n: usize, modulo: usize) -> Self {
-        let mut dp = vec![vec![ModInt::new(0, modulo); n]; n];
+        let mut dp = vec![vec![ModInt::new(0, modulo); n + 1]; n + 1];
         dp[0][0] = 1.to_mint(modulo);
         for i in 1..n {
             dp[i][0] = 1.to_mint(modulo);
@@ -167,11 +177,16 @@ impl BCTSmallNK {
     }
 }
 
-impl BinomialCoefficient for BCTSmallNK {
-    fn binomial(&self, n: usize, k: usize) -> ModInt {
-        self.dp[n][k]
+impl PartialBinomialCoefficient for BCTSmallNK {
+    fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt> {
+        if n > self.size() || k > self.size() {
+            panic!("n or k is too large, compere to dp table!")
+        }
+        Some(self.dp[n][k])
     }
 }
+
+impl BinomialCoefficient for BCTSmallNK {}
 
 #[test]
 fn small_test() {
