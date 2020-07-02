@@ -1,7 +1,6 @@
 use num_integer::Integer;
 use num_traits::identities::{One, Zero};
 use num_traits::{Num, Pow};
-
 use std::cmp::Ordering;
 use std::convert::TryInto;
 use std::num::NonZeroU32;

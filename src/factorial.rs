@@ -4,6 +4,9 @@ use std::convert::TryInto;
 
 use crate::modint::ModInt;
 
+use cargo_snippet::snippet;
+
+#[snippet("factorial")]
 pub trait Factoriable: Sized + NumOps + NumAssignOps + Copy + TryInto<usize> {
     fn falling(self, take: usize) -> Self;
     fn rising(self, take: usize) -> Self;
@@ -12,6 +15,7 @@ pub trait Factoriable: Sized + NumOps + NumAssignOps + Copy + TryInto<usize> {
     }
 }
 
+#[snippet("factorial")]
 macro_rules! impl_factorialbe {
     ($($t:ty),*) => {
         $(
@@ -39,6 +43,7 @@ macro_rules! impl_factorialbe {
     };
 }
 
+#[snippet("factorial")]
 impl_factorialbe!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64, ModInt);
 
 #[test]

@@ -6,7 +6,7 @@ use crate::modint::ModInt;
 
 use cargo_snippet::snippet;
 
-#[snippet(name = "combination", include = "binomial_coefficient")]
+#[snippet(name = "combination")]
 pub fn combination(n: ModInt, k: usize) -> ModInt {
     if k > n.get() as usize {
         panic!("n < k, where n in ModInt, k in usize, so cannot calculate n C k")
@@ -30,7 +30,7 @@ fn comb_test() {
     // assert_eq!(combination(n, k).get(), 0); // panic!
 }
 
-#[snippet(name = "combination", include = "binomial_coefficient")]
+#[snippet(name = "combination")]
 pub fn combination_with_table<T: BinomialCoefficient>(table: &T, n: usize, k: usize) -> ModInt {
     table.binomial(n, k)
 }

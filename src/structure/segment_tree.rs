@@ -29,7 +29,7 @@ use crate::monoid::Monoid;
 
 use cargo_snippet::snippet;
 
-#[snippet(name = "segment_tree", include = "monoid")]
+#[snippet(name = "segment_tree")]
 #[derive(Debug, Clone)]
 pub struct SegmentTree<T: Monoid> {
     len: usize,

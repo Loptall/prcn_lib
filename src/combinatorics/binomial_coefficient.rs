@@ -6,7 +6,7 @@ use std::num::NonZeroU32;
 
 use cargo_snippet::snippet;
 
-#[snippet("binomial_coefficient", include = "modint")]
+#[snippet("binomial_coefficient")]
 pub trait PartialBinomialCoefficient {
     fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt>;
 }

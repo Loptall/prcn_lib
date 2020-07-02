@@ -1,241 +1,88 @@
-//! Varified
-//! borrow from petgraph
-
 use cargo_snippet::snippet;
 
-use std::fmt;
-use std::hash::Hash;
-
-#[snippet("union_find")]
-/// The default integer type for graph indices.
-/// `u32` is the default to reduce the size of the graph's data and improve
-/// performance in the common case.
-///
-/// Used for node and edge indices in `Graph` and `StableGraph`, used
-/// for node indices in `Csr`.
-pub type DefaultIx = u32;
-
-#[snippet("union_find")]
-/// Trait for the unsigned integer type used for node and edge indices.
-///
-/// Marked `unsafe` because: the trait must faithfully preserve
-/// and convert index values.
-pub unsafe trait IndexType: Copy + Default + Hash + Ord + fmt::Debug + 'static {
-    fn new(x: usize) -> Self;
-    fn index(&self) -> usize;
-    fn max() -> Self;
-}
-
-#[snippet("union_find")]
-unsafe impl IndexType for usize {
-    #[inline(always)]
-    fn new(x: usize) -> Self {
-        x
-    }
-    #[inline(always)]
-    fn index(&self) -> Self {
-        *self
-    }
-    #[inline(always)]
-    fn max() -> Self {
-        ::std::usize::MAX
-    }
-}
-
-#[snippet("union_find")]
-unsafe impl IndexType for u32 {
-    #[inline(always)]
-    fn new(x: usize) -> Self {
-        x as u32
-    }
-    #[inline(always)]
-    fn index(&self) -> usize {
-        *self as usize
-    }
-    #[inline(always)]
-    fn max() -> Self {
-        ::std::u32::MAX
-    }
-}
-
-#[snippet("union_find")]
-unsafe impl IndexType for u16 {
-    #[inline(always)]
-    fn new(x: usize) -> Self {
-        x as u16
-    }
-    #[inline(always)]
-    fn index(&self) -> usize {
-        *self as usize
-    }
-    #[inline(always)]
-    fn max() -> Self {
-        ::std::u16::MAX
-    }
-}
-
-#[snippet("union_find")]
-unsafe impl IndexType for u8 {
-    #[inline(always)]
-    fn new(x: usize) -> Self {
-        x as u8
-    }
-    #[inline(always)]
-    fn index(&self) -> usize {
-        *self as usize
-    }
-    #[inline(always)]
-    fn max() -> Self {
-        ::std::u8::MAX
-    }
-}
-
-// `UnionFind<K>` is a disjoint-set data structure.
-
-use std::cmp::Ordering;
-
-/// `UnionFind<K>` is a disjoint-set data structure. It tracks set membership of *n* elements
-/// indexed from *0* to *n - 1*. The scalar type is `K` which must be an unsigned integer type.
-///
-/// <http://en.wikipedia.org/wiki/Disjoint-set_data_structure>
-///
-/// Too awesome not to quote:
-///
-/// “The amortized time per operation is **O(α(n))** where **α(n)** is the
-/// inverse of **f(x) = A(x, x)** with **A** being the extremely fast-growing Ackermann function.”
 #[snippet("union_find")]
 #[derive(Debug, Clone)]
-pub struct UnionFind<K> {
-    // For element at index *i*, store the index of its parent; the representative itself
-    // stores its own index. This forms equivalence classes which are the disjoint sets, each
-    // with a unique representative.
-    parent: Vec<K>,
-    // It is a balancing tree structure,
-    // so the ranks are logarithmic in the size of the container -- a byte is more than enough.
-    //
-    // Rank is separated out both to save space and to save cache in when searching in the parent
-    // vector.
-    rank: Vec<u8>,
+pub struct UnionFind {
+    parent: Vec<usize>,
+    size: Vec<usize>,
 }
 
-#[snippet("union_find")]
-#[inline]
-unsafe fn get_unchecked<K>(xs: &[K], index: usize) -> &K {
-    debug_assert!(index < xs.len());
-    xs.get_unchecked(index)
-}
-
-#[snippet("union_find")]
-#[inline]
-unsafe fn get_unchecked_mut<K>(xs: &mut [K], index: usize) -> &mut K {
-    debug_assert!(index < xs.len());
-    xs.get_unchecked_mut(index)
-}
-
-#[snippet("union_find")]
-impl<K> UnionFind<K>
-where
-    K: IndexType,
-{
-    /// Create a new `UnionFind` of `n` disjoint sets.
+#[snippet("snippet")]
+impl UnionFind {
     pub fn new(n: usize) -> Self {
-        let rank = vec![0; n];
-        let parent = (0..n).map(K::new).collect::<Vec<K>>();
-
-        UnionFind { parent, rank }
-    }
-
-    /// Return the representative for `x`.
-    ///
-    /// **Panics** if `x` is out of bounds.
-    pub fn find(&self, x: K) -> K {
-        assert!(x.index() < self.parent.len());
-        unsafe {
-            let mut x = x;
-            loop {
-                // Use unchecked indexing because we can trust the internal set ids.
-                let xparent = *get_unchecked(&self.parent, x.index());
-                if xparent == x {
-                    break;
-                }
-                x = xparent;
-            }
-            x
+        Self {
+            parent: (0..n).collect::<Vec<usize>>(),
+            size: vec![1; n],
         }
     }
 
-    /// Return the representative for `x`.
-    ///
-    /// Write back the found representative, flattening the internal
-    /// datastructure in the process and quicken future lookups.
-    ///
-    /// **Panics** if `x` is out of bounds.
-    pub fn find_mut(&mut self, x: K) -> K {
-        assert!(x.index() < self.parent.len());
-        unsafe { self.find_mut_recursive(x) }
+    pub fn len(&self) -> usize {
+        self.parent.len()
     }
 
-    unsafe fn find_mut_recursive(&mut self, mut x: K) -> K {
-        let mut parent = *get_unchecked(&self.parent, x.index());
-        while parent != x {
-            let grandparent = *get_unchecked(&self.parent, parent.index());
-            *get_unchecked_mut(&mut self.parent, x.index()) = grandparent;
-            x = parent;
-            parent = grandparent;
+    /// i が属する集合の親のインデックス
+    pub fn find(&mut self, mut i: usize) -> usize {
+        while self.parent[i] != i {
+            self.parent[i] = self.find(self.parent[i]);
+            i = self.parent[self.parent[i]];
         }
-        x
+        i
     }
 
-    /// Returns `true` if the given elements belong to the same set, and returns
-    /// `false` otherwise.
-    pub fn equiv(&self, x: K, y: K) -> bool {
-        self.find(x) == self.find(y)
-    }
-
-    /// Unify the two sets containing `x` and `y`.
-    ///
-    /// Return `false` if the sets were already the same, `true` if they were unified.
-    ///
-    /// **Panics** if `x` or `y` is out of bounds.
-    pub fn union(&mut self, x: K, y: K) -> bool {
-        if x == y {
+    /// a と b を繋ぐ
+    pub fn unite(&mut self, a: usize, b: usize) -> bool {
+        let mut a = self.find(a);
+        let mut b = self.find(b);
+        if a == b {
             return false;
         }
-        let xrep = self.find_mut(x);
-        let yrep = self.find_mut(y);
-
-        if xrep == yrep {
-            return false;
+        if self.size[a] < self.size[b] {
+            std::mem::swap(&mut a, &mut b);
         }
-
-        let xrepu = xrep.index();
-        let yrepu = yrep.index();
-        let xrank = self.rank[xrepu];
-        let yrank = self.rank[yrepu];
-
-        // The rank corresponds roughly to the depth of the treeset, so put the
-        // smaller set below the larger
-        match xrank.cmp(&yrank) {
-            Ordering::Less => self.parent[xrepu] = yrep,
-            Ordering::Greater => self.parent[yrepu] = xrep,
-            Ordering::Equal => {
-                self.parent[yrepu] = xrep;
-                self.rank[xrepu] += 1;
-            }
-        }
+        self.size[a] += self.size[b];
+        self.parent[b] = a;
         true
     }
 
-    /// Return a vector mapping each element to its representative.
-    pub fn into_labeling(mut self) -> Vec<K> {
-        // write in the labeling of each element
-        unsafe {
-            for ix in 0..self.parent.len() {
-                let k = *get_unchecked(&self.parent, ix);
-                let xrep = self.find_mut_recursive(k);
-                *self.parent.get_unchecked_mut(ix) = xrep;
-            }
-        }
-        self.parent
+    /// i が属する集合の要素数
+    pub fn count(&mut self, i: usize) -> usize {
+        let p = self.find(i);
+        self.size[p]
     }
+
+    /// a と b が同一集合に属するか
+    pub fn joint(&mut self, a: usize, b: usize) -> bool {
+        self.find(a) == self.find(b)
+    }
+
+    /// i が属する集合の要素を列挙する
+    pub fn get_group(&mut self, i: usize) -> Vec<usize> {
+        let p = self.find(i);
+        (0..self.len()).filter(|x| self.find(*x) == p).collect()
+    }
+}
+
+#[test]
+fn find_test() {
+    let mut uf = UnionFind::new(10);
+
+    assert_eq!(uf.find(2), 2);
+
+    uf.unite(1, 2);
+    assert_eq!(uf.find(2), 1);
+
+    uf.unite(2, 5);
+    assert_eq!(uf.find(5), 1);
+    assert_eq!(uf.count(5), 3);
+}
+
+#[test]
+fn group_test() {
+    let mut uf = UnionFind::new(5);
+    uf.unite(0, 2);
+    uf.unite(2, 3);
+    uf.unite(1, 4);
+
+    assert_eq!(uf.get_group(0), vec![0, 2, 3]);
+    assert_eq!(uf.get_group(4), vec![1, 4]);
 }
