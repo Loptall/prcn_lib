@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use cargo_snippet::snippet;
 
 #[snippet("union_find")]
@@ -56,7 +58,7 @@ impl UnionFind {
     }
 
     /// i が属する集合の要素を列挙する
-    pub fn get_group(&mut self, i: usize) -> Vec<usize> {
+    pub fn get_group(&mut self, i: usize) -> HashSet<usize> {
         let p = self.find(i);
         (0..self.len()).filter(|x| self.find(*x) == p).collect()
     }
@@ -83,6 +85,6 @@ fn group_test() {
     uf.unite(2, 3);
     uf.unite(1, 4);
 
-    assert_eq!(uf.get_group(0), vec![0, 2, 3]);
-    assert_eq!(uf.get_group(4), vec![1, 4]);
+    assert_eq!(uf.get_group(0), vec![0, 2, 3].into_iter().collect::<HashSet<_>>());
+    assert_eq!(uf.get_group(4), vec![1, 4].into_iter().collect::<HashSet<_>>());
 }
