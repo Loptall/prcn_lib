@@ -2,3 +2,5 @@
 /rls*
 /.vscode
 /src/bin
+/Cargo.lock
+/package-lock.json
