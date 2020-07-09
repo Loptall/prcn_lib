@@ -22,7 +22,7 @@ use std::ops::{Add, Div};
 /// になる
 ///
 /// ```rust
-/// use prcn_lib::binary_search::binary_search;
+/// use sfcpl::binary_search::binary_search;
 ///
 /// let v = vec![1, 3, 3, 3, 4, 6, 7, 7, 8, 10];
 /// assert_eq!(3, binary_search(|i| v[i] < 4, 0, v.len() - 1).unwrap());
@@ -70,7 +70,7 @@ fn binary_search_test() {
 /// `v`以上の要素が最初に現れるindex
 ///
 /// ```rust
-/// use prcn_lib::binary_search::lower_bound;
+/// use sfcpl::binary_search::lower_bound;
 ///
 /// let v: &[i32] = &[1, 3, 3, 4, 5];
 /// assert_eq!(lower_bound(v, &0), 0);
@@ -105,7 +105,7 @@ fn lower_bound_test() {
 /// `v`より大きい要素が最初に現れるindex
 ///
 /// ```rust
-/// use prcn_lib::binary_search::upper_bound;
+/// use sfcpl::binary_search::upper_bound;
 ///
 /// let v: &[i32] = &[1, 3, 3, 4, 5];
 /// assert_eq!(upper_bound(v, &0), 0);
