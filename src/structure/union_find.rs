@@ -85,6 +85,12 @@ fn group_test() {
     uf.unite(2, 3);
     uf.unite(1, 4);
 
-    assert_eq!(uf.get_group(0), vec![0, 2, 3].into_iter().collect::<HashSet<_>>());
-    assert_eq!(uf.get_group(4), vec![1, 4].into_iter().collect::<HashSet<_>>());
+    assert_eq!(
+        uf.get_group(0),
+        vec![0, 2, 3].into_iter().collect::<HashSet<_>>()
+    );
+    assert_eq!(
+        uf.get_group(4),
+        vec![1, 4].into_iter().collect::<HashSet<_>>()
+    );
 }

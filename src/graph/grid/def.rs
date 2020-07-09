@@ -93,6 +93,17 @@ impl<'a> Grid<'a> {
         }
         None
     }
+
+    pub fn rfind(&self, c: char) -> Option<Idx2D> {
+        for i in (0..self.height()).rev() {
+            for j in (0..self.width()).rev() {
+                if self.index((i, j)) == c {
+                    return Some((i, j));
+                }
+            }
+        }
+        None
+    }
 }
 
 pub struct Dfs<'a> {

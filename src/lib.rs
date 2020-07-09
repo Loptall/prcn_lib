@@ -1,9 +1,9 @@
 pub mod binary_powering;
 pub mod binary_search;
 pub mod bitset;
-pub mod graph;
 pub mod combinatorics;
 pub mod factorial;
+pub mod graph;
 pub mod inversation;
 pub mod modint;
 pub mod prime;
