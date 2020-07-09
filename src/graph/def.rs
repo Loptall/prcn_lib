@@ -8,8 +8,8 @@ pub trait Graph<'a> {
     type Iter: Iterator<Item = Self::NodeId>;
     fn len(&self) -> usize;
     fn is_empty(&self) -> bool;
-    fn index(&self, a: Self::NodeId) -> usize;
-    fn neighbors(&'a self, a: Self::NodeId) -> Self::Iter;
+    fn index(&self, i: Self::NodeId) -> usize;
+    fn neighbors(&'a self, i: Self::NodeId) -> Self::Iter;
 }
 
 /// 重みなしグラフ
