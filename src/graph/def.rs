@@ -40,10 +40,10 @@ impl<'a> Graph<'a> for UnweightedGraph {
 
 /// 重みありグラフ
 #[snippet("graph")]
-pub type WeightedVertexGraph<W> = Vec<Vec<(usize, W)>>;
+pub type WeightedNodeGraph<W> = Vec<Vec<(usize, W)>>;
 
 #[snippet("graph")]
-impl<'a, W> Graph<'a> for WeightedVertexGraph<W>
+impl<'a, W> Graph<'a> for WeightedNodeGraph<W>
 where
     W: std::marker::Copy + Clone + 'a,
 {

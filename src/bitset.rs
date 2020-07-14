@@ -1,14 +1,17 @@
 use cargo_snippet::snippet;
 
+#[snippet("bitset")]
+pub type BitSet = Vec<bool>;
+
 /// bitの数を持つ
 #[snippet("bitset")]
 #[derive(Debug, Copy, Clone)]
-pub struct BitSet {
+pub struct BitSetsGen {
     size: usize,
 }
 
 #[snippet("bitset")]
-impl BitSet {
+impl BitSetsGen {
     /// サイズを指定してコンストラクト
     pub fn new(n: usize) -> Self {
         Self { size: n }
@@ -26,8 +29,8 @@ impl BitSet {
 }
 
 #[snippet("bitset")]
-impl IntoIterator for BitSet {
-    type Item = Vec<bool>;
+impl IntoIterator for BitSetsGen {
+    type Item = BitSet;
     type IntoIter = IntoIterBitSet;
     fn into_iter(self) -> Self::IntoIter {
         IntoIterBitSet {
@@ -62,7 +65,7 @@ pub struct IntoIterBitSet {
 
 #[snippet("bitset")]
 impl Iterator for IntoIterBitSet {
-    type Item = Vec<bool>;
+    type Item = BitSet;
     fn next(&mut self) -> Option<Self::Item> {
         if self.current == (1 << self.size) {
             None
@@ -81,7 +84,7 @@ impl Iterator for IntoIterBitSet {
 
 #[test]
 fn bs_iter() {
-    let mut bs = BitSet::new(3).into_iter();
+    let mut bs = BitSetsGen::new(3).into_iter();
 
     assert_eq!(Some(vec![false, false, false]), bs.next());
     assert_eq!(Some(vec![false, false, true]), bs.next());
@@ -96,6 +99,7 @@ fn bs_iter() {
 
 #[snippet("bitset")]
 pub trait BitsOps {
+    fn new(n: usize) -> Self;
     fn count_zeros(&self) -> usize;
     fn count_ones(&self) -> usize;
     fn grow(&mut self, bits: usize);
@@ -104,15 +108,27 @@ pub trait BitsOps {
     fn set(&mut self, bit: usize, into: bool);
     fn shl(&mut self, rhs: usize);
     fn shr(&mut self, rhs: usize);
+    fn format(&self) -> String;
 }
 
 #[snippet("bitset")]
-impl BitsOps for Vec<bool> {
+impl BitsOps for BitSet {
+    fn new(n: usize) -> Self {
+        let mut b = 1;
+        let mut res = Vec::new();
+        while b <= n {
+            res.push(b & n != 0);
+            b <<= 1;
+        }
+
+        res.reverse();
+        res
+    }
     fn count_zeros(&self) -> usize {
-        self.iter().filter(|x| **x).count()
+        self.iter().filter(|x| !**x).count()
     }
     fn count_ones(&self) -> usize {
-        self.iter().filter(|x| !**x).count()
+        self.iter().filter(|x| **x).count()
     }
     fn grow(&mut self, bits: usize) {
         self.reverse();
@@ -139,4 +155,38 @@ impl BitsOps for Vec<bool> {
         res.append(&mut self[..len - rhs].to_vec());
         *self = res;
     }
+    fn format(&self) -> String {
+        self.iter().map(|x| if *x { '1' } else { '0' }).collect()
+    }
+}
+
+#[test]
+fn construct_from_int() {
+    let a = 10;
+    let b: BitSet = BitsOps::new(a);
+    assert_eq!(b, vec![true, false, true, false]);
+
+    let a = 16;
+    let b: BitSet = BitsOps::new(a);
+    assert_eq!(b, vec![true, false, false, false, false]);
+
+    let a = 15;
+    let mut b: BitSet = BitsOps::new(a);
+    assert_eq!(b, vec![true; 4]);
+
+    assert_eq!(b.count_zeros(), 0);
+
+    b.grow(3);
+
+    assert_eq!(b.count_zeros(), 3);
+
+    b.set(1, true);
+
+    assert_eq!(b, vec![false, true, false, true, true, true, true]);
+
+    b.shr(2);
+
+    assert_eq!(b, vec![false, false, false, true, false, true, true]);
+
+    assert_eq!(b.format(), "0001011".to_string());
 }
