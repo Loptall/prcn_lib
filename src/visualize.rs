@@ -191,6 +191,10 @@ fn vis_test() {
 
     let v = vec!['a', 'b', 'c'];
 
+    // empty
+
+    vis!(); // \n
+
     // single element test ...
 
     vis!(a); // 1\n
