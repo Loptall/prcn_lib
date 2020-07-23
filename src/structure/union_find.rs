@@ -9,7 +9,7 @@ pub struct UnionFind {
     size: Vec<usize>,
 }
 
-#[snippet("snippet")]
+#[snippet("union_find")]
 impl UnionFind {
     pub fn new(n: usize) -> Self {
         Self {
