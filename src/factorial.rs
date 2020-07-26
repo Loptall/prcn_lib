@@ -44,7 +44,7 @@ macro_rules! impl_factorialbe {
 }
 
 #[snippet("factorial")]
-impl_factorialbe!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64, ModInt);
+impl_factorialbe!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64);
 
 #[test]
 fn fact_test_prim() {
@@ -56,13 +56,4 @@ fn fact_test_prim() {
 
     let a = 5;
     assert_eq!(a.factorial(), 120);
-}
-
-#[test]
-fn fact_test_mint() {
-    let a = ModInt::new(7, 4);
-    assert_eq!(a.falling(3).get(), 2);
-
-    let a = ModInt::new(6, 7); // 720
-    assert_eq!(a.factorial().get(), 6);
 }

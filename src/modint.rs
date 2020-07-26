@@ -7,6 +7,7 @@ use std::num::NonZeroU32;
 use std::num::ParseIntError;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Rem, RemAssign, Sub, SubAssign};
 
+use crate::factorial::Factoriable;
 use cargo_snippet::snippet;
 
 /// n % m
@@ -503,6 +504,36 @@ fn pow_test() {
     let b = ModInt::new(100, 9999);
     assert_eq!(b.pow(2).get(), 1);
 }
+
+impl Factoriable for ModInt {
+    fn falling(self, take: usize) -> Self {
+        let mut res = Self::one();
+        let mut c = self;
+        for _ in 0..take {
+            res *= c;
+            c -= Self::one();
+        }
+        res
+    }
+    fn rising(self, take: usize) -> Self {
+        let mut res = Self::one();
+        let mut c = self;
+        for _ in 0..take {
+            res *= c;
+            c += 1;
+        }
+        res
+    }
+}
+
+// #[test]
+// fn fact_test_mint() {
+//     let a = ModInt::new(7, 4);
+//     assert_eq!(a.falling(3).get(), 2);
+
+//     let a = ModInt::new(6, 7); // 720
+//     assert_eq!(a.factorial().get(), 6);
+// }
 
 // #[snippet("modint")]
 // impl Integer for ModInt {
