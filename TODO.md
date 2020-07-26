@@ -2,6 +2,8 @@
 
 - [ ] implement Bellman-Ford
 
-- [ ] rewrite modint
+- [x] rewrite modint
 
-- [ ] unite gird graph algorythm into Graph traits
+- [ ] unite gird graph algorythm into Graph traits // difficult
+
+- [ ] revise graph module
