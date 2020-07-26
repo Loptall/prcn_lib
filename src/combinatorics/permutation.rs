@@ -1,5 +1,5 @@
 use super::binomial_coefficient::BCTDP;
-use crate::factorial::Factoriable;
+use super::factorial::Factoriable;
 use crate::modint::ModInt;
 
 use cargo_snippet::snippet;

@@ -7,7 +7,7 @@ use std::num::NonZeroU32;
 use std::num::ParseIntError;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Rem, RemAssign, Sub, SubAssign};
 
-use crate::factorial::Factoriable;
+use crate::combinatorics::factorial::Factoriable;
 use cargo_snippet::snippet;
 
 /// n % m

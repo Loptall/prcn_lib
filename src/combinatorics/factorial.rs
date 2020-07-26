@@ -2,8 +2,6 @@ use num_traits::{NumAssignOps, NumOps, One};
 
 use std::convert::TryInto;
 
-use crate::modint::ModInt;
-
 use cargo_snippet::snippet;
 
 #[snippet("factorial")]

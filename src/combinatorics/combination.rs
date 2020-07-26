@@ -1,6 +1,6 @@
 use super::binomial_coefficient::BinomialCoefficient;
+use super::factorial::Factoriable;
 use super::permutation::permutation;
-use crate::factorial::Factoriable;
 
 use crate::modint::ModInt;
 

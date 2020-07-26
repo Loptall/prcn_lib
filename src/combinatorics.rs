@@ -1,3 +1,5 @@
+pub mod factorial;
+
 pub mod binomial_coefficient;
 
 // 順列
