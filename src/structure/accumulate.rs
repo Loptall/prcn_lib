@@ -1,5 +1,3 @@
-//! Varified
-
 use cargo_snippet::snippet;
 
 use num::traits::identities::{zero, Zero};

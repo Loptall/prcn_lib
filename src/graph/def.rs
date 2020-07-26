@@ -1,5 +1,3 @@
-//! Varified
-
 use cargo_snippet::snippet;
 
 #[snippet("graph")]

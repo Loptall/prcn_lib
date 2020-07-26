@@ -1,5 +1,3 @@
-//! Varified
-
 //! # Usage
 
 //! monoid_def!(Mm<i32>, std::i32::MAX, |x, y| { min(x, y) });

@@ -1,4 +1,3 @@
-//! Varified
 use cargo_snippet::snippet;
 use rand::{thread_rng, Rng};
 
