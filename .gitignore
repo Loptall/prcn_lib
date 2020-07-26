@@ -1,6 +1,15 @@
+# built things
 /target
+
+# log-file
 /rls*
+
+# editor config
 /.vscode
+
+# binary Rust folder to watch how work the cord
 /src/bin
+
+# lock file
 /Cargo.lock
 /package-lock.json

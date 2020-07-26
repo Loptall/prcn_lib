@@ -692,7 +692,7 @@
       "    }",
       "}",
       "macro_rules ! impl_factorialbe {(\\$ (\\$ t : ty ) ,* ) => {\\$ (impl Factoriable for \\$ t {fn falling (self , take : usize ) -> Self {let mut res = Self :: one () ; let mut c = self ; for _ in 0 .. take {res *= c ; c -= Self :: one () ; } res } fn rising (self , take : usize ) -> Self {let mut res = Self :: one () ; let mut c = self ; for _ in 0 .. take {res *= c ; c += 1 ; } res } } ) * } ; }",
-      "impl_factorialbe!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64, ModInt);"
+      "impl_factorialbe!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64);"
     ]
   },
   "fenwick_tree": {
@@ -1213,7 +1213,7 @@
     "prefix": "run_length_encoding",
     "body": [
       "/// ランレングス圧縮",
-      "pub fn run_length_encoding<T: PartialEq + Copy>(v: &Vec<T>) -> Vec<(T, usize)> {",
+      "pub fn run_length_encoding<T: PartialEq + Copy>(v: &[T]) -> Vec<(T, usize)> {",
       "    let mut res = Vec::new();",
       "    let mut c = 1usize;",
       "    let mut h = v[0];",
