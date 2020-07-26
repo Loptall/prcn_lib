@@ -2,7 +2,7 @@ use cargo_snippet::snippet;
 
 /// ランレングス圧縮
 #[snippet("run_length_encoding")]
-pub fn run_length_encoding<T: PartialEq + Copy>(v: &Vec<T>) -> Vec<(T, usize)> {
+pub fn run_length_encoding<T: PartialEq + Copy>(v: &[T]) -> Vec<(T, usize)> {
     let mut res = Vec::new();
     let mut c = 1usize;
     let mut h = v[0];
@@ -23,7 +23,7 @@ pub fn run_length_encoding<T: PartialEq + Copy>(v: &Vec<T>) -> Vec<(T, usize)> {
 #[test]
 fn rle_test() {
     let v = "abbccc";
-    let e = run_length_encoding(&v.chars().collect());
+    let e = run_length_encoding(&v.chars().collect::<Vec<_>>().as_slice());
     assert_eq!(e, vec![('a', 1), ('b', 2), ('c', 3)]);
 
     let v = vec![1, 1, 2, 2, 1, 1, 2, 2];
