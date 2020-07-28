@@ -18,7 +18,7 @@ use cargo_snippet::snippet;
 ///     let v = vec![1, 2, 4, 3, 6, 5];
 ///     assert_eq!(inversation(&v), 2);
 /// }
-pub fn inversation(v: &Vec<usize>) -> usize {
+pub fn inversation(v: &[usize]) -> usize {
     let m = *v.iter().max().unwrap();
     let mut f = FenwickTree::new(m + 1);
     let mut t = 0usize;
