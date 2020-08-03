@@ -36,7 +36,7 @@ macro_rules! abel_def {
         $op:expr,
         $inv:expr
     } => {
-        #[derive(Debug, Clone, Copy)]
+        #[derive(Debug, Clone, Copy, PartialEq)]
         pub struct $M($t);
 
         impl Monoid for $M {

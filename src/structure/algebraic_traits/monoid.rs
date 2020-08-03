@@ -2,7 +2,7 @@ use cargo_snippet::snippet;
 
 /// 単位元が定義される `T -> T -> T`型の演算
 #[snippet("monoid")]
-pub trait Monoid: Sized {
+pub trait Monoid: Sized + PartialEq {
     fn identity() -> Self;
 
     fn op(x: &Self, y: &Self) -> Self;
@@ -34,7 +34,7 @@ macro_rules! monoid_def {
         $id:expr,
         $me:expr
     } => {
-        #[derive(Debug, Clone, Copy)]
+        #[derive(Debug, Clone, Copy, PartialEq)]
         pub struct $M($t);
 
         impl Monoid for $M {
