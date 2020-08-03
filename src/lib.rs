@@ -12,9 +12,6 @@ pub mod structure;
 pub mod unique_count;
 
 #[macro_use]
-pub mod monoid;
-
-#[macro_use]
 pub mod minmax;
 
 #[macro_use]

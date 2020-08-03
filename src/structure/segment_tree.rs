@@ -23,7 +23,7 @@
 //!     assert_eq!(s.range(0, 8).0, 3);
 //! }
 
-use crate::monoid::Monoid;
+use super::algebraic_traits::monoid::Monoid;
 
 use cargo_snippet::snippet;
 
