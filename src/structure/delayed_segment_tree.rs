@@ -11,6 +11,9 @@
 
 use super::algebraic_traits::monoid::Monoid;
 
+use cargo_snippet::snippet;
+
+#[snippet("delayed_segment_tree")]
 #[derive(Clone)]
 pub struct DelayedSegmentTree<'a, T: Monoid, E: Monoid> {
     /// length of tree's leaves
