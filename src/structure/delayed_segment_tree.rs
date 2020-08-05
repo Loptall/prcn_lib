@@ -25,10 +25,12 @@ pub struct DelayedSegmentTree<'a, T: Monoid, E: Monoid> {
     lazy: Vec<E>,
 }
 
+#[snippet("delayed_segment_tree")]
 fn childrens_idx(n: usize) -> (usize, usize) {
     (n * 2 + 1, n * 2 + 2)
 }
 
+#[snippet("delayed_segment_tree")]
 impl<'a, T: Monoid + Clone + Copy, E: Monoid + Clone + Copy> DelayedSegmentTree<'a, T, E> {
     pub fn new<I: Into<T> + Copy>(v: &[I], effect: &'a dyn Fn(T, E) -> T) -> Self {
         let n = v.len();
