@@ -49,32 +49,32 @@ fn parent_idx(n: usize) -> usize {
 impl<T: Monoid + Clone + Copy> SegmentTree<T> {
     pub fn new<I: Into<T> + Copy>(v: &[I]) -> Self {
         let n = v.len();
-        let leaves = n.next_power_of_two();
-        let size = 2 * leaves - 1;
-        let mut value = vec![T::identity(); size];
+        let len = n.next_power_of_two();
+        let size = 2 * len - 1;
+        let mut segment = vec![T::identity(); size];
 
         for i in (0..size).rev() {
-            if i >= leaves - 1 {
-                if i + 1 - leaves < n {
-                    value[i] = (v[i + 1 - leaves]).into();
+            if i >= len - 1 {
+                if i + 1 - len < n {
+                    segment[i] = (v[i + 1 - len]).into();
                 } else {
                     continue;
                 }
             } else {
                 let (left, right) = childrens_idx(i);
-                value[i] = T::op(&value[left], &value[right]);
+                segment[i] = T::op(&segment[left], &segment[right]);
             }
         }
 
-        Self {
-            len: leaves,
-            size,
-            segment: value,
-        }
+        Self { len, size, segment }
     }
 
     pub fn len(&self) -> usize {
         self.len
+    }
+
+    pub fn size(&self) -> usize {
+        self.size
     }
 
     fn childrens(&self, n: usize) -> (T, T) {
@@ -84,7 +84,7 @@ impl<T: Monoid + Clone + Copy> SegmentTree<T> {
 
     /// `i`番目の葉の参照をとる
     pub fn get(&self, i: usize) -> Option<&T> {
-        self.segment.get(self.size - self.len + i)
+        self.segment.get(self.size() - self.len() + i)
     }
 
     /// `i`番目の葉の可変参照をとる
@@ -95,12 +95,13 @@ impl<T: Monoid + Clone + Copy> SegmentTree<T> {
     ///
     /// update()を使うこと
     pub unsafe fn get_mut(&mut self, i: usize) -> Option<&mut T> {
-        self.segment.get_mut(self.size - i - 1)
+        let size = self.size();
+        self.segment.get_mut(size - i - 1)
     }
 
     /// `i`番目の葉を`v`で更新
     pub fn update(&mut self, i: usize, v: T) {
-        let mut cur = self.len - self.len + i;
+        let mut cur = self.size() - self.len() + i;
         self.segment[cur] = v;
         loop {
             if cur == 0 {
@@ -114,7 +115,7 @@ impl<T: Monoid + Clone + Copy> SegmentTree<T> {
 
     /// 区間、`[from..to)`を指定の`Monoid`でfoldした演算結果
     pub fn range(&self, from: usize, to: usize) -> T {
-        self.range_inner(from, to, 0, self.len, 0)
+        self.range_inner(from, to, 0, self.len(), 0)
     }
 
     fn range_inner(&self, from: usize, to: usize, l_bound: usize, r_bound: usize, k: usize) -> T {
