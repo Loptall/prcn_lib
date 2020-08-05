@@ -84,7 +84,9 @@ impl<'a, T: Monoid + Clone + Copy, E: Monoid + Clone + Copy> DelayedSegmentTree<
     ///
     /// update()を使うこと
     pub unsafe fn get_mut(&mut self, i: usize) -> Option<&mut T> {
-        self.segment.get_mut(self.size - i - 1)
+        let size = self.size();
+        let len = self.len();
+        self.segment.get_mut(size - len + i)
     }
 
     fn eval(&mut self, i: usize) {
@@ -92,7 +94,7 @@ impl<'a, T: Monoid + Clone + Copy, E: Monoid + Clone + Copy> DelayedSegmentTree<
             return;
         }
 
-        if i < self.size() - 1 {
+        if i < self.len() - 1 {
             let (left, right) = childrens_idx(i);
             self.lazy[left] = E::op(&self.lazy[left], &self.lazy[i]);
             self.lazy[right] = E::op(&self.lazy[right], &self.lazy[i]);
@@ -104,7 +106,7 @@ impl<'a, T: Monoid + Clone + Copy, E: Monoid + Clone + Copy> DelayedSegmentTree<
     }
 
     pub fn update_range(&mut self, from: usize, to: usize, x: E) {
-        self.update_range_inner(from, to, 0, self.size(), 0, x);
+        self.update_range_inner(from, to, 0, self.len(), 0, x);
     }
 
     fn update_range_inner(

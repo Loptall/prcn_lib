@@ -96,7 +96,8 @@ impl<T: Monoid + Clone + Copy> SegmentTree<T> {
     /// update()を使うこと
     pub unsafe fn get_mut(&mut self, i: usize) -> Option<&mut T> {
         let size = self.size();
-        self.segment.get_mut(size - i - 1)
+        let len = self.len();
+        self.segment.get_mut(size - len + i)
     }
 
     /// `i`番目の葉を`v`で更新
