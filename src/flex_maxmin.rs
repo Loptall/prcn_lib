@@ -1,6 +1,6 @@
 use cargo_snippet::snippet;
 
-#[snippet("minmax")]
+#[snippet("flex_maxmin")]
 #[macro_export]
 macro_rules! minimum {
     ($($e:expr),+) => {
@@ -28,7 +28,7 @@ macro_rules! minimum {
 //     assert!(minimum == -3);
 // }
 
-#[snippet("minmax")]
+#[snippet("flex_maxmin")]
 #[macro_export]
 macro_rules! maximum {
     ($($e:expr),+) => {

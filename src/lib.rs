@@ -12,7 +12,7 @@ pub mod structure;
 pub mod unique_count;
 
 #[macro_use]
-pub mod minmax;
+pub mod flex_maxmin;
 
 #[macro_use]
 pub mod visualize;
