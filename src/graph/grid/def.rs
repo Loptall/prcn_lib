@@ -27,7 +27,7 @@ impl<'a> Grid<'a> {
         Self {
             h: board.len(),
             w: board[0].len(),
-            board: board,
+            board,
             wall: wall.into_iter().collect(),
         }
     }
@@ -139,7 +139,7 @@ impl<'a> Iterator for Dfs<'a> {
 }
 
 pub fn dfs<'a>(g: &'a Grid, start: Idx2D) -> Dfs<'a> {
-    let mut visited = vec![vec![false; g.height()]; g.width()];
+    let mut visited = vec![vec![false; g.width()]; g.height()];
     visited[start.0][start.1] = true;
     let mut s = Vec::new();
     s.push((start, None));
@@ -179,7 +179,7 @@ impl<'a> Iterator for Bfs<'a> {
 }
 
 pub fn bfs<'a>(g: &'a Grid, start: Idx2D) -> Bfs<'a> {
-    let mut visited = vec![vec![false; g.height()]; g.width()];
+    let mut visited = vec![vec![false; g.width()]; g.height()];
     visited[start.0][start.1] = true;
     let mut q = VecDeque::new();
     q.push_back((start, None));
@@ -215,7 +215,7 @@ fn bfs_test() {
 }
 
 pub fn is_joint(g: &Grid, from: Idx2D, to: Idx2D) -> bool {
-    let mut used = vec![vec![false; g.height()]; g.width()];
+    let mut used = vec![vec![false; g.width()]; g.height()];
     is_joint_inner(g, from, to, &mut used)
 }
 
@@ -258,7 +258,7 @@ fn grid_joint_test() {
 }
 
 pub fn dist_table(g: &Grid, start: Idx2D) -> Vec<Vec<usize>> {
-    let mut res = vec![vec![std::usize::MAX; g.height()]; g.width()];
+    let mut res = vec![vec![std::usize::MAX; g.width()]; g.height()];
     res[start.0][start.1] = 0;
     for (a, b) in bfs(&g, start) {
         res[b.0][b.1] = res[a.0][a.1] + 1;
@@ -281,7 +281,7 @@ fn dist_test() {
         d,
         vec![
             vec![0, 1, std::usize::MAX],
-            vec![1, 2, 3,],
+            vec![1, 2, 3],
             vec![std::usize::MAX, 3, 4]
         ]
     );
