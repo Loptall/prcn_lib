@@ -24,10 +24,10 @@ impl<T: Add + Sub<Output = T> + Zero + Clone + Ord + Into<usize>> FenwickTree<T>
     }
 
     /// 配列から構築
-    pub fn from(vec: &[T]) -> Self {
-        let m = vec.iter().max().unwrap().clone();
-        let mut f = Self::new(m.into());
-        for (i, v) in vec.iter().enumerate() {
+    pub fn from(v: &[T]) -> Self {
+        let n = v.len();
+        let mut f = Self::new(n);
+        for (i, v) in v.iter().enumerate() {
             f.add(i, v.clone());
         }
         f
@@ -65,8 +65,8 @@ impl<T: Add + Sub<Output = T> + Zero + Clone + Ord + Into<usize>> FenwickTree<T>
     /// `[a..b)`の区間和
     ///
     /// `O(log n)`
-    pub fn partial_sum(&self, a: usize, b: usize) -> T {
-        self.sum(b) - self.sum(a)
+    pub fn partial_sum(&self, from: usize, to: usize) -> T {
+        self.sum(to) - self.sum(from)
     }
 }
 
