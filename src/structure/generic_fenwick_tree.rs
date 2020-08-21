@@ -18,7 +18,7 @@ impl<T: Abel + Clone> FenwickTree<T> {
         let n = a.len();
         let mut f = Self::new(n);
         for (i, &v) in a.iter().enumerate() {
-            f.update(i, v.into());
+            f.merge(i, v.into());
         }
         f
     }
@@ -28,12 +28,17 @@ impl<T: Abel + Clone> FenwickTree<T> {
     }
 
     /// クエリ: 要素`i` に `v` をマージする
-    pub fn update(&mut self, i: usize, v: T) {
+    pub fn merge(&mut self, i: usize, v: T) {
         let mut i = i + 1;
         while i <= self.len() {
             self.segment[i] = T::op(&self.segment[i].clone(), &v.clone());
             i += (i as i64 & -(i as i64)) as usize;
         }
+    }
+
+    pub fn update(&mut self, i: usize, v: T) {
+        let inv = T::inverse(&v, &self.segment[i].clone());
+        self.merge(i, inv);
     }
 
     pub fn accumulate(&self, mut i: usize) -> T {
@@ -71,12 +76,7 @@ fn generic_fenwick() {
     assert_eq!(ft.range(0, 2).0, 3);
     assert_eq!(ft.range(1, 4).0, 9);
 
-    ft.update(1, Add(3));
-    ft.update(0, Add(-1));
+    ft.update(2, Add(0));
 
-    assert_eq!(ft.range(0, 2).0, 5);
-
-    ft.update(3, Add(100));
-
-    assert_eq!(ft.range(0, 4).0, 112);
+    assert_eq!(ft.range(0, 4).0, 7);
 }
