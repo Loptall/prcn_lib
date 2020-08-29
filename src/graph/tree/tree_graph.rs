@@ -1,9 +1,14 @@
 use crate::graph::def::Graph;
 
+use cargo_snippet::snippet;
+
+#[snippet("tree")]
+#[derive(Debug, Clone)]
 pub struct Tree {
     graph: Vec<Vec<usize>>,
 }
 
+#[snippet("tree")]
 impl Tree {
     pub fn new(edges: &[(usize, usize)]) -> Self {
         let n = edges.len() + 1;
@@ -21,6 +26,7 @@ impl Tree {
     }
 }
 
+#[snippet("tree")]
 impl<'a> Graph<'a> for Tree {
     type NodeId = usize;
 
@@ -43,6 +49,7 @@ impl<'a> Graph<'a> for Tree {
     }
 }
 
+#[snippet("tree")]
 impl<'a> Tree {
     pub fn dfs(
         &'a self,
@@ -91,6 +98,7 @@ impl<'a> Tree {
         )
     }
 }
+
 #[test]
 fn euler_tour_test() {
     let tree = Tree::new(&[(0, 1), (0, 2), (1, 3), (3, 4), (2, 5), (5, 6), (5, 7)]);
