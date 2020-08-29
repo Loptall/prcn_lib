@@ -4,7 +4,7 @@ use std::collections::BTreeMap;
 
 /// 配列に含まれる要素(T: Ord + Copy)別にその個数を数えて
 /// `BTreeMap<T, usize>`の形にして返す
-#[snippet]
+#[snippet("unique_count")]
 pub fn unique_count<T: Ord + Copy>(v: &[T]) -> BTreeMap<T, usize> {
     let mut map = BTreeMap::new();
     for e in v {

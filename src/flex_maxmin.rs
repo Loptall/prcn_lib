@@ -1,8 +1,11 @@
 use cargo_snippet::snippet;
 
-#[snippet("flex_maxmin")]
-#[macro_export]
-macro_rules! minimum {
+pub use flex_maxmin::*;
+
+#[snippet("flex_maxmin", prefix = "pub use flex_maxmin::*;")]
+pub mod flex_maxmin {
+    #[macro_export]
+    macro_rules! minimum {
     ($($e:expr),+) => {
         {
             let mut res = None;
@@ -17,20 +20,18 @@ macro_rules! minimum {
     };
 }
 
-// #[test]
-// fn mi() {
-//     let a = 3;
-//     let b = 7;
-//     let c = -3;
-//     let d = 0;
+    // #[test]
+    // fn mi() {
+    //     let a = 3;
+    //     let b = 7;
+    //     let c = -3;
+    //     let d = 0;
 
-//     let minimum = minimum!(a, b, c, d);
-//     assert!(minimum == -3);
-// }
-
-#[snippet("flex_maxmin")]
-#[macro_export]
-macro_rules! maximum {
+    //     let minimum = minimum!(a, b, c, d);
+    //     assert!(minimum == -3);
+    // }
+    #[macro_export]
+    macro_rules! maximum {
     ($($e:expr),+) => {
         {
             let mut res = None;
@@ -45,13 +46,14 @@ macro_rules! maximum {
     };
 }
 
-// #[test]
-// fn ma() {
-//     let a = 3;
-//     let b = 7;
-//     let c = -3;
-//     let d = 0;
+    // #[test]
+    // fn ma() {
+    //     let a = 3;
+    //     let b = 7;
+    //     let c = -3;
+    //     let d = 0;
 
-//     let maximum = maximum!(a, b, c, d);
-//     assert!(maximum == 7);
-// }
+    //     let maximum = maximum!(a, b, c, d);
+    //     assert!(maximum == 7);
+    // }
+}
