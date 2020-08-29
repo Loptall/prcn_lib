@@ -8,7 +8,7 @@ pub fn make_directed_graph(n: usize, edges: &[(usize, usize)]) -> UnweightedGrap
     for &(u, v) in edges.iter() {
         g[u].push(v);
     }
-    g
+    UnweightedGraph::new(g)
 }
 
 /// 重みなし無向グラフ
@@ -19,7 +19,7 @@ pub fn make_undirected_graph(n: usize, edges: &[(usize, usize)]) -> UnweightedGr
         g[u].push(v);
         g[v].push(u);
     }
-    g
+    UnweightedGraph::new(g)
 }
 
 /// 重み付き有向グラフ
@@ -32,7 +32,7 @@ pub fn make_weighted_directed_graph<W: Clone>(
     for &(u, v, ref w) in edges.iter() {
         g[u].push((v, w.clone()));
     }
-    g
+    WeightedNodeGraph::new(g)
 }
 
 /// 重み付き無向グラフ
@@ -46,5 +46,5 @@ pub fn make_weighted_undirected_graph<W: Clone>(
         g[u].push((v, w.clone()));
         g[v].push((u, w.clone()));
     }
-    g
+    WeightedNodeGraph::new(g)
 }

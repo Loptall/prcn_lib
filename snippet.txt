@@ -886,10 +886,10 @@
       "        }",
       "    }",
       "    /// 配列から構築",
-      "    pub fn from(vec: &[T]) -> Self {",
-      "        let m = vec.iter().max().unwrap().clone();",
-      "        let mut f = Self::new(m.into());",
-      "        for (i, v) in vec.iter().enumerate() {",
+      "    pub fn from(v: &[T]) -> Self {",
+      "        let n = v.len();",
+      "        let mut f = Self::new(n);",
+      "        for (i, v) in v.iter().enumerate() {",
       "            f.add(i, v.clone());",
       "        }",
       "        f",
@@ -920,10 +920,19 @@
       "    }",
       "    /// `[a..b)`の区間和",
       "    /// `O(log n)`",
-      "    pub fn partial_sum(&self, a: usize, b: usize) -> T {",
-      "        self.sum(b) - self.sum(a)",
+      "    pub fn partial_sum(&self, from: usize, to: usize) -> T {",
+      "        self.sum(to) - self.sum(from)",
       "    }",
       "}"
+    ]
+  },
+  "flex_maxmin": {
+    "prefix": "flex_maxmin",
+    "body": [
+      "#[macro_export]",
+      "macro_rules ! minimum {(\\$ (\\$ e : expr ) ,+ ) => {{let mut res = None ; \\$ (match res {Some (v ) => res = Some (std :: cmp :: min (v , \\$ e ) ) , None => res = Some (\\$ e ) , } ) + res . unwrap () } } ; }",
+      "#[macro_export]",
+      "macro_rules ! maximum {(\\$ (\\$ e : expr ) ,+ ) => {{let mut res = None ; \\$ (match res {Some (v ) => res = Some (std :: cmp :: max (v , \\$ e ) ) , None => res = Some (\\$ e ) , } ) + res . unwrap () } } ; }"
     ]
   },
   "graph": {
@@ -1044,15 +1053,6 @@
       "    }",
       "    t",
       "}"
-    ]
-  },
-  "minmax": {
-    "prefix": "minmax",
-    "body": [
-      "#[macro_export]",
-      "macro_rules ! minimum {(\\$ (\\$ e : expr ) ,+ ) => {{let mut res = None ; \\$ (match res {Some (v ) => res = Some (std :: cmp :: min (v , \\$ e ) ) , None => res = Some (\\$ e ) , } ) + res . unwrap () } } ; }",
-      "#[macro_export]",
-      "macro_rules ! maximum {(\\$ (\\$ e : expr ) ,+ ) => {{let mut res = None ; \\$ (match res {Some (v ) => res = Some (std :: cmp :: max (v , \\$ e ) ) , None => res = Some (\\$ e ) , } ) + res . unwrap () } } ; }"
     ]
   },
   "modint": {

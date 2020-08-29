@@ -1,5 +1,10 @@
 use cargo_snippet::snippet;
 
+use super::{
+    bfs::{bfs, Bfs},
+    dfs::{dfs, Dfs},
+};
+
 #[snippet("graph")]
 pub trait Graph<'a> {
     type NodeId: Copy;
@@ -12,7 +17,13 @@ pub trait Graph<'a> {
 
 /// 重みなしグラフ
 #[snippet("graph")]
-pub type UnweightedGraph = Vec<Vec<usize>>;
+pub struct UnweightedGraph(Vec<Vec<usize>>);
+
+impl UnweightedGraph {
+    pub fn new(graph: Vec<Vec<usize>>) -> Self {
+        Self(graph)
+    }
+}
 
 #[snippet("graph")]
 impl<'a> Graph<'a> for UnweightedGraph {
@@ -20,7 +31,7 @@ impl<'a> Graph<'a> for UnweightedGraph {
     type Iter = std::iter::Cloned<std::slice::Iter<'a, Self::NodeId>>;
 
     fn len(&self) -> usize {
-        self.len()
+        self.0.len()
     }
 
     fn is_empty(&self) -> bool {
@@ -32,13 +43,29 @@ impl<'a> Graph<'a> for UnweightedGraph {
     }
 
     fn neighbors(&'a self, a: Self::NodeId) -> Self::Iter {
-        self[a].iter().cloned()
+        self.0[a].iter().cloned()
+    }
+}
+
+impl<'a> UnweightedGraph {
+    pub fn dfs(&'a self, start: usize) -> Dfs<'a, UnweightedGraph> {
+        dfs(self, start)
+    }
+
+    pub fn bfs(&'a self, start: usize) -> Bfs<'a, UnweightedGraph> {
+        bfs(self, start)
     }
 }
 
 /// 重みありグラフ
 #[snippet("graph")]
-pub type WeightedNodeGraph<W> = Vec<Vec<(usize, W)>>;
+pub struct WeightedNodeGraph<W>(Vec<Vec<(usize, W)>>);
+
+impl<W> WeightedNodeGraph<W> {
+    pub fn new(graph: Vec<Vec<(usize, W)>>) -> Self {
+        Self(graph)
+    }
+}
 
 #[snippet("graph")]
 impl<'a, W> Graph<'a> for WeightedNodeGraph<W>
@@ -49,7 +76,7 @@ where
     type Iter = std::iter::Cloned<std::slice::Iter<'a, Self::NodeId>>;
 
     fn len(&self) -> usize {
-        self.len()
+        self.0.len()
     }
 
     fn is_empty(&self) -> bool {
@@ -61,6 +88,6 @@ where
     }
 
     fn neighbors(&'a self, a: Self::NodeId) -> Self::Iter {
-        self[a.0].iter().cloned()
+        self.0[a.0].iter().cloned()
     }
 }

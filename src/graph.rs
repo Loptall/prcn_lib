@@ -8,3 +8,4 @@ pub mod util;
 // pub mod warshall_floyd;
 
 pub mod grid;
+pub mod tree;
