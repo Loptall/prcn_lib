@@ -1,20 +1,21 @@
-use num_traits::{NumAssignOps, NumOps, One};
-
-use std::convert::TryInto;
-
 use cargo_snippet::snippet;
 
-#[snippet("factorial")]
-pub trait Factoriable: Sized + NumOps + NumAssignOps + Copy + TryInto<usize> {
-    fn falling(self, take: usize) -> Self;
-    fn rising(self, take: usize) -> Self;
-    fn factorial(self) -> Self {
-        self.falling(self.try_into().ok().unwrap())
-    }
-}
+pub use factorial::*;
 
-#[snippet("factorial")]
-macro_rules! impl_factorialbe {
+#[snippet("factorial", prefix = "pub use factorial::*;")]
+pub mod factorial {
+    use num_traits::{NumAssignOps, NumOps, One};
+    use std::convert::TryInto;
+
+    pub trait Factoriable: Sized + NumOps + NumAssignOps + Copy + TryInto<usize> {
+        fn falling(self, take: usize) -> Self;
+        fn rising(self, take: usize) -> Self;
+        fn factorial(self) -> Self {
+            self.falling(self.try_into().ok().unwrap())
+        }
+    }
+
+    macro_rules! impl_factorialbe {
     ($($t:ty),*) => {
         $(
             impl Factoriable for $t {
@@ -41,9 +42,8 @@ macro_rules! impl_factorialbe {
     };
 }
 
-#[snippet("factorial")]
-impl_factorialbe!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64);
-
+    impl_factorialbe!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64);
+}
 #[test]
 fn fact_test_prim() {
     let a = 7;

@@ -1,21 +1,30 @@
-use super::binomial_coefficient::BinomialCoefficient;
-use super::factorial::Factoriable;
-use super::permutation::permutation;
-
-use crate::modint::ModInt;
-
 use cargo_snippet::snippet;
 
-#[snippet(name = "combination")]
-pub fn combination(n: ModInt, k: usize) -> ModInt {
-    if k > n.get() as usize {
-        panic!("n < k, where n in ModInt, k in usize, so cannot calculate n C k")
+pub use combination::*;
+
+#[snippet("combination", prefix = "pub use combination::*;")]
+pub mod combination {
+    use crate::modint::ModInt;
+
+    use crate::combinatorics::binomial_coefficient::BinomialCoefficient;
+    use crate::combinatorics::factorial::Factoriable;
+    use crate::combinatorics::permutation::permutation;
+
+    pub fn combination(n: ModInt, k: usize) -> ModInt {
+        if k > n.get() as usize {
+            panic!("n < k, where n in ModInt, k in usize, so cannot calculate n C k")
+        }
+        permutation(n, k) / k.factorial()
     }
-    permutation(n, k) / k.factorial()
+
+    pub fn combination_with_table<T: BinomialCoefficient>(table: &T, n: usize, k: usize) -> ModInt {
+        table.binomial(n, k)
+    }
 }
 
 #[test]
 fn comb_test() {
+    use crate::modint::ModInt;
     use num_integer::binomial;
     let n = ModInt::new(4, 1000000007);
     let k = 2;
@@ -28,11 +37,6 @@ fn comb_test() {
     // let n = ModInt::new(1, 17);
     // let k = 3;
     // assert_eq!(combination(n, k).get(), 0); // panic!
-}
-
-#[snippet(name = "combination")]
-pub fn combination_with_table<T: BinomialCoefficient>(table: &T, n: usize, k: usize) -> ModInt {
-    table.binomial(n, k)
 }
 
 #[test]
