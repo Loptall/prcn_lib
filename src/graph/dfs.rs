@@ -2,14 +2,14 @@ use super::def::Graph;
 
 use cargo_snippet::snippet;
 
-#[snippet("dfs")]
+#[snippet("graph")]
 pub struct Dfs<'a, G: Graph<'a>> {
     visited: Vec<bool>,
     s: Vec<(G::NodeId, Option<G::NodeId>)>,
     g: &'a G,
 }
 
-#[snippet("dfs")]
+#[snippet("graph")]
 impl<'a, G: Graph<'a>> Iterator for Dfs<'a, G> {
     type Item = (G::NodeId, G::NodeId);
     fn next(&mut self) -> Option<Self::Item> {
@@ -60,7 +60,7 @@ impl<'a, G: Graph<'a>> Iterator for Dfs<'a, G> {
 /// `0 -> 2`
 ///
 /// を表示する
-#[snippet("dfs")]
+#[snippet("graph")]
 pub fn dfs<'a, G: Graph<'a, NodeId = usize>>(g: &'a G, start: G::NodeId) -> Dfs<'a, G> {
     let n = g.len();
     let mut visited = vec![false; n];

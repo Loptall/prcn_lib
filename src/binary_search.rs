@@ -1,8 +1,8 @@
 use cargo_snippet::snippet;
 
-pub use binary_serach::*;
+pub use binary_search::*;
 #[snippet("binary_search", prefix = "pub use binary_search::*;")]
-mod binary_serach {
+pub mod binary_search {
     use std::ops::{Add, Div};
 
     /// # Usage

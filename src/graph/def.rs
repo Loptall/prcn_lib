@@ -19,6 +19,7 @@ pub trait Graph<'a> {
 #[snippet("graph")]
 pub struct UnweightedGraph(Vec<Vec<usize>>);
 
+#[snippet("graph")]
 impl UnweightedGraph {
     pub fn new(graph: Vec<Vec<usize>>) -> Self {
         Self(graph)
@@ -47,6 +48,7 @@ impl<'a> Graph<'a> for UnweightedGraph {
     }
 }
 
+#[snippet("graph")]
 impl<'a> UnweightedGraph {
     pub fn dfs(&'a self, start: usize) -> Dfs<'a, UnweightedGraph> {
         dfs(self, start)
@@ -61,6 +63,7 @@ impl<'a> UnweightedGraph {
 #[snippet("graph")]
 pub struct WeightedNodeGraph<W>(Vec<Vec<(usize, W)>>);
 
+#[snippet("graph")]
 impl<W> WeightedNodeGraph<W> {
     pub fn new(graph: Vec<Vec<(usize, W)>>) -> Self {
         Self(graph)

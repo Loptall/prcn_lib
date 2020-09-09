@@ -6,6 +6,8 @@ use cargo_snippet::snippet;
 #[snippet("sieve")]
 pub struct Sieve {
     size: usize,
+    /// sieve[i] => i が振り落とされた数
+    sieve: Vec<Option<usize>>,
     /// `(0..=n)`までの範囲で
     /// `is_prime[i]` => `i`は素数
     is_prime: Vec<bool>,
@@ -17,31 +19,31 @@ pub struct Sieve {
 impl Sieve {
     /// 初期化、サイズが重要
     pub fn new(n: usize) -> Self {
-        let mut spf = vec![None; n + 1];
-        let mut is_prime = vec![true; n + 1];
+        let mut sieve = vec![None; n * n + 1];
+        let mut is_prime = vec![false; n + 1];
         let mut primes = Vec::new();
 
         is_prime[0] = false;
         is_prime[1] = false;
+        sieve[0] = None;
+        sieve[1] = None;
 
-        for i in 2..n + 1 {
-            if is_prime[i] {
-                primes.push(i);
-                spf[i] = Some(i);
+        for i in 2..=n {
+            if sieve[i].is_some() {
+                continue;
             }
 
-            for prime in &primes {
-                if i * prime >= n + 1 || prime > &spf[i].unwrap() {
-                    break;
-                }
+            is_prime[i] = true;
+            primes.push(i);
 
-                is_prime[i * prime] = false;
-                spf[i * prime] = Some(*prime);
-            }
+            (1..).map(|x| x * i).take_while(|x| *x <= n * n).for_each(|x| {
+                sieve[x] = Some(i);
+            })
         }
 
         Self {
             size: n,
+            sieve,
             is_prime,
             primes,
         }
@@ -84,22 +86,15 @@ pub fn factorizations_with_sieve(sieve: &Sieve, mut n: usize) -> Vec<(usize, usi
     assert!(sieve.size.pow(2) >= n);
 
     let mut res = Vec::new();
-    let ps = sieve.primes((n as f64).sqrt().ceil() as usize);
 
-    for p in ps {
-        let mut c = 0usize;
-        while n % p == 0 {
-            n /= p;
-            c += 1;
+    while n != 1 {
+        let d = sieve.sieve[n].unwrap();
+        let mut exp = 0usize;
+        while n % d == 0 {
+            exp += 1;
+            n /= d;
         }
-        if c != 0 {
-            res.push((p, c));
-        }
-    }
-
-    // `n`が素数だった
-    if n > 1 {
-        res.push((n, 1));
+        res.push((d, exp));
     }
 
     res
