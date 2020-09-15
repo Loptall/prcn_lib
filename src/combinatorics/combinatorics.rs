@@ -1,3 +1,5 @@
+//! this mod is for snippet
+
 use cargo_snippet::snippet;
 
 pub use combinatorics::*;

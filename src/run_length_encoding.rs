@@ -1,7 +1,7 @@
 use cargo_snippet::snippet;
 
 /// ランレングス圧縮
-#[snippet("run_length_encoding")]
+#[snippet(name="run_length_encoding")]
 pub fn run_length_encoding<T: PartialEq + Copy>(v: &[T]) -> Vec<(T, usize)> {
     let mut res = Vec::new();
     let mut c = 1usize;

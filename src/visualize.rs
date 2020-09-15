@@ -1,6 +1,6 @@
 use cargo_snippet::snippet;
 
-#[snippet("visualize", prefix = "pub use visualize::*;")]
+#[snippet(name = "visualize", prefix = "pub use visualize::*;")]
 mod visualize {
     use itertools::*;
     pub trait Visualize {
@@ -17,16 +17,16 @@ mod visualize {
     }
 
     macro_rules! impl_vis_for_sized {
-    ($($t:ty),+) => {
-        $(
-            impl Visualize for $t {
-                fn visualize(&self, _split: &str) {
-                    print!("{}", self);
+        ($($t:ty),+) => {
+            $(
+                impl Visualize for $t {
+                    fn visualize(&self, _split: &str) {
+                        print!("{}", self);
+                    }
                 }
-            }
-        )+
-    };
-}
+            )+
+        };
+    }
 
     impl_vis_for_sized! {
         usize, u8, u16, u32, u64, u128,
@@ -142,41 +142,41 @@ mod visualize {
     /// ```
     #[macro_export]
     macro_rules! vis {
-    // end
-    () => {
-        println!();
-    };
+        // end
+        () => {
+            println!();
+        };
 
-    // last element + trailing pattern
-    ($last:expr ;) => {
-        $last.lines();
-        vis!()
-    };
-    ($last:expr =>) => {
-        $last.continuous();
-        vis!();
-    };
-    ($last:expr $(,)?) => {
-        $last.spaces();
-        vis!();
-    };
+        // last element + trailing pattern
+        ($last:expr ;) => {
+            $last.lines();
+            vis!()
+        };
+        ($last:expr =>) => {
+            $last.continuous();
+            vis!();
+        };
+        ($last:expr $(,)?) => {
+            $last.spaces();
+            vis!();
+        };
 
-    // get first element and pass rest
-    ($first:expr; $($rest:tt)*) => {
-        $first.lines();
-        println!();
-        vis!($($rest)*);
-    };
-    ($first:expr => $($rest:tt)*) => {
-        $first.continuous();
-        vis!($($rest)*);
-    };
-    ($first:expr, $($rest:tt)*) => {
-        $first.spaces();
-        print!(" ");
-        vis!($($rest)*);
-    };
-}
+        // get first element and pass rest
+        ($first:expr; $($rest:tt)*) => {
+            $first.lines();
+            println!();
+            vis!($($rest)*);
+        };
+        ($first:expr => $($rest:tt)*) => {
+            $first.continuous();
+            vis!($($rest)*);
+        };
+        ($first:expr, $($rest:tt)*) => {
+            $first.spaces();
+            print!(" ");
+            vis!($($rest)*);
+        };
+    }
 
     #[test]
     fn vis_test() {
