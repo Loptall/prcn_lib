@@ -1,8 +1,14 @@
-pub use modint::*;
+use cargo_snippet::snippet;
 
-pub mod modint {
+pub use combinatorics::*;
+
+#[snippet(name = "combinatorics", prefix = "pub use combinatorics::*;")]
+pub mod combinatorics {
     use num_integer::Integer;
-    use num_traits::identities::{One, Zero};
+    use num_traits::{
+        identities::{One, Zero},
+        NumAssignOps, NumOps,
+    };
     use num_traits::{Num, Pow};
     use std::cmp::Ordering;
     use std::convert::TryInto;
@@ -12,12 +18,10 @@ pub mod modint {
         Add, AddAssign, Div, DivAssign, Mul, MulAssign, Rem, RemAssign, Sub, SubAssign,
     };
 
-    use crate::combinatorics::factorial::Factoriable;
-
     /// n % m
     /// ただし答えが負になる場合は余分にmを足すことで一意な値を保証
     ///
-    /// # Pani,c
+    /// # Panic
     /// 異なるmod間での演算をattemptした時
     fn compensated_rem(n: i64, m: usize) -> i64 {
         match n % m as i64 {
@@ -64,16 +68,16 @@ pub mod modint {
     }
 
     macro_rules! impl_into_mint {
-    ($($t:ty),*) => {
-        $(
-            impl IntoModInt for $t {
-                fn to_mint<M: TryInto<u32> + Copy>(self, modulo: M) -> ModInt {
-                    ModInt::new(self, modulo)
-                }
-            }
-        )*
-    };
-}
+            ($($t:ty),*) => {
+                $(
+                    impl IntoModInt for $t {
+                        fn to_mint<M: TryInto<u32> + Copy>(self, modulo: M) -> ModInt {
+                            ModInt::new(self, modulo)
+                        }
+                    }
+                )*
+            };
+        }
 
     impl_into_mint!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64);
 
@@ -146,7 +150,7 @@ pub mod modint {
 
         /// mod of modint
         ///
-        /// # Pani,c
+        /// # Panic
         /// if variant is Modulo::Dynamic
         pub fn get_mod(&self) -> usize {
             self._modulo.get().unwrap() as usize
@@ -197,25 +201,6 @@ pub mod modint {
         }
     }
 
-    #[test]
-    fn mint_new() {
-        let m = ModInt::new(10, 3);
-        assert_eq!(m.get(), 1);
-
-        let m = ModInt::new(-10, 3);
-        assert_eq!(m.get(), 2);
-
-        let x = 4.to_mint(10); // this is also valid
-        let y = ModInt::new(4, 10);
-        assert_eq!(x, y);
-    }
-
-    #[test]
-    fn inv_test() {
-        let a = ModInt::new(6, 13);
-        assert_eq!(a.inv(), 11);
-    }
-
     impl Add<Self> for ModInt {
         type Output = Self;
         fn add(self, rhs: Self) -> Self::Output {
@@ -242,16 +227,6 @@ pub mod modint {
         }
     }
 
-    #[test]
-    fn mint_add() {
-        let a = ModInt::new(13, 8); // 5
-        let b = ModInt::new(10, 8); // 2
-        assert_eq!((a + b).get(), 7);
-
-        let c = ModInt::new(7, 8); //7
-        assert_eq!((a + c).get(), 4); // (5 + 7) % 8 == 4
-    }
-
     impl Sub<Self> for ModInt {
         type Output = Self;
         fn sub(self, rhs: Self) -> Self::Output {
@@ -271,15 +246,6 @@ pub mod modint {
         fn sub_assign(&mut self, rhs: Self) {
             *self = *self - rhs;
         }
-    }
-
-    #[test]
-    fn mint_sub() {
-        let a = ModInt::new(2, 10);
-        let b = ModInt::new(3, 10);
-
-        assert_eq!((b - a).get(), 1);
-        assert_eq!((a - b).get(), 9);
     }
 
     impl Mul<Self> for ModInt {
@@ -321,49 +287,6 @@ pub mod modint {
         fn div_assign(&mut self, rhs: Self) {
             *self = *self / rhs;
         }
-    }
-
-    #[test]
-    fn div_test() {
-        let a = ModInt::new(2, 5);
-        let b = ModInt::new(3, 5);
-        assert_eq!(a / b, ModInt::new(4, 5));
-
-        let x = ModInt::new(1, 13);
-        assert_eq!((x / 4i64).get(), 10);
-
-        let x = ModInt::new(2, 13);
-        assert_eq!((x / 4i64).get(), 7);
-
-        let x = ModInt::new(3, 13);
-        assert_eq!((x / 4i64).get(), 4);
-
-        let x = ModInt::new(4, 13);
-        assert_eq!((x / 4i64).get(), 1);
-
-        let x = ModInt::new(5, 13);
-        assert_eq!((x / 4i64).get(), 11);
-
-        let x = ModInt::new(6, 13);
-        assert_eq!((x / 4i64).get(), 8);
-
-        let x = ModInt::new(7, 13);
-        assert_eq!((x / 4i64).get(), 5);
-
-        let x = ModInt::new(8, 13);
-        assert_eq!((x / 4i64).get(), 2);
-
-        let x = ModInt::new(9, 13);
-        assert_eq!((x / 4i64).get(), 12);
-
-        let x = ModInt::new(10, 13);
-        assert_eq!((x / 4i64).get(), 9);
-
-        let x = ModInt::new(11, 13);
-        assert_eq!((x / 4i64).get(), 6);
-
-        let x = ModInt::new(12, 13);
-        assert_eq!((x / 4i64).get(), 3);
     }
 
     impl Rem for ModInt {
@@ -457,15 +380,6 @@ pub mod modint {
         }
     }
 
-    #[test]
-    fn pow_test() {
-        let a = ModInt::new(3, 10);
-        assert_eq!(a.pow(3).get(), 7);
-
-        let b = ModInt::new(100, 9999);
-        assert_eq!(b.pow(2).get(), 1);
-    }
-
     impl Factoriable for ModInt {
         fn falling(self, take: usize) -> Self {
             let mut res = Self::one();
@@ -487,157 +401,296 @@ pub mod modint {
         }
     }
 
-    // #[test]
-    // fn fact_test_mint() {
-    //     let a = ModInt::new(7, 4);
-    //     assert_eq!(a.falling(3).get(), 2);
-
-    //     let a = ModInt::new(6, 7); // 720
-    //     assert_eq!(a.factorial().get(), 6);
-    // }
-
-    // #[snippet("modint")]
-    // impl Integer for ModInt {
-    //     fn div_floor(&self, other: &Self) -> Self {
-    //         let c = check_mod_eq(self, other);
-    //         if !c.1 {
-    //             panic!("modulo between two number is defferent"),;
-    //         }
-    //         Self {
-    //             num: self.num.div_floor(&other.num),
-    //             _modulo: Modulo::Static(c.0),
-    //         }
-    //     }
-    //     fn mod_floor(&self, other: &Self) -> Self {
-    //         let c = check_mod_eq(self, other);
-    //         if !c.1 {
-    //             panic!("modulo between two number is defferent"),;
-    //         }
-    //         Self {
-    //             num: self.num.mod_floor(&other.num),
-    //             _modulo: Modulo::Static(c.0),
-    //         }
-    //     }
-    //     fn gcd(&self, other: &Self) -> Self {
-    //         let c = check_mod_eq(self, other);
-    //         if !c.1 {
-    //             panic!("modulo between two number is defferent"),;
-    //         }
-    //         Self {
-    //             num: self.num.gcd(&other.num),
-    //             _modulo: Modulo::Static(c.0),
-    //         }
-    //     }
-    //     fn lcm(&self, other: &Self) -> Self {
-    //         let c = check_mod_eq(self, other);
-    //         if !c.1 {
-    //             panic!("modulo between two number is defferent"),;
-    //         }
-    //         Self {
-    //             num: self.num.lcm(&other.num),
-    //             _modulo: Modulo::Static(c.0),
-    //         }
-    //     }
-    //     fn divides(&self, other: &Self) -> bool {
-    //         let c = check_mod_eq(self, other);
-    //         if !c.1 {
-    //             panic!("modulo between two number is defferent"),;
-    //         }
-    //         other.num % self.num == 0
-    //     }
-    //     fn is_multiple_of(&self, other: &Self) -> bool {
-    //         let c = check_mod_eq(self, other);
-    //         if !c.1 {
-    //             panic!("modulo between two number is defferent"),;
-    //         }
-    //         self.num % other.num == 0
-    //     }
-    //     fn is_even(&self) -> bool {
-    //         self.num % 2 == 0
-    //     }
-    //     fn is_odd(&self) -> bool {
-    //         self.num % 2 == 1
-    //     }
-    //     fn div_rem(&self, other: &Self) -> (Self, Self) {
-    //         let c = check_mod_eq(self, other);
-    //         if !c.1 {
-    //             panic!("modulo between two number is defferent"),;
-    //         }
-    //         let dr = self.num.div_rem(&other.num);
-    //         (
-    //             Self {
-    //                 num: dr.0,
-    //                 _modulo: Modulo::Static(c.0),
-    //             },
-    //             Self {
-    //                 num: dr.1,
-    //                 _modulo: Modulo::Static(c.0),
-    //             },
-    //         )
-    //     }
-    // }
-
     macro_rules! impl_ops_between_mint_and_primitive {
-    ($($t:ty),*) => {
-        $(
-            impl Add<$t> for ModInt {
-                type Output = Self;
-                fn add(self, rhs: $t) -> Self::Output {
-                    self + Self::new(rhs as i64, self.get_mod())
+        ($($t:ty),*) => {
+            $(
+                impl Add<$t> for ModInt {
+                    type Output = Self;
+                    fn add(self, rhs: $t) -> Self::Output {
+                        self + Self::new(rhs as i64, self.get_mod())
+                    }
                 }
-            }
-            impl AddAssign<$t> for ModInt {
-                fn add_assign(&mut self, rhs: $t) {
-                    *self = *self + rhs;
+                impl AddAssign<$t> for ModInt {
+                    fn add_assign(&mut self, rhs: $t) {
+                        *self = *self + rhs;
+                    }
                 }
-            }
-            impl Sub<$t> for ModInt {
-                type Output = Self;
-                fn sub(self, rhs: $t) -> Self::Output {
-                    self - Self::new(rhs as i64, self.get_mod())
+                impl Sub<$t> for ModInt {
+                    type Output = Self;
+                    fn sub(self, rhs: $t) -> Self::Output {
+                        self - Self::new(rhs as i64, self.get_mod())
+                    }
                 }
-            }
-            impl SubAssign<$t> for ModInt {
-                fn sub_assign(&mut self, rhs: $t) {
-                    *self = *self - rhs;
+                impl SubAssign<$t> for ModInt {
+                    fn sub_assign(&mut self, rhs: $t) {
+                        *self = *self - rhs;
+                    }
                 }
-            }
-            impl Mul<$t> for ModInt {
-                type Output = Self;
-                fn mul(self, rhs: $t) -> Self::Output {
-                    self * Self::new(rhs as i64, self.get_mod())
+                impl Mul<$t> for ModInt {
+                    type Output = Self;
+                    fn mul(self, rhs: $t) -> Self::Output {
+                        self * Self::new(rhs as i64, self.get_mod())
+                    }
                 }
-            }
-            impl MulAssign<$t> for ModInt {
-                fn mul_assign(&mut self, rhs: $t) {
-                    *self = *self * rhs;
+                impl MulAssign<$t> for ModInt {
+                    fn mul_assign(&mut self, rhs: $t) {
+                        *self = *self * rhs;
+                    }
                 }
-            }
-            impl Div<$t> for ModInt {
-                type Output = Self;
-                fn div(self, rhs: $t) -> Self::Output {
-                    self / Self::new(rhs as i64, self.get_mod())
+                impl Div<$t> for ModInt {
+                    type Output = Self;
+                    fn div(self, rhs: $t) -> Self::Output {
+                        self / Self::new(rhs as i64, self.get_mod())
+                    }
                 }
-            }
-            impl DivAssign<$t> for ModInt {
-                fn div_assign(&mut self, rhs: $t) {
-                    *self = *self / rhs;
+                impl DivAssign<$t> for ModInt {
+                    fn div_assign(&mut self, rhs: $t) {
+                        *self = *self / rhs;
+                    }
                 }
-            }
-        )*
-    };
-}
+            )*
+        };
+    }
 
     impl_ops_between_mint_and_primitive!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64);
 
+    pub trait PartialBinomialCoefficient {
+        fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt>;
+    }
+
+    pub trait BinomialCoefficient: PartialBinomialCoefficient {
+        /// `n C k`
+        fn binomial(&self, n: usize, k: usize) -> ModInt {
+            self.partial_binomial(n, k).unwrap()
+        }
+    }
+
+    /// Binomial Coefficient Table with DP
+    /// 二項係数を`O(1)`で計算するためのテーブル
+    ///
+    /// factrial = [1, 1, 2, 6, 24, 120, ...],
+    ///
+    /// `1 <= k <= n <= 10^7` 程度
+    pub struct BCTDP {
+        _modulo: NonZeroU32,
+        // `factorial[i]` = iの階乗
+        factorial: Vec<ModInt>,
+        // `inv[i]` = iの逆元
+        inverse: Vec<ModInt>,
+        // `factorial_inverse[i]` = iの階乗の逆元
+        factorial_inverse: Vec<ModInt>,
+    }
+
+    impl BCTDP {
+        /// 初期化
+        ///
+        /// DPを用いて `O(n log m)`
+        /// 割り算を用いるので `log m` がつく
+        ///
+        /// `1 <= k <= n <= 10^7` 程度
+        pub fn new(n: usize, modulo: usize) -> BCTDP {
+            let mut factorial = vec![ModInt::new(1, modulo), ModInt::new(1, modulo)];
+            factorial.reserve_exact(n);
+            let mut inverse = vec![ModInt::new(0, modulo), ModInt::new(1, modulo)];
+            inverse.reserve_exact(n);
+            let mut factorial_inverse = vec![ModInt::new(1, modulo), ModInt::new(1, modulo)];
+            factorial_inverse.reserve_exact(n);
+
+            for i in 2..=n {
+                factorial.push(factorial[i - 1] * i);
+                inverse.push(modulo.to_mint(modulo) - inverse[modulo % i] * (modulo / i));
+                factorial_inverse.push(factorial_inverse[i - 1] * inverse[i]);
+            }
+
+            Self {
+                _modulo: NonZeroU32::new(modulo as u32).unwrap(),
+                factorial,
+                inverse,
+                factorial_inverse,
+            }
+        }
+
+        pub fn get_mod(&self) -> usize {
+            self._modulo.get() as usize
+        }
+
+        pub fn factorial(&self, n: usize) -> ModInt {
+            self.factorial[n]
+        }
+
+        pub fn factorial_inverse(&self, n: usize) -> ModInt {
+            self.factorial_inverse[n]
+        }
+
+        /// `n` の mod self._modulo における逆元
+        pub fn inv(&self, n: usize) -> ModInt {
+            self.inverse[n]
+        }
+    }
+
+    impl PartialBinomialCoefficient for BCTDP {
+        fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt> {
+            Some(if n < k {
+                ModInt::zero()
+            } else {
+                self.factorial[n] * self.factorial_inverse[k] * self.factorial_inverse[n - k]
+            })
+        }
+    }
+
+    impl BinomialCoefficient for BCTDP {}
+
+    /// `n` が固定値のときに有効
+    /// `(n(固定値), mod, _[i] = n C i)`
+    ///
+    /// 初期化: `O(n)`
+    ///
+    /// `1 <= n <= 10^9 && 1 <= k <= 10^7` 程度
+    pub struct BCTholdN(usize, NonZeroU32, Vec<ModInt>);
+
+    impl BCTholdN {
+        pub fn new(mut n: usize, m: usize) -> Self {
+            let size = n;
+            let mut c = vec![ModInt::new(1, m), ModInt::new(n, m)];
+            c.reserve_exact(n + 1);
+            for i in 2..=n {
+                n -= 1;
+                let prev = *c.last().unwrap();
+                c.push(prev * n / i);
+            }
+
+            Self(size, NonZeroU32::new(m as u32).unwrap(), c)
+        }
+    }
+
+    impl PartialBinomialCoefficient for BCTholdN {
+        /// #Panic
+        ///
+        /// self.0 == _n でないとき
+        fn partial_binomial(&self, _n: usize, k: usize) -> Option<ModInt> {
+            if _n != self.0 {
+                None
+            } else {
+                Some(self.2[k])
+            }
+        }
+    }
+
+    impl BinomialCoefficient for BCTholdN {}
+
     #[test]
-    fn op_between_different_type() {
-        let mut mint = ModInt::new(1, 10);
-        mint += 1;
-        assert_eq!(mint.get(), 2);
-        mint *= 2;
-        assert_eq!(mint.get(), 4);
-        mint += 10001;
-        assert_eq!(mint.get(), 5);
+    fn hold_n_test() {
+        let tbl = BCTholdN::new(10, 1000000007);
+        assert_eq!(tbl.partial_binomial(10, 2).unwrap().get(), 45);
+        assert_eq!(tbl.partial_binomial(10, 10).unwrap().get(), 1);
+    }
+
+    /// `n, k` の2変数についての `n C k` の表を作る
+    ///
+    /// `1 <= k <= n <= 2000` 程度
+    pub struct BCTSmallNK {
+        n: usize,
+        _modulo: NonZeroU32,
+        dp: Vec<Vec<ModInt>>,
+    }
+
+    impl BCTSmallNK {
+        pub fn new(n: usize, modulo: usize) -> Self {
+            let mut dp = vec![vec![ModInt::new(0, modulo); n + 1]; n + 1];
+            dp[0][0] = 1.to_mint(modulo);
+            for i in 1..n {
+                dp[i][0] = 1.to_mint(modulo);
+                for j in 1..n {
+                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+                }
+            }
+            Self {
+                n,
+                _modulo: NonZeroU32::new(modulo as u32).unwrap(),
+                dp,
+            }
+        }
+
+        pub fn size(&self) -> usize {
+            self.n
+        }
+
+        pub fn get_mod(&self) -> usize {
+            self._modulo.get() as usize
+        }
+    }
+
+    impl PartialBinomialCoefficient for BCTSmallNK {
+        fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt> {
+            if n > self.size() || k > self.size() {
+                panic!("n or k is too large, compere to dp table!",)
+            }
+            Some(self.dp[n][k])
+        }
+    }
+
+    impl BinomialCoefficient for BCTSmallNK {}
+
+    pub trait Factoriable: Sized + NumOps + NumAssignOps + Copy + TryInto<usize> {
+        fn falling(self, take: usize) -> Self;
+        fn rising(self, take: usize) -> Self;
+        fn factorial(self) -> Self {
+            self.falling(self.try_into().ok().unwrap())
+        }
+    }
+
+    macro_rules! impl_factorialbe {
+        ($($t:ty),*) => {
+            $(
+                impl Factoriable for $t {
+                    fn falling(self, take: usize) -> Self {
+                        let mut res = Self::one();
+                        let mut c = self;
+                        for _ in 0..take {
+                            res *= c;
+                            c -= Self::one();
+                        }
+                        res
+                    }
+                    fn rising(self, take: usize) -> Self {
+                        let mut res = Self::one();
+                        let mut c = self;
+                        for _ in 0..take {
+                            res *= c;
+                            c += 1;
+                        }
+                        res
+                    }
+                }
+            )*
+        };
+    }
+
+    impl_factorialbe!(usize, u8, u16, u32, u64, isize, i8, i16, i32, i64);
+
+    /// `n P k` を `O(k)` で
+    ///
+    /// 内部はfallingをラップしているだけ
+    pub fn permutation<T: Factoriable>(n: T, k: usize) -> T {
+        n.falling(k)
+    }
+
+    pub fn permutation_with_table(table: &BCTDP, n: usize, k: usize) -> ModInt {
+        if k > n {
+            ModInt::new(0, table.get_mod())
+        } else {
+            table.factorial(n) * table.factorial_inverse(n - k)
+        }
+    }
+
+    pub fn combination(n: ModInt, k: usize) -> ModInt {
+        if k > n.get() as usize {
+            // panic!("n < k, where n in ModInt, k in usize, so cannot calculate n C k",)
+        }
+        permutation(n, k) / k.factorial()
+    }
+
+    pub fn combination_with_table<T: BinomialCoefficient>(table: &T, n: usize, k: usize) -> ModInt {
+        table.binomial(n, k)
     }
 }

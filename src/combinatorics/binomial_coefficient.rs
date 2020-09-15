@@ -1,8 +1,5 @@
-use cargo_snippet::snippet;
-
 pub use binomial_coefficient::*;
 
-#[snippet("binomial_coefficient", prefix = "pub use binomialcoefficient::*;")]
 pub mod binomial_coefficient {
     use crate::modint::{IntoModInt, ModInt};
     use num_traits::Zero;
@@ -192,7 +189,7 @@ pub mod binomial_coefficient {
     impl PartialBinomialCoefficient for BCTSmallNK {
         fn partial_binomial(&self, n: usize, k: usize) -> Option<ModInt> {
             if n > self.size() || k > self.size() {
-                panic!("n or k is too large, compere to dp table!")
+                panic!("n or k is too large, compere to dp table!",)
             }
             Some(self.dp[n][k])
         }

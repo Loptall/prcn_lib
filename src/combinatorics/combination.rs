@@ -1,8 +1,5 @@
-use cargo_snippet::snippet;
-
 pub use combination::*;
 
-#[snippet("combination", prefix = "pub use combination::*;")]
 pub mod combination {
     use crate::modint::ModInt;
 

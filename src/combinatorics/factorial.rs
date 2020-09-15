@@ -1,8 +1,5 @@
-use cargo_snippet::snippet;
-
 pub use factorial::*;
 
-#[snippet("factorial", prefix = "pub use factorial::*;")]
 pub mod factorial {
     use num_traits::{NumAssignOps, NumOps, One};
     use std::convert::TryInto;

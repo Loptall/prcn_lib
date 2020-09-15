@@ -8,3 +8,6 @@ pub mod permutation;
 pub mod combination;
 // 重複組み合わせ (repetition combination)
 // pub mod homogeneous_product;
+
+// for snippet
+pub mod combinatorics;

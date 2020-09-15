@@ -1,8 +1,5 @@
-use cargo_snippet::snippet;
-
 pub use permutation::*;
 
-#[snippet("permutation", prefix = "pub use permutation::*;")]
 pub mod permutation {
     use crate::combinatorics::binomial_coefficient::BCTDP;
     use crate::combinatorics::factorial::Factoriable;
